@@ -1,35 +1,76 @@
-import { Link } from 'react-router';
+import { useState, useEffect, useRef } from 'react';
+import type { Tour, TourFilter as TourFilterType } from '@/features/tours/types';
+import { getTours, ALL_LOCATIONS } from '@/features/tours/service';
+import { TourHeroBanner } from '@/features/tours/components/TourHeroBanner';
+import { TourFilter } from '@/features/tours/components/TourFilter';
+import { TourListView } from '@/features/tours/components/TourListView';
+
+const INITIAL_FILTER: TourFilterType = {
+  searchQuery: '',
+  maxPrice: 0,
+  selectedLocation: 'Tất cả địa danh',
+};
 
 /**
- * Màn hình Trang chủ (HomePage) - Hiển thị danh sách tour và các tùy chọn tìm kiếm.
+ * Container component: Quản lý logic tìm kiếm, lọc dữ liệu và điều phối các View trang chủ.
  */
 export function HomePage() {
-  return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="rounded-2xl bg-surface-card p-8 border border-border text-center shadow-xs">
-        <h1 className="text-3xl font-extrabold text-ink sm:text-4xl">
-          Khám Phá Di Tích Lịch Sử Quảng Trị
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-ink-muted">
-          Đặt tour trọn gói hoặc tự thiết kế lịch trình cá nhân khám phá Thành Cổ,
-          Vĩ tuyến 17, Cầu Hiền Lương, Địa đạo Vịnh Mốc và Nghĩa trang Trường Sơn.
-        </p>
+  const [filter, setFilter] = useState<TourFilterType>(INITIAL_FILTER);
+  const [tours, setTours] = useState<Tour[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const tourListRef = useRef<HTMLDivElement>(null);
 
-        <div className="mt-8 flex justify-center gap-4">
-          <Link
-            to="/custom-tour"
-            className="rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-xs hover:opacity-90 transition-all"
-          >
-            Tự thiết kế Tour
-          </Link>
-          <Link
-            to="/tours/1"
-            className="rounded-lg border border-border bg-surface px-6 py-3 font-semibold text-ink hover:border-primary transition-all"
-          >
-            Xem Tour Mẫu (Thành Cổ)
-          </Link>
-        </div>
+  useEffect(() => {
+    let isMounted = true;
+    setIsLoading(true);
+
+    getTours(filter)
+      .then((data) => {
+        if (isMounted) {
+          setTours(data);
+          setIsLoading(false);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [filter]);
+
+  const handleResetFilter = () => {
+    setFilter(INITIAL_FILTER);
+  };
+
+  const handleScrollToTours = () => {
+    tourListRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-10">
+      {/* Hero Banner giới thiệu */}
+      <TourHeroBanner onExploreClick={handleScrollToTours} />
+
+      {/* Bộ lọc tìm kiếm và thanh trượt giá */}
+      <div ref={tourListRef} className="scroll-mt-20">
+        <TourFilter
+          filter={filter}
+          locationOptions={ALL_LOCATIONS}
+          onChange={setFilter}
+          onReset={handleResetFilter}
+        />
       </div>
+
+      {/* Danh sách Tour hoặc thông báo rỗng */}
+      <TourListView
+        tours={tours}
+        isLoading={isLoading}
+        onResetFilter={handleResetFilter}
+      />
     </div>
   );
 }

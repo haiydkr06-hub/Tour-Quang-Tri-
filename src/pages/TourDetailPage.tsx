@@ -1,53 +1,97 @@
-import { useParams, Link } from 'react-router';
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate, Link } from 'react-router';
+import type { Tour } from '@/features/tours/types';
+import { getTourById } from '@/features/tours/service';
+import { useCartStore } from '@/features/cart/store';
+import { TourDetailView } from '@/features/tours/components/TourDetailView';
+import { Button } from '@/components/ui/Button';
 
 /**
- * Màn hình Chi tiết Tour (TourDetailPage).
- * Tham số params.id là chuỗi được ép sang kiểu số trước khi sử dụng theo AGENTS.md.
+ * Container component: Màn hình Chi tiết Tour.
+ * Ép kiểu useParams().id sang số trước khi tra cứu service; xử lý trạng thái 404 và đặt tour vào cartStore.
  */
 export function TourDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const setCartItem = useCartStore((s) => s.setCartItem);
+
+  const [tour, setTour] = useState<Tour | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const tourId = Number(id);
 
-  if (!id || Number.isNaN(tourId) || tourId <= 0) {
+  useEffect(() => {
+    if (!id || Number.isNaN(tourId) || tourId <= 0) {
+      setIsLoading(false);
+      return;
+    }
+
+    let isMounted = true;
+    setIsLoading(true);
+
+    getTourById(tourId)
+      .then((data) => {
+        if (isMounted) {
+          setTour(data);
+          setIsLoading(false);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id, tourId]);
+
+  const handleBookNow = (selectedTour: Tour) => {
+    setCartItem({
+      type: 'package',
+      tourId: selectedTour.id,
+      tourTitle: selectedTour.name,
+      destinations: selectedTour.locations,
+      days: 1,
+      guests: 1,
+      basePrice: selectedTour.price,
+      totalPrice: selectedTour.price,
+    });
+    navigate('/checkout');
+  };
+
+  if (isLoading) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-16 text-center">
-        <h2 className="text-2xl font-bold text-ink">Không tìm thấy thông tin tour</h2>
-        <p className="mt-2 text-ink-muted">Mã tour không hợp lệ hoặc đã bị gỡ bỏ.</p>
-        <Link
-          to="/"
-          className="mt-6 inline-block rounded-lg bg-primary px-6 py-2.5 font-medium text-white hover:opacity-90 transition-all"
-        >
-          Quay lại Trang chủ
-        </Link>
+      <div className="mx-auto max-w-4xl px-4 py-20 text-center">
+        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        <p className="mt-4 text-sm text-ink-muted">Đang tải thông tin tour...</p>
+      </div>
+    );
+  }
+
+  if (!tour) {
+    return (
+      <div className="mx-auto max-w-md px-4 py-20 text-center">
+        <span className="text-5xl">🏛️</span>
+        <h2 className="mt-4 text-2xl font-bold text-ink">Không tìm thấy tour</h2>
+        <p className="mt-2 text-sm text-ink-muted">
+          Tour mang mã #{id} không tồn tại hoặc đã ngừng phục vụ.
+        </p>
+        <div className="mt-6">
+          <Link to="/">
+            <Button variant="primary">Về Trang Chủ</Button>
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12">
-      <div className="rounded-xl border border-border bg-surface-card p-6">
-        <span className="inline-block rounded bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-          Mã Tour #{tourId}
-        </span>
-        <h1 className="mt-4 text-3xl font-bold text-ink">
-          Hành Trình Di Tích Lịch Sử Quảng Trị
-        </h1>
-        <p className="mt-3 text-ink-muted leading-relaxed">
-          Chi tiết lịch trình tham quan các địa danh lịch sử hào hùng của mảnh đất lửa Quảng Trị.
-        </p>
-
-        <div className="mt-8 flex items-center justify-between border-t border-border pt-6">
-          <Link to="/" className="text-sm font-medium text-ink-muted hover:text-ink">
-            ← Quay lại danh sách
-          </Link>
-          <Link
-            to="/checkout"
-            className="rounded-lg bg-primary px-6 py-2.5 font-medium text-white hover:opacity-90 transition-all"
-          >
-            Đặt Tour Ngay
-          </Link>
-        </div>
-      </div>
-    </div>
+    <TourDetailView
+      tour={tour}
+      onBookNow={handleBookNow}
+      onBack={() => navigate('/')}
+    />
   );
 }

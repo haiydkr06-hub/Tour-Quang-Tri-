@@ -18,66 +18,45 @@
 ### ✅ Phase 1: Core & Routing (Hoàn thành)
 - **Thời gian hoàn thành**: 2026-11-07
 - **Nội dung thực hiện**:
-  1. Khởi tạo dự án Vite + React 19 + TypeScript strict mode (`package.json`, `tsconfig.json`, `tsconfig.app.json`, `tsconfig.node.json`, `vite.config.ts`, `index.html`, `.gitignore`).
-  2. Cấu hình Tailwind CSS 4 kèm hệ thống Design Tokens (`--color-primary`, `--color-surface`, `--color-ink`, `--color-border`...) trong `src/index.css`.
-  3. Cấu hình định tuyến React Router 8 (Data Mode) chuẩn xác:
-     - `src/app/routes.tsx`: Mảng định tuyến `RouteObject[]` chứa đầy đủ các tuyến theo `docs/ROUTES.md`.
-     - `src/app/router.tsx`: Khởi tạo duy nhất với `createBrowserRouter(routes)`.
-     - `src/main.tsx`: Gắn `RouterProvider` từ `react-router/dom`.
-     - `src/app/RootLayout.tsx`: Layout chuẩn HTML ngữ nghĩa với Header, Nav, Outlet và Footer.
-     - `src/components/ProtectedRoute.tsx`: Bảo vệ tuyến `/admin` và `/partner`, chuyển trang render bằng `<Navigate replace />`.
-  4. Tạo các trang khung chuẩn chức năng:
-     - `src/pages/HomePage.tsx` (`/`)
-     - `src/pages/TourDetailPage.tsx` (`/tours/:id`, ép kiểu param sang số `Number(id)`)
-     - `src/pages/CustomTourBuilderPage.tsx` (`/custom-tour`)
-     - `src/pages/CheckoutPage.tsx` (`/checkout`)
-     - `src/pages/PartnerDashboard.tsx` (`/partner`)
-     - `src/pages/AdminDashboard.tsx` (`/admin`)
-     - `src/pages/AdminLoginPage.tsx` (`/admin/login`)
-     - `src/pages/NotFoundPage.tsx` (`*`)
-  5. Kiểm tra chất lượng code (Vibe Coding Loop):
-     - `npm run typecheck`: Xanh (0 lỗi).
-     - `npm run build`: Xanh (Build thành công trong 1.63s).
-- **Trạng thái**: Đã commit & push lên repo GitHub.
+  1. Khởi tạo dự án Vite + React 19 + TypeScript strict mode.
+  2. Cấu hình Tailwind CSS 4 kèm hệ thống Design Tokens trong `src/index.css`.
+  3. Cấu hình React Router 8 (Data Mode) với `createBrowserRouter(routes)`.
+  4. Khởi tạo toàn bộ các trang khung theo `docs/ROUTES.md`.
+  5. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
 
 ### ✅ Phase 2: State Management (Hoàn thành)
 - **Thời gian hoàn thành**: 2026-11-07
 - **Nội dung thực hiện**:
-  1. Cài đặt thư viện `zustand`.
-  2. Thiết lập Context API quản lý giao diện Sáng/Tối:
-     - `src/context/ThemeContext.tsx`: Quản lý `theme` ('light' | 'dark'), đồng bộ với `localStorage` và class `dark` trên thẻ `<html>`.
-     - `src/context/useTheme.ts`: Custom hook đảm bảo an toàn context.
-  3. Xây dựng Zustand store cho Xác thực & Phân quyền (`src/features/auth/`):
-     - `types.ts`: Khai báo kiểu `UserRole`, `User`, `AuthState`.
-     - `store.ts`: Quản lý đăng nhập, đăng xuất, các selector `useIsAdmin`, `useIsPartner`.
-     - `components/RoleGuard.tsx`: Thành phần bọc bảo vệ tuyến dựa trên `authStore`, tuân thủ quy tắc import một chiều: `features -> components`.
-  4. Xây dựng Zustand store cho Giỏ tour (`src/features/cart/`):
-     - `types.ts`: Khai báo kiểu `CartItem`, `SelectedGuide`, `SelectedVehicle`, `CartState`.
-     - `store.ts`: Store lưu trữ và cập nhật tour đặt, dịch vụ HDV/xe, selector kiểm tra giỏ hàng và tổng tiền.
-  5. Tích hợp toàn diện vào `RootLayout.tsx` & `AdminLoginPage.tsx`:
-     - Tích hợp nút đổi Theme (Light/Dark mode) kèm hiệu ứng chuyển đổi mượt mà.
-     - Hiển thị huy hiệu số lượng tour trong giỏ.
-     - Cho phép chọn nhanh vai trò demo (Admin / Partner / Guest) để kiểm thử điều hướng tức thì trên `/admin` và `/partner`.
-  6. Kiểm tra chất lượng code:
-     - `npm run typecheck`: Xanh (0 lỗi).
-     - `npm run build`: Xanh (Build thành công trong 1.56s).
-- **Trạng thái**: Đã commit & push lên repo GitHub.
+  1. Context API quản lý giao diện Sáng/Tối (`ThemeContext.tsx`, `useTheme.ts`).
+  2. Zustand store xác thực & phân quyền (`src/features/auth/`): `store.ts`, `types.ts`, `RoleGuard.tsx`.
+  3. Zustand store giỏ tour (`src/features/cart/`): `store.ts`, `types.ts`.
+  4. Tích hợp nút đổi Theme và huy hiệu giỏ hàng vào `RootLayout.tsx`.
+  5. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
 
 ### ✅ Phase 3: UI Components (Hoàn thành)
 - **Thời gian hoàn thành**: 2026-11-07
 - **Nội dung thực hiện**:
-  1. Xây dựng bộ Presentational UI Components dùng chung tại `src/components/ui/`, chuẩn HTML ngữ nghĩa, sử dụng Design Tokens và mỗi tệp dưới 150 dòng:
-     - `Button.tsx`: Nút bấm `<button>` với các variant (`primary`, `secondary`, `outline`, `danger`, `ghost`), các size (`sm`, `md`, `lg`), trạng thái `isLoading`, `disabled`.
-     - `TextField.tsx`: Ô nhập liệu có nhãn (`label`), thông báo lỗi (`error`), `helperText`, chuẩn accessibility (`aria-invalid`, `aria-describedby`).
-     - `Card.tsx`: Thẻ bề mặt nội dung chuẩn token `bg-surface-card border-border` hỗ trợ hiệu ứng hoverable.
-     - `Badge.tsx`: Huy hiệu hiển thị trạng thái (`primary`, `success`, `warning`, `danger`, `neutral`).
-     - `Select.tsx`: Dropdown chọn dữ liệu chuẩn HTML `<select>` có label, error và mảng options.
-     - `Modal.tsx`: Hộp thoại nổi có backdrop, hỗ trợ phím Escape và click ngoài để đóng.
-  2. Tách biệt cấu trúc Layout thành các component độc lập:
-     - `src/components/Navbar.tsx`: Header ứng dụng tuân thủ quy tắc import một chiều (`components` không phụ thuộc vào `features`), nhận props từ `RootLayout`.
-     - `src/components/Footer.tsx`: Chân trang thông tin các di tích lịch sử Quảng Trị.
-  3. Cập nhật `RootLayout.tsx` và `AdminLoginPage.tsx` ứng dụng trọn vẹn bộ UI component mới.
+  1. Bộ UI Components tại `src/components/ui/`: `Button`, `TextField`, `Card`, `Badge`, `Select`, `Modal`.
+  2. Phân tách `Navbar.tsx` và `Footer.tsx` tuân thủ quy tắc import một chiều.
+  3. Cập nhật `AdminLoginPage.tsx` sử dụng trọn vẹn UI components mới.
+  4. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+
+### ✅ Phase 4: Public Pages (Hoàn thành)
+- **Thời gian hoàn thành**: 2026-11-07
+- **Nội dung thực hiện**:
+  1. Xây dựng feature Tours (`src/features/tours/`):
+     - `types.ts`: Khai báo kiểu `Tour`, `TourFilter`.
+     - `service.ts`: Dữ liệu Mock các di tích lịch sử Quảng Trị (Thành Cổ, Vĩ tuyến 17, Địa đạo Vịnh Mốc, Nghĩa trang Trường Sơn, Sân bay Tà Cơn Khe Sanh), các hàm `getTours`, `getTourById`.
+  2. Các components Presentational Views:
+     - `TourHeroBanner.tsx`: Banner hào hùng, số liệu thống kê du lịch di sản và nút CTA.
+     - `TourFilter.tsx`: Tìm kiếm từ khóa, chọn điểm di tích và thanh trượt mức giá tối đa.
+     - `TourCard.tsx`: Thẻ tour có ảnh, badge nổi bật, rating, giá tiền định dạng VND.
+     - `TourListView.tsx`: Lưới hiển thị danh sách tour và xử lý trạng thái rỗng "Không tìm thấy tour".
+     - `TourDetailView.tsx`: Chi tiết hành trình, các điểm nổi bật, lịch trình timeline và box đặt tour.
+  3. Các Containers điều phối (mô hình Container / View):
+     - `HomePage.tsx`: Quản lý state filter, gọi service giả lập, điều phối HeroBanner, Filter và ListView.
+     - `TourDetailPage.tsx`: Ép kiểu `Number(useParams().id)`, lấy dữ liệu tour, xử lý 404 và sự kiện đặt vé đưa vào `cartStore` chuyển hướng `/checkout`.
   4. Kiểm tra chất lượng code (Vibe Coding Loop):
      - `npm run typecheck`: Xanh (0 lỗi).
-     - `npm run build`: Xanh (Build thành công trong 1.16s).
-- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 4 (Public Pages).
+     - `npm run build`: Xanh (Build thành công trong 1.80s).
+- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 5 (Custom Tour Builder).
