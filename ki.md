@@ -44,19 +44,25 @@
 ### ✅ Phase 4: Public Pages (Hoàn thành)
 - **Thời gian hoàn thành**: 2026-11-07
 - **Nội dung thực hiện**:
-  1. Xây dựng feature Tours (`src/features/tours/`):
-     - `types.ts`: Khai báo kiểu `Tour`, `TourFilter`.
-     - `service.ts`: Dữ liệu Mock các di tích lịch sử Quảng Trị (Thành Cổ, Vĩ tuyến 17, Địa đạo Vịnh Mốc, Nghĩa trang Trường Sơn, Sân bay Tà Cơn Khe Sanh), các hàm `getTours`, `getTourById`.
-  2. Các components Presentational Views:
-     - `TourHeroBanner.tsx`: Banner hào hùng, số liệu thống kê du lịch di sản và nút CTA.
-     - `TourFilter.tsx`: Tìm kiếm từ khóa, chọn điểm di tích và thanh trượt mức giá tối đa.
-     - `TourCard.tsx`: Thẻ tour có ảnh, badge nổi bật, rating, giá tiền định dạng VND.
-     - `TourListView.tsx`: Lưới hiển thị danh sách tour và xử lý trạng thái rỗng "Không tìm thấy tour".
-     - `TourDetailView.tsx`: Chi tiết hành trình, các điểm nổi bật, lịch trình timeline và box đặt tour.
-  3. Các Containers điều phối (mô hình Container / View):
-     - `HomePage.tsx`: Quản lý state filter, gọi service giả lập, điều phối HeroBanner, Filter và ListView.
-     - `TourDetailPage.tsx`: Ép kiểu `Number(useParams().id)`, lấy dữ liệu tour, xử lý 404 và sự kiện đặt vé đưa vào `cartStore` chuyển hướng `/checkout`.
+  1. Xây dựng feature Tours (`src/features/tours/`): `types.ts`, `service.ts`.
+  2. Presentational Views: `TourHeroBanner.tsx`, `TourFilter.tsx` (có thanh trượt giá), `TourCard.tsx`, `TourListView.tsx` (có trạng thái rỗng), `TourDetailView.tsx`.
+  3. Containers: `HomePage.tsx`, `TourDetailPage.tsx` (ép kiểu URL params sang số `Number(id)`).
+  4. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+
+### ✅ Phase 5: Custom Tour Builder (Hoàn thành)
+- **Thời gian hoàn thành**: 2026-11-07
+- **Nội dung thực hiện**:
+  1. Xây dựng feature Custom Tour (`src/features/custom-tour/`):
+     - `types.ts`: Khai báo kiểu `HistoricalDestination`, `TourGuide`, `VehicleOption`, `CustomTourConfig`.
+     - `service.ts`: Dữ liệu Mock 6 di tích lịch sử (Thành Cổ, Hiền Lương, Vịnh Mốc, Trường Sơn, Tà Cơn, La Vang), danh sách HDV bản địa và các loại phương tiện (4, 7, 16 chỗ).
+     - `store.ts`: Zustand store quản lý state điểm đến đã chọn, số ngày, số khách, HDV và phương tiện.
+  2. Các Presentational Components:
+     - `LocationSelector.tsx`: Chọn/bỏ chọn địa danh di tích, hiển thị phí vé và thời lượng tham quan.
+     - `GuideSelector.tsx`: Chọn HDV bản địa kèm đánh giá sao, chuyên môn và giá/ngày.
+     - `VehicleSelector.tsx`: Chọn phương tiện di chuyển hoặc tự túc.
+     - `TourSummaryBar.tsx`: Thanh điều chỉnh số ngày/khách và tự động tính toán tổng chi phí **thời gian thực (real-time)**: Vé + Xe + HDV; chặn tiến hành nếu chưa chọn điểm nào.
+  3. Container `CustomTourBuilderPage.tsx`: Ghép nối các khối, đồng bộ dữ liệu vào `useCartStore` và điều hướng sang `/checkout`.
   4. Kiểm tra chất lượng code (Vibe Coding Loop):
      - `npm run typecheck`: Xanh (0 lỗi).
-     - `npm run build`: Xanh (Build thành công trong 1.80s).
-- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 5 (Custom Tour Builder).
+     - `npm run build`: Xanh (Build thành công trong 1.56s).
+- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 6 (Checkout & Validation).
