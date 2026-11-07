@@ -61,4 +61,23 @@
   6. Kiểm tra chất lượng code:
      - `npm run typecheck`: Xanh (0 lỗi).
      - `npm run build`: Xanh (Build thành công trong 1.56s).
-- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 3 (UI Components).
+- **Trạng thái**: Đã commit & push lên repo GitHub.
+
+### ✅ Phase 3: UI Components (Hoàn thành)
+- **Thời gian hoàn thành**: 2026-11-07
+- **Nội dung thực hiện**:
+  1. Xây dựng bộ Presentational UI Components dùng chung tại `src/components/ui/`, chuẩn HTML ngữ nghĩa, sử dụng Design Tokens và mỗi tệp dưới 150 dòng:
+     - `Button.tsx`: Nút bấm `<button>` với các variant (`primary`, `secondary`, `outline`, `danger`, `ghost`), các size (`sm`, `md`, `lg`), trạng thái `isLoading`, `disabled`.
+     - `TextField.tsx`: Ô nhập liệu có nhãn (`label`), thông báo lỗi (`error`), `helperText`, chuẩn accessibility (`aria-invalid`, `aria-describedby`).
+     - `Card.tsx`: Thẻ bề mặt nội dung chuẩn token `bg-surface-card border-border` hỗ trợ hiệu ứng hoverable.
+     - `Badge.tsx`: Huy hiệu hiển thị trạng thái (`primary`, `success`, `warning`, `danger`, `neutral`).
+     - `Select.tsx`: Dropdown chọn dữ liệu chuẩn HTML `<select>` có label, error và mảng options.
+     - `Modal.tsx`: Hộp thoại nổi có backdrop, hỗ trợ phím Escape và click ngoài để đóng.
+  2. Tách biệt cấu trúc Layout thành các component độc lập:
+     - `src/components/Navbar.tsx`: Header ứng dụng tuân thủ quy tắc import một chiều (`components` không phụ thuộc vào `features`), nhận props từ `RootLayout`.
+     - `src/components/Footer.tsx`: Chân trang thông tin các di tích lịch sử Quảng Trị.
+  3. Cập nhật `RootLayout.tsx` và `AdminLoginPage.tsx` ứng dụng trọn vẹn bộ UI component mới.
+  4. Kiểm tra chất lượng code (Vibe Coding Loop):
+     - `npm run typecheck`: Xanh (0 lỗi).
+     - `npm run build`: Xanh (Build thành công trong 1.16s).
+- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 4 (Public Pages).
