@@ -60,19 +60,24 @@
 ### ✅ Phase 6: Checkout & Validation (Hoàn thành)
 - **Thời gian hoàn thành**: 2026-11-07
 - **Nội dung thực hiện**:
-  1. Cài đặt thư viện `zod` để kiểm chứng dữ liệu biên giới.
-  2. Xây dựng feature Checkout (`src/features/checkout/`):
-     - `types.ts`: Khai báo kiểu `BookingCustomerInfo`, `BookingRecord`, `PaymentMethod`.
-     - `validation.ts`: Zod schema `checkoutFormSchema` xác thực họ tên, email hợp lệ, định dạng số điện thoại Việt Nam chuẩn (10 chữ số), ngày khởi hành, phương thức thanh toán. Hàm `validateCheckoutForm` nhận `unknown` và thu hẹp kiểu an toàn.
-     - `service.ts`: Giả lập lưu đơn booking và cập nhật trạng thái đơn hàng.
-  3. Các Presentational Components:
-     - `OrderSummary.tsx`: Hiển thị tóm tắt đơn hàng (tên tour, điểm đến, HDV, xe, chi phí từng phần và tổng tiền gộp).
-     - `CheckoutForm.tsx`: Biểu mẫu có kiểm soát (Controlled Form) liên kết trực tiếp với Zod error messages theo từng trường.
-     - `BookingSuccessModal.tsx`: Hộp thoại chúc mừng, hiển thị mã đơn đặt tour (`QT-xxxxxx`) và thông tin chi tiết.
-  4. Container `CheckoutPage.tsx`:
-     - Kiểm tra giỏ hàng: nếu không có sản phẩm (`!item`), tự động chuyển hướng về `/` bằng `<Navigate to="/" replace />` theo đúng TASKS.md Slice 4.
-     - Xử lý hoàn tất đặt tour và dọn dẹp giỏ tour.
-  5. Kiểm tra chất lượng code (Vibe Coding Loop):
+  1. Cài đặt `zod` để kiểm chứng dữ liệu biên giới.
+  2. Feature Checkout (`src/features/checkout/`): `types.ts`, `validation.ts`, `service.ts`.
+  3. Presentational Components: `OrderSummary.tsx`, `CheckoutForm.tsx` (Controlled Form), `BookingSuccessModal.tsx`.
+  4. Container `CheckoutPage.tsx`: Tự động điều hướng về `/` bằng `<Navigate replace />` nếu giỏ tour rỗng.
+  5. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+
+### ✅ Phase 7: Support & Partner Area (Hoàn thành)
+- **Thời gian hoàn thành**: 2026-11-07
+- **Nội dung thực hiện**:
+  1. Xây dựng feature Partner (`src/features/partner/`):
+     - `types.ts`: Khai báo kiểu `PartnerTrip`, `TripStatus`, `FaqItem`.
+     - `service.ts`: Dữ liệu Mock các chuyến đi phân công cho HDV/Tài xế, dịch vụ cập nhật trạng thái chuyến (`updatePartnerTripStatus`), danh sách hỏi đáp FAQ và hướng dẫn quy định tham quan di tích lịch sử.
+  2. Các Presentational Components:
+     - `PartnerScheduleList.tsx`: Danh sách chuyến đi có lọc theo trạng thái (Chờ nhận, Đang phục vụ, Đã hoàn thành), nút Nhận chuyến và Báo cáo hoàn thành.
+     - `TripDetailModal.tsx`: Hộp thoại xem chi tiết đoàn khách, số điện thoại, ghi chú đặc biệt và thù lao.
+     - `SupportSection.tsx`: Khu vực Hỏi đáp FAQ và Hotline 24/7 cứu hộ du lịch Quảng Trị.
+  3. Container `PartnerDashboard.tsx`: Quản lý danh sách chuyến, chuyển đổi tab giữa Lịch trình và Hỗ trợ, bảo vệ chặt chẽ bởi `RoleGuard` (chỉ cho phép quyền Partner).
+  4. Kiểm tra chất lượng code (Vibe Coding Loop):
      - `npm run typecheck`: Xanh (0 lỗi).
-     - `npm run build`: Xanh (Build thành công trong 2.14s).
-- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 7 (Support & Partner).
+     - `npm run build`: Xanh (Build thành công trong 2.37s).
+- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 8 (Admin Dashboard & Hoàn thiện dự án).
