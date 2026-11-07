@@ -52,17 +52,27 @@
 ### ✅ Phase 5: Custom Tour Builder (Hoàn thành)
 - **Thời gian hoàn thành**: 2026-11-07
 - **Nội dung thực hiện**:
-  1. Xây dựng feature Custom Tour (`src/features/custom-tour/`):
-     - `types.ts`: Khai báo kiểu `HistoricalDestination`, `TourGuide`, `VehicleOption`, `CustomTourConfig`.
-     - `service.ts`: Dữ liệu Mock 6 di tích lịch sử (Thành Cổ, Hiền Lương, Vịnh Mốc, Trường Sơn, Tà Cơn, La Vang), danh sách HDV bản địa và các loại phương tiện (4, 7, 16 chỗ).
-     - `store.ts`: Zustand store quản lý state điểm đến đã chọn, số ngày, số khách, HDV và phương tiện.
-  2. Các Presentational Components:
-     - `LocationSelector.tsx`: Chọn/bỏ chọn địa danh di tích, hiển thị phí vé và thời lượng tham quan.
-     - `GuideSelector.tsx`: Chọn HDV bản địa kèm đánh giá sao, chuyên môn và giá/ngày.
-     - `VehicleSelector.tsx`: Chọn phương tiện di chuyển hoặc tự túc.
-     - `TourSummaryBar.tsx`: Thanh điều chỉnh số ngày/khách và tự động tính toán tổng chi phí **thời gian thực (real-time)**: Vé + Xe + HDV; chặn tiến hành nếu chưa chọn điểm nào.
-  3. Container `CustomTourBuilderPage.tsx`: Ghép nối các khối, đồng bộ dữ liệu vào `useCartStore` và điều hướng sang `/checkout`.
-  4. Kiểm tra chất lượng code (Vibe Coding Loop):
+  1. Feature Custom Tour (`src/features/custom-tour/`): `types.ts`, `service.ts`, `store.ts`.
+  2. Presentational Components: `LocationSelector.tsx`, `GuideSelector.tsx`, `VehicleSelector.tsx`, `TourSummaryBar.tsx` (tự động tính tổng chi phí theo thời gian thực).
+  3. Container `CustomTourBuilderPage.tsx`: Ghép nối các khối, đồng bộ vào `useCartStore` và điều hướng `/checkout`.
+  4. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+
+### ✅ Phase 6: Checkout & Validation (Hoàn thành)
+- **Thời gian hoàn thành**: 2026-11-07
+- **Nội dung thực hiện**:
+  1. Cài đặt thư viện `zod` để kiểm chứng dữ liệu biên giới.
+  2. Xây dựng feature Checkout (`src/features/checkout/`):
+     - `types.ts`: Khai báo kiểu `BookingCustomerInfo`, `BookingRecord`, `PaymentMethod`.
+     - `validation.ts`: Zod schema `checkoutFormSchema` xác thực họ tên, email hợp lệ, định dạng số điện thoại Việt Nam chuẩn (10 chữ số), ngày khởi hành, phương thức thanh toán. Hàm `validateCheckoutForm` nhận `unknown` và thu hẹp kiểu an toàn.
+     - `service.ts`: Giả lập lưu đơn booking và cập nhật trạng thái đơn hàng.
+  3. Các Presentational Components:
+     - `OrderSummary.tsx`: Hiển thị tóm tắt đơn hàng (tên tour, điểm đến, HDV, xe, chi phí từng phần và tổng tiền gộp).
+     - `CheckoutForm.tsx`: Biểu mẫu có kiểm soát (Controlled Form) liên kết trực tiếp với Zod error messages theo từng trường.
+     - `BookingSuccessModal.tsx`: Hộp thoại chúc mừng, hiển thị mã đơn đặt tour (`QT-xxxxxx`) và thông tin chi tiết.
+  4. Container `CheckoutPage.tsx`:
+     - Kiểm tra giỏ hàng: nếu không có sản phẩm (`!item`), tự động chuyển hướng về `/` bằng `<Navigate to="/" replace />` theo đúng TASKS.md Slice 4.
+     - Xử lý hoàn tất đặt tour và dọn dẹp giỏ tour.
+  5. Kiểm tra chất lượng code (Vibe Coding Loop):
      - `npm run typecheck`: Xanh (0 lỗi).
-     - `npm run build`: Xanh (Build thành công trong 1.56s).
-- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 6 (Checkout & Validation).
+     - `npm run build`: Xanh (Build thành công trong 2.14s).
+- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 7 (Support & Partner).

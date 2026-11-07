@@ -1,38 +1,77 @@
-import { Link } from 'react-router';
+import { useState } from 'react';
+import { Navigate, Link } from 'react-router';
+import { useCartStore } from '@/features/cart/store';
+import type { BookingCustomerInfo, BookingRecord } from '@/features/checkout/types';
+import { createBooking } from '@/features/checkout/service';
+import { OrderSummary } from '@/features/checkout/components/OrderSummary';
+import { CheckoutForm } from '@/features/checkout/components/CheckoutForm';
+import { BookingSuccessModal } from '@/features/checkout/components/BookingSuccessModal';
 
 /**
- * Màn hình Đặt tour & Thanh toán (CheckoutPage).
+ * Container component: Màn hình Thanh toán Đặt tour (CheckoutPage).
+ * Kiểm tra giỏ hàng: nếu rỗng tự động đẩy về trang chủ bằng <Navigate replace />.
  */
 export function CheckoutPage() {
-  return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <div className="rounded-xl border border-border bg-surface-card p-6 sm:p-8">
-        <h1 className="text-2xl font-bold text-ink sm:text-3xl">
-          Thông Tin Đặt Tour & Thanh Toán
-        </h1>
-        <p className="mt-2 text-ink-muted">
-          Vui lòng kiểm tra lại thông tin đơn đặt tour trước khi hoàn tất thanh toán.
-        </p>
+  const { item, clearCart } = useCartStore();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [createdBooking, setCreatedBooking] = useState<BookingRecord | null>(null);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState<boolean>(false);
 
-        <div className="my-6 rounded-lg bg-surface p-6 border border-border">
-          <h2 className="font-semibold text-ink">Tóm tắt đơn hàng</h2>
-          <p className="mt-1 text-sm text-ink-muted">
-            Tour di tích lịch sử Quảng Trị + Hướng dẫn viên + Phương tiện di chuyển.
+  // Nếu giỏ hàng rỗng, điều hướng ngay về trang chủ lúc render theo chuẩn React Router 8
+  if (!item && !createdBooking) {
+    return <Navigate to="/" replace />;
+  }
+
+  const handleSubmit = async (customerData: BookingCustomerInfo) => {
+    if (!item) return;
+    setIsSubmitting(true);
+
+    try {
+      const booking = await createBooking(customerData, item);
+      setCreatedBooking(booking);
+      clearCart();
+      setIsSuccessModalOpen(true);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="mx-auto max-w-6xl px-4 py-10">
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-extrabold text-ink sm:text-3xl">
+            Thanh Toán & Xác Nhận Đặt Tour
+          </h1>
+          <p className="mt-1 text-xs text-ink-muted sm:text-sm">
+            Vui lòng rà soát lại chi tiết lịch trình và điền thông tin để hoàn tất đơn đặt vé.
           </p>
         </div>
 
-        <div className="flex items-center justify-between pt-4">
-          <Link to="/" className="text-sm font-medium text-ink-muted hover:text-ink">
-            ← Hủy và về trang chủ
-          </Link>
-          <button
-            type="button"
-            className="rounded-lg bg-primary px-6 py-2.5 font-medium text-white hover:opacity-90 transition-all cursor-pointer"
-          >
-            Xác Nhận Đặt Tour
-          </button>
-        </div>
+        <Link
+          to="/"
+          className="text-xs font-medium text-ink-muted hover:text-ink transition-colors"
+        >
+          ← Tiếp tục xem tour khác
+        </Link>
       </div>
+
+      {item ? (
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 items-start">
+          {/* Cột 1: Tóm tắt đơn hàng */}
+          <OrderSummary item={item} />
+
+          {/* Cột 2: Controlled Form có kiểm chứng Zod */}
+          <CheckoutForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
+        </div>
+      ) : null}
+
+      {/* Modal thông báo thành công */}
+      <BookingSuccessModal
+        booking={createdBooking}
+        isOpen={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
+      />
     </div>
   );
 }
