@@ -8,11 +8,11 @@ import { PartnerDashboard } from '@/pages/PartnerDashboard';
 import { AdminDashboard } from '@/pages/AdminDashboard';
 import { AdminLoginPage } from '@/pages/AdminLoginPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
-import { ProtectedRoute } from '@/components/ProtectedRoute';
+import { RoleGuard } from '@/features/auth/components/RoleGuard';
 
 /**
  * Danh sách định tuyến ứng dụng chuẩn React Router 8 (Data Mode).
- * Định nghĩa mảng RouteObject[] theo đúng ROUTES.md.
+ * Phân quyền truy cập các tuyến quản trị và đối tác bằng RoleGuard.
  */
 export const routes: RouteObject[] = [
   {
@@ -38,17 +38,17 @@ export const routes: RouteObject[] = [
       {
         path: 'partner',
         element: (
-          <ProtectedRoute isAllowed={true} redirectTo="/admin/login">
+          <RoleGuard requiredRole="partner" redirectTo="/admin/login">
             <PartnerDashboard />
-          </ProtectedRoute>
+          </RoleGuard>
         ),
       },
       {
         path: 'admin',
         element: (
-          <ProtectedRoute isAllowed={true} redirectTo="/admin/login">
+          <RoleGuard requiredRole="admin" redirectTo="/admin/login">
             <AdminDashboard />
-          </ProtectedRoute>
+          </RoleGuard>
         ),
       },
       {

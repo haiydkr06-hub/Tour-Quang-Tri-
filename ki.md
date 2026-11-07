@@ -38,4 +38,27 @@
   5. Kiểm tra chất lượng code (Vibe Coding Loop):
      - `npm run typecheck`: Xanh (0 lỗi).
      - `npm run build`: Xanh (Build thành công trong 1.63s).
-- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 2 (State Management).
+- **Trạng thái**: Đã commit & push lên repo GitHub.
+
+### ✅ Phase 2: State Management (Hoàn thành)
+- **Thời gian hoàn thành**: 2026-11-07
+- **Nội dung thực hiện**:
+  1. Cài đặt thư viện `zustand`.
+  2. Thiết lập Context API quản lý giao diện Sáng/Tối:
+     - `src/context/ThemeContext.tsx`: Quản lý `theme` ('light' | 'dark'), đồng bộ với `localStorage` và class `dark` trên thẻ `<html>`.
+     - `src/context/useTheme.ts`: Custom hook đảm bảo an toàn context.
+  3. Xây dựng Zustand store cho Xác thực & Phân quyền (`src/features/auth/`):
+     - `types.ts`: Khai báo kiểu `UserRole`, `User`, `AuthState`.
+     - `store.ts`: Quản lý đăng nhập, đăng xuất, các selector `useIsAdmin`, `useIsPartner`.
+     - `components/RoleGuard.tsx`: Thành phần bọc bảo vệ tuyến dựa trên `authStore`, tuân thủ quy tắc import một chiều: `features -> components`.
+  4. Xây dựng Zustand store cho Giỏ tour (`src/features/cart/`):
+     - `types.ts`: Khai báo kiểu `CartItem`, `SelectedGuide`, `SelectedVehicle`, `CartState`.
+     - `store.ts`: Store lưu trữ và cập nhật tour đặt, dịch vụ HDV/xe, selector kiểm tra giỏ hàng và tổng tiền.
+  5. Tích hợp toàn diện vào `RootLayout.tsx` & `AdminLoginPage.tsx`:
+     - Tích hợp nút đổi Theme (Light/Dark mode) kèm hiệu ứng chuyển đổi mượt mà.
+     - Hiển thị huy hiệu số lượng tour trong giỏ.
+     - Cho phép chọn nhanh vai trò demo (Admin / Partner / Guest) để kiểm thử điều hướng tức thì trên `/admin` và `/partner`.
+  6. Kiểm tra chất lượng code:
+     - `npm run typecheck`: Xanh (0 lỗi).
+     - `npm run build`: Xanh (Build thành công trong 1.56s).
+- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 3 (UI Components).
