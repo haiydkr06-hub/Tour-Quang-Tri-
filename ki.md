@@ -13,71 +13,65 @@
 
 ---
 
-## 2. Nhật ký chi tiết theo Phase
+## 2. Nhật ký chi tiết theo 8 Phase
 
 ### ✅ Phase 1: Core & Routing (Hoàn thành)
-- **Thời gian hoàn thành**: 2026-11-07
-- **Nội dung thực hiện**:
-  1. Khởi tạo dự án Vite + React 19 + TypeScript strict mode.
-  2. Cấu hình Tailwind CSS 4 kèm hệ thống Design Tokens trong `src/index.css`.
-  3. Cấu hình React Router 8 (Data Mode) với `createBrowserRouter(routes)`.
-  4. Khởi tạo toàn bộ các trang khung theo `docs/ROUTES.md`.
-  5. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+- Khởi tạo Vite + React 19 + TypeScript strict mode.
+- Cấu hình Tailwind CSS 4 Design Tokens trong `src/index.css`.
+- Cấu hình React Router 8 (Data Mode) với `createBrowserRouter(routes)`.
+- Khởi tạo toàn bộ các trang khung theo `docs/ROUTES.md`.
+- Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
 
 ### ✅ Phase 2: State Management (Hoàn thành)
-- **Thời gian hoàn thành**: 2026-11-07
-- **Nội dung thực hiện**:
-  1. Context API quản lý giao diện Sáng/Tối (`ThemeContext.tsx`, `useTheme.ts`).
-  2. Zustand store xác thực & phân quyền (`src/features/auth/`): `store.ts`, `types.ts`, `RoleGuard.tsx`.
-  3. Zustand store giỏ tour (`src/features/cart/`): `store.ts`, `types.ts`.
-  4. Tích hợp nút đổi Theme và huy hiệu giỏ hàng vào `RootLayout.tsx`.
-  5. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+- Context API quản lý giao diện Sáng/Tối (`ThemeContext.tsx`, `useTheme.ts`).
+- Zustand store xác thực & phân quyền (`src/features/auth/`): `store.ts`, `types.ts`, `RoleGuard.tsx`.
+- Zustand store giỏ tour (`src/features/cart/`): `store.ts`, `types.ts`.
+- Tích hợp nút đổi Theme và huy hiệu giỏ hàng vào `RootLayout.tsx`.
+- Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
 
 ### ✅ Phase 3: UI Components (Hoàn thành)
-- **Thời gian hoàn thành**: 2026-11-07
-- **Nội dung thực hiện**:
-  1. Bộ UI Components tại `src/components/ui/`: `Button`, `TextField`, `Card`, `Badge`, `Select`, `Modal`.
-  2. Phân tách `Navbar.tsx` và `Footer.tsx` tuân thủ quy tắc import một chiều.
-  3. Cập nhật `AdminLoginPage.tsx` sử dụng trọn vẹn UI components mới.
-  4. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+- Bộ UI Components tại `src/components/ui/`: `Button`, `TextField`, `Card`, `Badge`, `Select`, `Modal`.
+- Phân tách `Navbar.tsx` và `Footer.tsx` tuân thủ quy tắc import một chiều.
+- Cập nhật `AdminLoginPage.tsx` sử dụng trọn vẹn UI components mới.
+- Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
 
 ### ✅ Phase 4: Public Pages (Hoàn thành)
-- **Thời gian hoàn thành**: 2026-11-07
-- **Nội dung thực hiện**:
-  1. Xây dựng feature Tours (`src/features/tours/`): `types.ts`, `service.ts`.
-  2. Presentational Views: `TourHeroBanner.tsx`, `TourFilter.tsx` (có thanh trượt giá), `TourCard.tsx`, `TourListView.tsx` (có trạng thái rỗng), `TourDetailView.tsx`.
-  3. Containers: `HomePage.tsx`, `TourDetailPage.tsx` (ép kiểu URL params sang số `Number(id)`).
-  4. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+- Xây dựng feature Tours (`src/features/tours/`): `types.ts`, `service.ts`.
+- Presentational Views: `TourHeroBanner.tsx`, `TourFilter.tsx` (có thanh trượt giá), `TourCard.tsx`, `TourListView.tsx` (có trạng thái rỗng), `TourDetailView.tsx`.
+- Containers: `HomePage.tsx`, `TourDetailPage.tsx` (ép kiểu URL params sang số `Number(id)`).
+- Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
 
 ### ✅ Phase 5: Custom Tour Builder (Hoàn thành)
-- **Thời gian hoàn thành**: 2026-11-07
-- **Nội dung thực hiện**:
-  1. Feature Custom Tour (`src/features/custom-tour/`): `types.ts`, `service.ts`, `store.ts`.
-  2. Presentational Components: `LocationSelector.tsx`, `GuideSelector.tsx`, `VehicleSelector.tsx`, `TourSummaryBar.tsx` (tự động tính tổng chi phí theo thời gian thực).
-  3. Container `CustomTourBuilderPage.tsx`: Ghép nối các khối, đồng bộ vào `useCartStore` và điều hướng `/checkout`.
-  4. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+- Feature Custom Tour (`src/features/custom-tour/`): `types.ts`, `service.ts`, `store.ts`.
+- Presentational Components: `LocationSelector.tsx`, `GuideSelector.tsx`, `VehicleSelector.tsx`, `TourSummaryBar.tsx` (tự động tính tổng chi phí theo thời gian thực).
+- Container `CustomTourBuilderPage.tsx`: Ghép nối các khối, đồng bộ vào `useCartStore` và điều hướng `/checkout`.
+- Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
 
 ### ✅ Phase 6: Checkout & Validation (Hoàn thành)
-- **Thời gian hoàn thành**: 2026-11-07
-- **Nội dung thực hiện**:
-  1. Cài đặt `zod` để kiểm chứng dữ liệu biên giới.
-  2. Feature Checkout (`src/features/checkout/`): `types.ts`, `validation.ts`, `service.ts`.
-  3. Presentational Components: `OrderSummary.tsx`, `CheckoutForm.tsx` (Controlled Form), `BookingSuccessModal.tsx`.
-  4. Container `CheckoutPage.tsx`: Tự động điều hướng về `/` bằng `<Navigate replace />` nếu giỏ tour rỗng.
-  5. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+- Cài đặt `zod` để kiểm chứng dữ liệu biên giới.
+- Feature Checkout (`src/features/checkout/`): `types.ts`, `validation.ts`, `service.ts`.
+- Presentational Components: `OrderSummary.tsx`, `CheckoutForm.tsx` (Controlled Form), `BookingSuccessModal.tsx`.
+- Container `CheckoutPage.tsx`: Tự động điều hướng về `/` bằng `<Navigate replace />` nếu giỏ tour rỗng.
+- Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
 
 ### ✅ Phase 7: Support & Partner Area (Hoàn thành)
-- **Thời gian hoàn thành**: 2026-11-07
-- **Nội dung thực hiện**:
-  1. Xây dựng feature Partner (`src/features/partner/`):
-     - `types.ts`: Khai báo kiểu `PartnerTrip`, `TripStatus`, `FaqItem`.
-     - `service.ts`: Dữ liệu Mock các chuyến đi phân công cho HDV/Tài xế, dịch vụ cập nhật trạng thái chuyến (`updatePartnerTripStatus`), danh sách hỏi đáp FAQ và hướng dẫn quy định tham quan di tích lịch sử.
-  2. Các Presentational Components:
-     - `PartnerScheduleList.tsx`: Danh sách chuyến đi có lọc theo trạng thái (Chờ nhận, Đang phục vụ, Đã hoàn thành), nút Nhận chuyến và Báo cáo hoàn thành.
-     - `TripDetailModal.tsx`: Hộp thoại xem chi tiết đoàn khách, số điện thoại, ghi chú đặc biệt và thù lao.
-     - `SupportSection.tsx`: Khu vực Hỏi đáp FAQ và Hotline 24/7 cứu hộ du lịch Quảng Trị.
-  3. Container `PartnerDashboard.tsx`: Quản lý danh sách chuyến, chuyển đổi tab giữa Lịch trình và Hỗ trợ, bảo vệ chặt chẽ bởi `RoleGuard` (chỉ cho phép quyền Partner).
-  4. Kiểm tra chất lượng code (Vibe Coding Loop):
-     - `npm run typecheck`: Xanh (0 lỗi).
-     - `npm run build`: Xanh (Build thành công trong 2.37s).
-- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 8 (Admin Dashboard & Hoàn thiện dự án).
+- Xây dựng feature Partner (`src/features/partner/`): `types.ts`, `service.ts`.
+- Presentational Components: `PartnerScheduleList.tsx`, `TripDetailModal.tsx`, `SupportSection.tsx`.
+- Container `PartnerDashboard.tsx`: Quản lý danh sách chuyến, chuyển đổi tab Lịch trình & Hỗ trợ, bảo vệ bởi `RoleGuard`.
+- Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+
+### ✅ Phase 8: Admin Dashboard & Tổng kết Dự án (Hoàn thành)
+- Xây dựng feature Admin (`src/features/admin/`):
+  - `types.ts`: Khai báo kiểu `AdminStats`, `AdminTourItem`, `MonthlyStat`.
+  - `service.ts`: Dịch vụ Mock CRUD tour, thống kê KPI doanh số và duyệt đơn booking.
+- Presentational Components:
+  - `AdminStatsOverview.tsx`: 4 thẻ chỉ số KPI và biểu đồ cột trực quan về lượng đặt tour qua các tháng.
+  - `AdminTourManager.tsx`: Bảng quản lý tour di tích (Thêm/Ẩn/Hiện/Xóa).
+  - `AdminTourFormModal.tsx`: Hộp thoại modal thêm mới một tour di tích.
+  - `AdminBookingManager.tsx`: Bảng quản trị duyệt các đơn đặt tour từ khách hàng.
+- Container `AdminDashboard.tsx`: Điều phối các tab Quản trị, bảo vệ nghiêm ngặt bằng `RoleGuard` (chỉ truy cập khi `role === 'admin'`).
+- Cập nhật đầy đủ hồ sơ dự án: `AI-DECLARATION.md` và `PROMPTS.md`.
+- Vibe Coding Check:
+  - `npm run typecheck`: **0 lỗi** (Console xanh).
+  - `npm run build`: **Thành công** trong 2.46s.
+- **Trạng thái**: Hoàn tất trọn vẹn 8 Phase. Dự án sẵn sàng bàn giao và đưa vào vận hành!
