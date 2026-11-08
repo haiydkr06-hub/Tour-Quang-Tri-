@@ -4,18 +4,21 @@ import type { UserRole } from '../types';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 
 interface RoleGuardProps {
-  requiredRole: UserRole;
+  requiredRole: UserRole | UserRole[];
   redirectTo: string;
   children: ReactNode;
 }
 
 /**
- * Thành phần bảo vệ tuyến phân quyền dựa trên trạng thái đăng nhập từ Zustand authStore.
+ * Thành phần bảo vệ tuyến phân quyền theo 5 vai trò (ADMIN, CUSTOMER, PARTNER, GUIDE, DRIVER).
  * Tuân thủ quy tắc import một chiều: features -> components.
  */
 export function RoleGuard({ requiredRole, redirectTo, children }: RoleGuardProps) {
   const currentRole = useAuthStore((state) => state.role);
-  const isAllowed = currentRole === requiredRole;
+
+  const isAllowed = Array.isArray(requiredRole)
+    ? currentRole !== null && requiredRole.includes(currentRole)
+    : currentRole === requiredRole;
 
   return (
     <ProtectedRoute isAllowed={isAllowed} redirectTo={redirectTo}>

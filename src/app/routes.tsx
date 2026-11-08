@@ -12,7 +12,7 @@ import { RoleGuard } from '@/features/auth/components/RoleGuard';
 
 /**
  * Danh sách định tuyến ứng dụng chuẩn React Router 8 (Data Mode).
- * Phân quyền truy cập các tuyến quản trị và đối tác bằng RoleGuard.
+ * Phân quyền truy cập theo 5 vai trò (ADMIN, CUSTOMER, PARTNER, GUIDE, DRIVER) bằng RoleGuard.
  */
 export const routes: RouteObject[] = [
   {
@@ -38,7 +38,7 @@ export const routes: RouteObject[] = [
       {
         path: 'partner',
         element: (
-          <RoleGuard requiredRole="partner" redirectTo="/admin/login">
+          <RoleGuard requiredRole={['PARTNER', 'GUIDE', 'DRIVER']} redirectTo="/admin/login">
             <PartnerDashboard />
           </RoleGuard>
         ),
@@ -46,7 +46,7 @@ export const routes: RouteObject[] = [
       {
         path: 'admin',
         element: (
-          <RoleGuard requiredRole="admin" redirectTo="/admin/login">
+          <RoleGuard requiredRole="ADMIN" redirectTo="/admin/login">
             <AdminDashboard />
           </RoleGuard>
         ),

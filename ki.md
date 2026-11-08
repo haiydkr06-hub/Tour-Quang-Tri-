@@ -13,65 +13,32 @@
 
 ---
 
-## 2. Nhật ký chi tiết theo 8 Phase
+## 2. Nhật ký chi tiết Giai đoạn 1 (8 Phase cơ bản - Hoàn thành)
+- Đã hoàn tất 8 Phase nền tảng: Core & Routing, State Management, UI Components, Public Pages, Custom Tour Builder, Checkout & Validation, Support & Partner, Admin Dashboard.
+- Toàn bộ 8 commit đã được đồng bộ lên remote repository GitHub.
 
-### ✅ Phase 1: Core & Routing (Hoàn thành)
-- Khởi tạo Vite + React 19 + TypeScript strict mode.
-- Cấu hình Tailwind CSS 4 Design Tokens trong `src/index.css`.
-- Cấu hình React Router 8 (Data Mode) với `createBrowserRouter(routes)`.
-- Khởi tạo toàn bộ các trang khung theo `docs/ROUTES.md`.
-- Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+---
 
-### ✅ Phase 2: State Management (Hoàn thành)
-- Context API quản lý giao diện Sáng/Tối (`ThemeContext.tsx`, `useTheme.ts`).
-- Zustand store xác thực & phân quyền (`src/features/auth/`): `store.ts`, `types.ts`, `RoleGuard.tsx`.
-- Zustand store giỏ tour (`src/features/cart/`): `store.ts`, `types.ts`.
-- Tích hợp nút đổi Theme và huy hiệu giỏ hàng vào `RootLayout.tsx`.
-- Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+## 3. Giai đoạn 2: Nâng cấp Hệ thống Xác thực & Phân quyền 5 Vai Trò (5 Phases)
 
-### ✅ Phase 3: UI Components (Hoàn thành)
-- Bộ UI Components tại `src/components/ui/`: `Button`, `TextField`, `Card`, `Badge`, `Select`, `Modal`.
-- Phân tách `Navbar.tsx` và `Footer.tsx` tuân thủ quy tắc import một chiều.
-- Cập nhật `AdminLoginPage.tsx` sử dụng trọn vẹn UI components mới.
-- Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
-
-### ✅ Phase 4: Public Pages (Hoàn thành)
-- Xây dựng feature Tours (`src/features/tours/`): `types.ts`, `service.ts`.
-- Presentational Views: `TourHeroBanner.tsx`, `TourFilter.tsx` (có thanh trượt giá), `TourCard.tsx`, `TourListView.tsx` (có trạng thái rỗng), `TourDetailView.tsx`.
-- Containers: `HomePage.tsx`, `TourDetailPage.tsx` (ép kiểu URL params sang số `Number(id)`).
-- Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
-
-### ✅ Phase 5: Custom Tour Builder (Hoàn thành)
-- Feature Custom Tour (`src/features/custom-tour/`): `types.ts`, `service.ts`, `store.ts`.
-- Presentational Components: `LocationSelector.tsx`, `GuideSelector.tsx`, `VehicleSelector.tsx`, `TourSummaryBar.tsx` (tự động tính tổng chi phí theo thời gian thực).
-- Container `CustomTourBuilderPage.tsx`: Ghép nối các khối, đồng bộ vào `useCartStore` và điều hướng `/checkout`.
-- Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
-
-### ✅ Phase 6: Checkout & Validation (Hoàn thành)
-- Cài đặt `zod` để kiểm chứng dữ liệu biên giới.
-- Feature Checkout (`src/features/checkout/`): `types.ts`, `validation.ts`, `service.ts`.
-- Presentational Components: `OrderSummary.tsx`, `CheckoutForm.tsx` (Controlled Form), `BookingSuccessModal.tsx`.
-- Container `CheckoutPage.tsx`: Tự động điều hướng về `/` bằng `<Navigate replace />` nếu giỏ tour rỗng.
-- Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
-
-### ✅ Phase 7: Support & Partner Area (Hoàn thành)
-- Xây dựng feature Partner (`src/features/partner/`): `types.ts`, `service.ts`.
-- Presentational Components: `PartnerScheduleList.tsx`, `TripDetailModal.tsx`, `SupportSection.tsx`.
-- Container `PartnerDashboard.tsx`: Quản lý danh sách chuyến, chuyển đổi tab Lịch trình & Hỗ trợ, bảo vệ bởi `RoleGuard`.
-- Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
-
-### ✅ Phase 8: Admin Dashboard & Tổng kết Dự án (Hoàn thành)
-- Xây dựng feature Admin (`src/features/admin/`):
-  - `types.ts`: Khai báo kiểu `AdminStats`, `AdminTourItem`, `MonthlyStat`.
-  - `service.ts`: Dịch vụ Mock CRUD tour, thống kê KPI doanh số và duyệt đơn booking.
-- Presentational Components:
-  - `AdminStatsOverview.tsx`: 4 thẻ chỉ số KPI và biểu đồ cột trực quan về lượng đặt tour qua các tháng.
-  - `AdminTourManager.tsx`: Bảng quản lý tour di tích (Thêm/Ẩn/Hiện/Xóa).
-  - `AdminTourFormModal.tsx`: Hộp thoại modal thêm mới một tour di tích.
-  - `AdminBookingManager.tsx`: Bảng quản trị duyệt các đơn đặt tour từ khách hàng.
-- Container `AdminDashboard.tsx`: Điều phối các tab Quản trị, bảo vệ nghiêm ngặt bằng `RoleGuard` (chỉ truy cập khi `role === 'admin'`).
-- Cập nhật đầy đủ hồ sơ dự án: `AI-DECLARATION.md` và `PROMPTS.md`.
-- Vibe Coding Check:
-  - `npm run typecheck`: **0 lỗi** (Console xanh).
-  - `npm run build`: **Thành công** trong 2.46s.
-- **Trạng thái**: Hoàn tất trọn vẹn 8 Phase. Dự án sẵn sàng bàn giao và đưa vào vận hành!
+### ✅ Phase 1: Backend API & Security (Hoàn thành)
+- **Thời gian hoàn thành**: 2026-11-08
+- **Nội dung thực hiện**:
+  1. Cài đặt thư viện bảo mật mã hóa mật khẩu `bcryptjs` và `@types/bcryptjs`, cùng nền tảng `express` và `@types/express`.
+  2. Xây dựng cơ chế phân 5 quyền chính thức trong hệ thống:
+     - `ADMIN`: Quản trị viên toàn hệ thống
+     - `CUSTOMER`: Khách du lịch tham quan và đặt tour
+     - `PARTNER`: Đơn vị đối tác du lịch lữ hành liên kết
+     - `GUIDE`: Hướng dẫn viên bản địa Quảng Trị
+     - `DRIVER`: Tài xế vận chuyển phục vụ đoàn khách
+  3. Xây dựng dịch vụ Backend API & Security (`src/features/auth/backend.ts`):
+     - Thuật toán băm mật khẩu chuẩn bảo mật một chiều với `bcryptjs` (salt rounds = 10).
+     - Khởi tạo sẵn cơ sở dữ liệu người dùng mẫu gồm 5 tài khoản tương ứng 5 vai trò với mật khẩu đã mã hóa an toàn (`admin123`, `customer123`, `partner123`, `guide123`, `driver123`).
+     - Triển khai các API: `backendLogin` (so sánh mật khẩu băm với `bcrypt.compareSync`), `backendRegister` (băm mật khẩu với bcrypt trước khi lưu trữ), `backendForgotPassword` (xác minh email và gửi mã khôi phục).
+  4. Xây dựng server Node.js/Express (`server/index.ts`):
+     - Các endpoint `/api/auth/login`, `/api/auth/register`, `/api/auth/forgot-password` chuẩn RESTful API.
+  5. Cập nhật `src/features/auth/service.ts`, `src/features/auth/store.ts`, `RoleGuard.tsx` và `routes.tsx` tích hợp đồng bộ 5 quyền mới.
+  6. Kiểm tra chất lượng code (Vibe Coding Loop):
+     - `npm run typecheck`: Xanh (0 lỗi).
+     - `npm run build`: Xanh (Build thành công trong 1.48s).
+- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 2 (UI Components & Validation).

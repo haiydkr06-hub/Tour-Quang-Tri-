@@ -20,7 +20,7 @@ export function RootLayout() {
         theme={theme}
         onToggleTheme={toggleTheme}
         user={user}
-        role={role}
+        role={role ?? ''}
         cartCount={cartItem ? 1 : 0}
         onLogout={logout}
       />
