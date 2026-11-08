@@ -11,15 +11,15 @@ type Tab = 'schedule' | 'support';
 
 /**
  * Container component: Bảng điều khiển Đối tác (PartnerDashboard).
- * Chỉ người dùng có vai trò Partner mới truy cập được qua RoleGuard.
+ * Hỗ trợ các vai trò: PARTNER, GUIDE, DRIVER.
  */
 export function PartnerDashboard() {
-  const user = useAuthStore((s) => s.user);
+  const { user, role } = useAuthStore();
   const [trips, setTrips] = useState<PartnerTrip[]>([]);
   const [statusFilter, setStatusFilter] = useState<'all' | TripStatus>('all');
   const [activeTab, setActiveTab] = useState<Tab>('schedule');
   const [selectedTrip, setSelectedTrip] = useState<PartnerTrip | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const loadTrips = () => {
     getPartnerTrips().then(setTrips);
@@ -39,32 +39,42 @@ export function PartnerDashboard() {
     setIsModalOpen(true);
   };
 
-  const filteredTrips = trips.filter((t) =>
+  const roleFilteredTrips = trips.filter((t) => {
+    if (role === 'GUIDE') return t.roleType === 'guide';
+    if (role === 'DRIVER') return t.roleType === 'driver';
+    return true;
+  });
+
+  const displayTrips = roleFilteredTrips.filter((t) =>
     statusFilter === 'all' ? true : t.status === statusFilter
   );
 
+  const getDashboardHeading = () => {
+    if (role === 'GUIDE') return `Nhiệm Vụ Dẫn Tour (HDV): ${user?.name ?? ''}`;
+    if (role === 'DRIVER') return `Lịch Trình Vận Chuyển (Tài Xế): ${user?.name ?? ''}`;
+    return `Điều Hành Đối Tác Lữ Hành: ${user?.name ?? ''}`;
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 space-y-6">
-      {/* Header đối tác */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-border pb-6">
         <div>
-          <span className="text-xs font-semibold text-primary">Khu Vực Dành Cho Đối Tác</span>
+          <span className="text-xs font-semibold text-primary">Khu Vực Nghiệp Vụ Đối Tác ({role})</span>
           <h1 className="text-2xl font-bold text-ink sm:text-3xl">
-            Lịch Trình & Nhiệm Vụ: {user?.name ?? 'Đối Tác Bản Địa'}
+            {getDashboardHeading()}
           </h1>
           <p className="mt-1 text-xs text-ink-muted">
             Quản lý các chuyến dẫn đoàn và điều phối phương tiện tham quan di tích Quảng Trị.
           </p>
         </div>
 
-        {/* Tab Navigation */}
         <div className="flex gap-2">
           <Button
             variant={activeTab === 'schedule' ? 'primary' : 'outline'}
             size="sm"
             onClick={() => setActiveTab('schedule')}
           >
-            📋 Lịch Trình Chuyến ({trips.length})
+            📋 Lịch Trình Chuyến ({roleFilteredTrips.length})
           </Button>
           <Button
             variant={activeTab === 'support' ? 'primary' : 'outline'}
@@ -78,7 +88,6 @@ export function PartnerDashboard() {
 
       {activeTab === 'schedule' ? (
         <div className="space-y-4">
-          {/* Lọc trạng thái chuyến */}
           <div className="flex flex-wrap gap-2 text-xs">
             {[
               { id: 'all', label: 'Tất cả chuyến' },
@@ -102,7 +111,7 @@ export function PartnerDashboard() {
           </div>
 
           <PartnerScheduleList
-            trips={filteredTrips}
+            trips={displayTrips}
             onViewDetail={handleOpenDetail}
             onUpdateStatus={handleUpdateStatus}
           />
@@ -111,7 +120,6 @@ export function PartnerDashboard() {
         <SupportSection />
       )}
 
-      {/* Modal chi tiết chuyến */}
       <TripDetailModal
         trip={selectedTrip}
         isOpen={isModalOpen}

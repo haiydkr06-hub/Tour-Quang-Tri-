@@ -44,3 +44,14 @@
 - **Kết quả AI trả về (tóm tắt):** Tạo PartnerDashboard (nhận chuyến, báo cáo hoàn thành, FAQ hỗ trợ di tích) và AdminDashboard (CRUD tour, duyệt đơn booking, biểu đồ cột thống kê doanh thu).
 - **Nhóm đã sửa gì và vì sao:** Tích hợp RoleGuard kiểm tra quyền truy cập chặt chẽ cho cả hai tuyến.
 - **Bài học rút ra:** Kiến trúc Feature-based giúp mở rộng các phân hệ Admin/Partner độc lập, dễ bảo trì.
+
+---
+
+## Sprint 4 (Nâng cấp Hệ thống Xác thực & Phân 5 Quyền RBAC)
+
+### Prompt 6
+- **Mục đích:** Xây dựng Backend API bảo mật (bcryptjs), 5 quyền RBAC (`ADMIN`, `CUSTOMER`, `PARTNER`, `GUIDE`, `DRIVER`), Zod schemas, TextField toggle mật khẩu & aria, trang LoginPage, RegisterPage, và điều hướng thông minh.
+- **Prompt đã dùng:** "done" (Kích hoạt tuần tự 5 Phase nâng cấp xác thực).
+- **Kết quả AI trả về (tóm tắt):** Hoàn thiện backend API engine với bcrypt hashing; nâng cấp TextField accessibility; tạo schemas Zod; xây dựng LoginPage và RegisterPage; tối ưu RoleGuard tự động lưu URL đích và điều hướng chính xác theo 5 vai trò.
+- **Nhóm đã sửa gì và vì sao:** Bổ sung tính năng nhận diện `redirectTo` từ URL search params để người dùng sau khi đăng nhập được đưa ngay về trang đang xem dở.
+- **Bài học rút ra:** Cơ chế phân quyền nhiều tầng (Store + RoleGuard + UI Filter) mang lại độ bảo mật cao và trải nghiệm người dùng xuyên suốt.

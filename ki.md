@@ -68,7 +68,27 @@
      - Nút ẩn/hiện mật khẩu cho cả 2 ô Mật khẩu và Xác nhận mật khẩu.
      - Kết nối với `registerApi`: băm mật khẩu bảo mật bằng bcrypt, tự động gán vai trò `CUSTOMER` và lưu phiên vào `authStore` rồi điều hướng về Trang chủ.
   2. Cập nhật `routes.tsx` định tuyến trang `/register`.
-  3. Kiểm tra chất lượng code (Vibe Coding Loop):
+  3. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+
+### ✅ Phase 5: Zustand & Routing (Hoàn thành)
+- **Thời gian hoàn thành**: 2026-11-08
+- **Nội dung thực hiện**:
+  1. Cập nhật toàn diện Zustand Store (`src/features/auth/store.ts`):
+     - Quản lý trạng thái xác thực `isAuthenticated`, thông tin `user`, mã phiên `token` và vai trò `role` theo 5 quyền (`ADMIN`, `CUSTOMER`, `PARTNER`, `GUIDE`, `DRIVER`).
+     - Đồng bộ hóa lưu trữ phiên đăng nhập bền vững (`localStorage`) và tự động nạp lại khi tải trang.
+     - Cung cấp các selector chuyên biệt: `useIsAdmin`, `useIsPartner`, `useIsCustomer`, `useCurrentRole`.
+  2. Nâng cấp bộ bảo vệ tuyến `RoleGuard.tsx`:
+     - Tự động nhận diện đường dẫn hiện tại và lưu vào param `redirectTo` khi người dùng chưa đăng nhập.
+     - Tự động kiểm tra quyền hạn mảng linh hoạt: `requiredRole={['PARTNER', 'GUIDE', 'DRIVER']}` hoặc đơn lẻ `requiredRole="ADMIN"`.
+     - Ngăn chặn truy cập trái phép bằng cách chuyển hướng về `/` đối với người dùng không đủ quyền.
+  3. Tối ưu hóa trải nghiệm điều hướng thông minh (Auto-redirection):
+     - Tại `LoginPage` và `RegisterPage`: nếu người dùng đã đăng nhập, tự động điều hướng sang dashboard tương ứng thay vì hiển thị lại form.
+     - Sau khi đăng nhập, hệ thống ưu tiên đưa người dùng đến trang họ đang cố truy cập dở qua `redirectTo`, hoặc theo đúng vai trò.
+  4. Nâng cấp thanh điều hướng `Navbar.tsx` & `PartnerDashboard.tsx`:
+     - Hiển thị huy hiệu vai trò chi tiết theo màu token: `ADMIN` (Quản trị viên), `CUSTOMER` (Khách du lịch), `PARTNER` (Đối tác lữ hành), `GUIDE` (HDV bản địa), `DRIVER` (Tài xế).
+     - Điều chỉnh giao diện `PartnerDashboard` phù hợp với nghiệp vụ riêng của từng đối tác (HDV vs Tài xế).
+  5. Cập nhật hồ sơ tài liệu: `AI-DECLARATION.md`, `PROMPTS.md` và `ki.md`.
+  6. Kiểm tra chất lượng code (Vibe Coding Loop):
      - `npm run typecheck`: Xanh (0 lỗi).
-     - `npm run build`: Xanh (Build thành công trong 1.66s).
-- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 5 (Zustand & Routing hoàn thiện).
+     - `npm run build`: Xanh (Build thành công trong 2.05s).
+- **Trạng thái**: Hoàn tất trọn vẹn toàn bộ 5 Phase của Giai đoạn 2. Hệ thống xác thực và phân 5 quyền RBAC hoạt động ổn định, bảo mật và đồng bộ 100%!

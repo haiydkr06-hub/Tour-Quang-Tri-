@@ -1,28 +1,39 @@
 import type { ReactNode } from 'react';
+import { Navigate, useLocation } from 'react-router';
 import { useAuthStore } from '../store';
 import type { UserRole } from '../types';
-import { ProtectedRoute } from '@/components/ProtectedRoute';
 
 interface RoleGuardProps {
   requiredRole: UserRole | UserRole[];
-  redirectTo: string;
+  redirectTo?: string;
   children: ReactNode;
 }
 
 /**
  * Thành phần bảo vệ tuyến phân quyền theo 5 vai trò (ADMIN, CUSTOMER, PARTNER, GUIDE, DRIVER).
- * Tuân thủ quy tắc import một chiều: features -> components.
+ * Tự động chuyển hướng về trang đăng nhập nếu chưa xác thực, hoặc về trang chủ nếu sai quyền.
  */
-export function RoleGuard({ requiredRole, redirectTo, children }: RoleGuardProps) {
-  const currentRole = useAuthStore((state) => state.role);
+export function RoleGuard({
+  requiredRole,
+  redirectTo = '/login',
+  children,
+}: RoleGuardProps) {
+  const { role, isAuthenticated } = useAuthStore();
+  const location = useLocation();
+
+  if (!isAuthenticated) {
+    const targetUrl = `${redirectTo}?redirectTo=${encodeURIComponent(location.pathname)}`;
+    return <Navigate to={targetUrl} replace />;
+  }
 
   const isAllowed = Array.isArray(requiredRole)
-    ? currentRole !== null && requiredRole.includes(currentRole)
-    : currentRole === requiredRole;
+    ? role !== null && requiredRole.includes(role)
+    : role === requiredRole;
 
-  return (
-    <ProtectedRoute isAllowed={isAllowed} redirectTo={redirectTo}>
-      {children}
-    </ProtectedRoute>
-  );
+  if (!isAllowed) {
+    // Nếu đã đăng nhập nhưng không đủ quyền (ví dụ CUSTOMER vào /admin), điều hướng về trang chủ
+    return <Navigate to="/" replace />;
+  }
+
+  return <>{children}</>;
 }

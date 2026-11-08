@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { useNavigate, Link } from 'react-router';
+import { useNavigate, Link, Navigate } from 'react-router';
 import { useAuthStore } from '@/features/auth/store';
 import { registerApi } from '@/features/auth/service';
 import { validateRegisterForm } from '@/features/auth/schemas';
@@ -8,12 +8,9 @@ import { TextField } from '@/components/ui/TextField';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 
-/**
- * Màn hình Đăng ký tài khoản Khách du lịch (RegisterPage) cho vai trò CUSTOMER.
- */
 export function RegisterPage() {
   const navigate = useNavigate();
-  const login = useAuthStore((s) => s.login);
+  const { login, isAuthenticated, role } = useAuthStore();
 
   const [formData, setFormData] = useState<RegisterData>({
     fullName: '',
@@ -25,13 +22,18 @@ export function RegisterPage() {
   });
 
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const [serverError, setServerError] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [serverError, setServerError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  if (isAuthenticated && role) {
+    if (role === 'ADMIN') return <Navigate to="/admin" replace />;
+    if (['PARTNER', 'GUIDE', 'DRIVER'].includes(role)) return <Navigate to="/partner" replace />;
+    return <Navigate to="/" replace />;
+  }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setServerError('');
-
     const validation = validateRegisterForm(formData);
     if (!validation.success) {
       setFieldErrors(validation.errors);
@@ -40,7 +42,6 @@ export function RegisterPage() {
 
     setFieldErrors({});
     setIsLoading(true);
-
     try {
       const res = await registerApi(formData);
       if (res.success && res.user && res.token) {
@@ -59,10 +60,8 @@ export function RegisterPage() {
       <Card className="w-full">
         <div className="text-center">
           <span className="text-3xl">🕊️</span>
-          <h1 className="mt-2 text-2xl font-bold text-ink">Đăng Ký Tài Khoản</h1>
-          <p className="mt-1 text-xs text-ink-muted">
-            Khám phá và đặt tour du lịch di tích lịch sử Quảng Trị
-          </p>
+          <h1 className="mt-2 text-2xl font-bold text-ink">Đăng Ký Khách Du Lịch</h1>
+          <p className="mt-1 text-xs text-ink-muted">Tạo tài khoản đặt tour di tích lịch sử Quảng Trị</p>
         </div>
 
         {serverError ? (
@@ -74,7 +73,7 @@ export function RegisterPage() {
         <form onSubmit={handleSubmit} className="mt-6 space-y-3.5">
           <TextField
             label="Họ và tên của bạn *"
-            placeholder="Ví dụ: Hoàng Hải Yến"
+            placeholder="Hoàng Hải Yến"
             value={formData.fullName}
             onChange={(e) => setFormData((p) => ({ ...p, fullName: e.target.value }))}
             error={fieldErrors.fullName}
@@ -93,7 +92,7 @@ export function RegisterPage() {
             />
 
             <TextField
-              label="Số điện thoại liên hệ *"
+              label="Số điện thoại *"
               placeholder="0912345678"
               value={formData.phone}
               onChange={(e) => setFormData((p) => ({ ...p, phone: e.target.value }))}
@@ -106,7 +105,7 @@ export function RegisterPage() {
             <TextField
               label="Mật khẩu *"
               type="password"
-              placeholder="Ít nhất 6 ký tự (chữ + số)"
+              placeholder="Tối thiểu 6 ký tự (chữ + số)"
               value={formData.password}
               onChange={(e) => setFormData((p) => ({ ...p, password: e.target.value }))}
               error={fieldErrors.password}
@@ -135,18 +134,16 @@ export function RegisterPage() {
               <span>
                 Tôi đồng ý với{' '}
                 <span className="text-primary font-medium hover:underline">Điều khoản sử dụng</span>{' '}
-                & Quy chế văn hóa viếng các di tích lịch sử cách mạng Quảng Trị.
+                & Quy định văn hóa viếng di tích Quảng Trị.
               </span>
             </label>
             {fieldErrors.agreeTerms ? (
-              <p className="mt-1 text-xs text-danger" role="alert">
-                {fieldErrors.agreeTerms}
-              </p>
+              <p className="mt-1 text-xs text-danger" role="alert">{fieldErrors.agreeTerms}</p>
             ) : null}
           </div>
 
           <Button type="submit" variant="primary" size="lg" isLoading={isLoading} className="w-full mt-2">
-            Đăng Ký Tài Khoản Khách Du Lịch
+            Đăng Ký Tài Khoản
           </Button>
         </form>
 
@@ -157,9 +154,7 @@ export function RegisterPage() {
               Đăng nhập tại đây
             </Link>
           </p>
-          <Link to="/" className="inline-block text-ink-muted hover:text-ink">
-            ← Quay lại trang chủ
-          </Link>
+          <Link to="/" className="inline-block text-ink-muted hover:text-ink">← Quay lại trang chủ</Link>
         </div>
       </Card>
     </div>

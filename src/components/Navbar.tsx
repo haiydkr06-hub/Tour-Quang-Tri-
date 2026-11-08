@@ -11,6 +11,14 @@ export interface NavbarProps {
   onLogout: () => void;
 }
 
+const roleBadgeMap: Record<string, { label: string; variant: 'primary' | 'success' | 'warning' | 'neutral' }> = {
+  ADMIN: { label: 'Quản trị viên', variant: 'primary' },
+  CUSTOMER: { label: 'Khách du lịch', variant: 'success' },
+  PARTNER: { label: 'Đối tác lữ hành', variant: 'warning' },
+  GUIDE: { label: 'HDV bản địa', variant: 'primary' },
+  DRIVER: { label: 'Tài xế', variant: 'neutral' },
+};
+
 /**
  * Thanh điều hướng ứng dụng (Navbar) - Presentational component dùng chung.
  */
@@ -22,6 +30,8 @@ export function Navbar({
   cartCount,
   onLogout,
 }: NavbarProps) {
+  const badgeInfo = roleBadgeMap[role] ?? { label: role, variant: 'neutral' };
+
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-surface-card/90 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -35,16 +45,10 @@ export function Navbar({
           <Link to="/" className="text-ink hover:text-primary transition-colors">
             Trang chủ
           </Link>
-          <Link
-            to="/custom-tour"
-            className="text-ink hover:text-primary transition-colors"
-          >
+          <Link to="/custom-tour" className="text-ink hover:text-primary transition-colors">
             Tự thiết kế Tour
           </Link>
-          <Link
-            to="/checkout"
-            className="relative text-ink hover:text-primary transition-colors"
-          >
+          <Link to="/checkout" className="relative text-ink hover:text-primary transition-colors">
             Giỏ tour
             {cartCount > 0 ? (
               <Badge variant="primary" className="ml-1.5 px-1.5 py-0 text-[10px]">
@@ -52,18 +56,16 @@ export function Navbar({
               </Badge>
             ) : null}
           </Link>
-          <Link
-            to="/partner"
-            className="text-ink hover:text-primary transition-colors"
-          >
-            Đối tác
-          </Link>
-          <Link
-            to="/admin"
-            className="text-ink hover:text-primary transition-colors"
-          >
-            Quản trị
-          </Link>
+          {['PARTNER', 'GUIDE', 'DRIVER'].includes(role) || !user ? (
+            <Link to="/partner" className="text-ink hover:text-primary transition-colors">
+              Đối tác
+            </Link>
+          ) : null}
+          {role === 'ADMIN' || !user ? (
+            <Link to="/admin" className="text-ink hover:text-primary transition-colors">
+              Quản trị
+            </Link>
+          ) : null}
         </nav>
 
         <div className="flex items-center gap-3">
@@ -77,20 +79,30 @@ export function Navbar({
           </button>
 
           {user ? (
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-primary hidden sm:inline">
-                {role.toUpperCase()}
-              </span>
+            <div className="flex items-center gap-2.5">
+              <div className="hidden text-right sm:block">
+                <p className="text-xs font-bold text-ink leading-none">{user.name}</p>
+                <Badge variant={badgeInfo.variant} className="text-[10px] mt-0.5">
+                  {badgeInfo.label}
+                </Badge>
+              </div>
               <Button variant="outline" size="sm" onClick={onLogout}>
                 Đăng xuất
               </Button>
             </div>
           ) : (
-            <Link to="/login">
-              <Button variant="primary" size="sm">
-                Đăng nhập
-              </Button>
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link to="/login">
+                <Button variant="primary" size="sm">
+                  Đăng nhập
+                </Button>
+              </Link>
+              <Link to="/register" className="hidden sm:inline-block">
+                <Button variant="outline" size="sm">
+                  Đăng ký
+                </Button>
+              </Link>
+            </div>
           )}
         </div>
       </div>
