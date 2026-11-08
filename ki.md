@@ -25,20 +25,25 @@
 - **Thời gian hoàn thành**: 2026-11-08
 - **Nội dung thực hiện**:
   1. Cài đặt thư viện bảo mật mã hóa mật khẩu `bcryptjs` và `@types/bcryptjs`, cùng nền tảng `express` và `@types/express`.
-  2. Xây dựng cơ chế phân 5 quyền chính thức trong hệ thống:
-     - `ADMIN`: Quản trị viên toàn hệ thống
-     - `CUSTOMER`: Khách du lịch tham quan và đặt tour
-     - `PARTNER`: Đơn vị đối tác du lịch lữ hành liên kết
-     - `GUIDE`: Hướng dẫn viên bản địa Quảng Trị
-     - `DRIVER`: Tài xế vận chuyển phục vụ đoàn khách
-  3. Xây dựng dịch vụ Backend API & Security (`src/features/auth/backend.ts`):
-     - Thuật toán băm mật khẩu chuẩn bảo mật một chiều với `bcryptjs` (salt rounds = 10).
-     - Khởi tạo sẵn cơ sở dữ liệu người dùng mẫu gồm 5 tài khoản tương ứng 5 vai trò với mật khẩu đã mã hóa an toàn (`admin123`, `customer123`, `partner123`, `guide123`, `driver123`).
-     - Triển khai các API: `backendLogin` (so sánh mật khẩu băm với `bcrypt.compareSync`), `backendRegister` (băm mật khẩu với bcrypt trước khi lưu trữ), `backendForgotPassword` (xác minh email và gửi mã khôi phục).
-  4. Xây dựng server Node.js/Express (`server/index.ts`):
-     - Các endpoint `/api/auth/login`, `/api/auth/register`, `/api/auth/forgot-password` chuẩn RESTful API.
-  5. Cập nhật `src/features/auth/service.ts`, `src/features/auth/store.ts`, `RoleGuard.tsx` và `routes.tsx` tích hợp đồng bộ 5 quyền mới.
-  6. Kiểm tra chất lượng code (Vibe Coding Loop):
+  2. Xây dựng cơ chế phân 5 quyền chính thức trong hệ thống: `ADMIN`, `CUSTOMER`, `PARTNER`, `GUIDE`, `DRIVER`.
+  3. Xây dựng dịch vụ Backend API & Security (`src/features/auth/backend.ts`): Băm mật khẩu chuẩn bảo mật một chiều với `bcryptjs` (salt rounds = 10); 5 tài khoản demo có mật khẩu đã mã hóa; các API `backendLogin`, `backendRegister`, `backendForgotPassword`.
+  4. Xây dựng server Node.js/Express (`server/index.ts`) cung cấp REST endpoints.
+  5. Cập nhật `src/features/auth/service.ts`, `src/features/auth/store.ts`, `RoleGuard.tsx` và `routes.tsx`.
+  6. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+
+### ✅ Phase 2: UI Components & Validation (Hoàn thành)
+- **Thời gian hoàn thành**: 2026-11-08
+- **Nội dung thực hiện**:
+  1. Nâng cấp [`src/components/ui/TextField.tsx`](file:///d:/Tour%20QuangTri/src/components/ui/TextField.tsx):
+     - Tích hợp nút ẩn/hiện mật khẩu (SVG icons, HTML ngữ nghĩa `<button type="button">`, Design Tokens).
+     - Chuẩn hóa các thuộc tính accessibility (`aria-invalid={Boolean(error)}`, `aria-describedby`, `role="alert"` cho thông báo lỗi).
+     - Tự động thêm padding phải (`pr-10`) khi trường nhập là mật khẩu để tránh đè chữ.
+  2. Xây dựng bộ Zod Schemas (`src/features/auth/schemas.ts`):
+     - `loginSchema`: Xác thực tên đăng nhập/email và mật khẩu.
+     - `registerSchema`: Xác thực họ tên, email, số điện thoại chuẩn Việt Nam (10 chữ số), độ phức tạp mật khẩu (chữ + số), mật khẩu xác nhận trùng khớp, và bắt buộc đồng ý điều khoản.
+     - `forgotPasswordSchema`: Xác thực định dạng email nhận mã khôi phục.
+     - Các hàm kiểm tra an toàn: `validateLoginForm`, `validateRegisterForm`, `validateForgotPasswordForm` nhận dữ liệu kiểu `unknown` và thu hẹp an toàn qua Zod.
+  3. Kiểm tra chất lượng code (Vibe Coding Loop):
      - `npm run typecheck`: Xanh (0 lỗi).
-     - `npm run build`: Xanh (Build thành công trong 1.48s).
-- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 2 (UI Components & Validation).
+     - `npm run build`: Xanh (Build thành công trong 3.09s).
+- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 3 (Login Interface).
