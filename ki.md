@@ -57,7 +57,18 @@
      - Tự động điều hướng thông minh theo quyền: `ADMIN` ➔ `/admin`, `PARTNER`/`GUIDE`/`DRIVER` ➔ `/partner`, `CUSTOMER` ➔ `/`.
   2. Xây dựng modal khôi phục mật khẩu [`src/features/auth/components/ForgotPasswordModal.tsx`](file:///d:/Tour%20QuangTri/src/features/auth/components/ForgotPasswordModal.tsx) kết nối trực tiếp với `forgotPasswordApi`.
   3. Cập nhật `routes.tsx` bổ sung tuyến `/login` và cập nhật liên kết đăng nhập trên `Navbar.tsx`.
-  4. Kiểm tra chất lượng code (Vibe Coding Loop):
+  4. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+
+### ✅ Phase 4: Register Interface (Hoàn thành)
+- **Thời gian hoàn thành**: 2026-11-08
+- **Nội dung thực hiện**:
+  1. Dựng trang Đăng ký tài khoản Khách du lịch [`src/pages/public/RegisterPage.tsx`](file:///d:/Tour%20QuangTri/src/pages/public/RegisterPage.tsx) dành cho vai trò `CUSTOMER`:
+     - Mô hình Biểu mẫu có kiểm soát (**Controlled Form**) đầy đủ các trường: Họ và tên, Email, Số điện thoại, Mật khẩu, Xác nhận mật khẩu, và Checkbox đồng ý Điều khoản & Quy chế di tích.
+     - Kiểm chứng biên giới bằng `validateRegisterForm` (Zod): kiểm tra regex số điện thoại Việt Nam (10 số, đầu 03/05/07/08/09), mật khẩu bắt buộc có cả chữ và số, xác nhận mật khẩu trùng khớp và bắt buộc tick đồng ý điều khoản.
+     - Nút ẩn/hiện mật khẩu cho cả 2 ô Mật khẩu và Xác nhận mật khẩu.
+     - Kết nối với `registerApi`: băm mật khẩu bảo mật bằng bcrypt, tự động gán vai trò `CUSTOMER` và lưu phiên vào `authStore` rồi điều hướng về Trang chủ.
+  2. Cập nhật `routes.tsx` định tuyến trang `/register`.
+  3. Kiểm tra chất lượng code (Vibe Coding Loop):
      - `npm run typecheck`: Xanh (0 lỗi).
-     - `npm run build`: Xanh (Build thành công trong 1.45s).
-- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 4 (Register Interface).
+     - `npm run build`: Xanh (Build thành công trong 1.66s).
+- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 5 (Zustand & Routing hoàn thiện).

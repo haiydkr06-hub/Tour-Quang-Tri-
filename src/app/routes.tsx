@@ -7,6 +7,7 @@ import { CheckoutPage } from '@/pages/CheckoutPage';
 import { PartnerDashboard } from '@/pages/PartnerDashboard';
 import { AdminDashboard } from '@/pages/AdminDashboard';
 import { LoginPage } from '@/pages/public/LoginPage';
+import { RegisterPage } from '@/pages/public/RegisterPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { RoleGuard } from '@/features/auth/components/RoleGuard';
 
@@ -54,6 +55,10 @@ export const routes: RouteObject[] = [
       {
         path: 'login',
         element: <LoginPage />,
+      },
+      {
+        path: 'register',
+        element: <RegisterPage />,
       },
       {
         path: 'admin/login',
