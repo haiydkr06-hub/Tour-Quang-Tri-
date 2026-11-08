@@ -30,12 +30,25 @@
 - **Nội dung thực hiện**:
   1. `src/features/tours/types.ts`: Bổ sung các kiểu dữ liệu `CarouselSlide`, `BookingWidgetData`, `DestinationHighlight`, `TourCollection`, `MapPoint`, `TourReview`, `TravelArticle`.
   2. `src/features/tours/schemas.ts`: Xây dựng Zod validation `bookingWidgetSchema` và hàm `validateBookingWidget` kiểm chứng an toàn dữ liệu đầu vào.
-  3. `src/features/tours/mockData.ts`: 7 slide di sản đặc sắc Quảng Trị (Địa đạo Vịnh Mốc, Thành cổ, Cầu Hiền Lương, Đảo Cồn Cỏ, Sân bay Tà Cơn, Khe Sanh, La Vang).
+  3. `src/features/tours/mockData.ts`: 7 slide di sản đặc sắc Quảng Trị.
   4. `src/features/tours/service.ts`: Cung cấp hàm `getCarouselSlides()`, `getDestinationOptions()`, `filterToursByBooking()`.
-  5. `src/components/UserAccountMenu.tsx`: Menu tài khoản người dùng (Hồ sơ, Tour của tôi, Lịch sử đặt tour, Quản trị/Đối tác, Đăng xuất) với avatar viết tắt.
-  6. `src/components/Navbar.tsx`: Header sticky, đầy đủ menu (Trang chủ, Khám phá, Tour, Lịch trình, Ưu đãi, Giới thiệu, Liên hệ, Tour yêu thích), responsive mobile drawer.
-  7. `src/features/tours/components/HomeBannerCarousel.tsx`: Carousel tự động 5.5s, chuyển mượt, overlay bóng đổ, mũi tên điều hướng và chấm chỉ số, tiêu đề "KHÁM PHÁ QUẢNG TRỊ" và slogan.
-  8. `src/features/tours/components/HomeBookingWidget.tsx`: Form có kiểm soát đặt bên phải banner, đầy đủ trường dữ liệu (Điểm đến, Ngày khởi hành ≥ hôm nay, Người lớn, Trẻ em, Loại tour, Khoảng giá) và xác thực Zod.
-  9. `src/features/tours/components/HomeHeroSection.tsx`: Kết hợp Carousel (65-70%) và Booking Widget (30-35%) trên desktop, xếp chồng trên mobile.
+  5. `src/components/UserAccountMenu.tsx`: Menu tài khoản người dùng với avatar viết tắt và menu dropdown.
+  6. `src/components/Navbar.tsx`: Header sticky, đầy đủ menu và responsive mobile drawer.
+  7. `src/features/tours/components/HomeBannerCarousel.tsx`: Carousel tự động 5.5s, chuyển mượt, overlay bóng đổ, mũi tên điều hướng, tiêu đề "KHÁM PHÁ QUẢNG TRỊ".
+  8. `src/features/tours/components/HomeBookingWidget.tsx`: Form có kiểm soát đặt bên phải banner, đầy đủ trường dữ liệu và xác thực Zod.
+  9. `src/features/tours/components/HomeHeroSection.tsx`: Kết hợp Carousel (65-70%) và Booking Widget (30-35%) trên desktop.
   10. `src/pages/HomePage.tsx`: Tích hợp Hero Section mới và kết nối bộ lọc tìm kiếm tức thì.
-- **Kiểm thử**: `npm run typecheck` và `npm run build` thành công 100% (0 lỗi).
+- **Commit Git**: `3ee1f11`
+
+### ✅ Phase 3: Danh mục địa điểm, Tour Card Tabs, Bộ sưu tập Chủ đề & Bản đồ Tương tác (Hoàn thành)
+- **Thời gian**: 2026-11-08
+- **Nội dung thực hiện**:
+  1. `src/features/tours/mockData.ts`: Mở rộng danh mục 6 nhóm địa điểm (`DESTINATION_HIGHLIGHTS`), 4 bộ sưu tập chủ đề (`THEMATIC_COLLECTIONS`), dữ liệu tọa độ GPS thực tế 6 danh thắng (`QUANG_TRI_MAP_POINTS`) và bổ sung các tour du lịch phong phú.
+  2. `src/features/tours/service.ts`: Bổ sung các hàm dịch vụ `getDestinationHighlights()`, `getThematicCollections()`, `getMapPoints()`, `getToursByTab(tab, sortByPrice)`.
+  3. `src/features/tours/components/HomeDestinationsSection.tsx`: 6 thẻ nhóm địa điểm (Lịch sử, Biển đảo, Sinh thái, Tâm linh, Văn hóa, Trải nghiệm) với hiệu ứng hover zoom ảnh, số lượng tour và tag di sản.
+  4. `src/features/tours/components/TourCardItem.tsx`: Card tour đa năng hiển thị nhãn nổi bật, giảm giá %, ngày khởi hành, số chỗ còn lại, sao đánh giá, điểm xuất phát và 2 nút "Chi tiết" / "Đặt tour".
+  5. `src/features/tours/components/HomeTourTabsSection.tsx`: Chuyển đổi linh hoạt giữa 4 Tabs (Tour Nổi Bật, Bán Chạy Nhất, Giá Ưu Đãi, Mới Nhất), bộ chọn sắp xếp theo giá và các trạng thái loading, empty.
+  6. `src/features/tours/components/HomeCollectionsSection.tsx`: Thẻ bộ sưu tập chuyên đề với bố cục hình ảnh sắc nét, badge chuyên đề và liên kết khám phá.
+  7. `src/features/tours/components/HomeInteractiveMap.tsx`: Bản đồ định vị các tọa độ di tích Quảng Trị (Vịnh Mốc, Thành Cổ, Hiền Lương, Cồn Cỏ, Tà Cơn, La Vang) kèm thẻ thông tin chi tiết và liên kết xem tour.
+  8. `src/pages/HomePage.tsx`: Tích hợp toàn diện 5 khối nội dung trải nghiệm người dùng, điều phối luồng "Đặt tour" chuyển mượt mà vào giỏ hàng (`useCartStore`) và checkout.
+- **Kiểm thử**: `npm run typecheck` và `npm run build` thành công 100% (0 lỗi TypeScript, 0 cảnh báo màu cứng).

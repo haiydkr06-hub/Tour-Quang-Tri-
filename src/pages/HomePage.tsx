@@ -1,37 +1,52 @@
-import { useState, useEffect, useRef } from 'react';
-import type { Tour, TourFilter as TourFilterType, CarouselSlide, BookingWidgetData } from '@/features/tours/types';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import type {
+  CarouselSlide,
+  BookingWidgetData,
+  DestinationHighlight,
+  TourCollection,
+  MapPoint,
+  Tour,
+} from '@/features/tours/types';
 import {
-  getTours,
   getCarouselSlides,
   getDestinationOptions,
-  filterToursByBooking,
-  ALL_LOCATIONS,
+  getDestinationHighlights,
+  getThematicCollections,
+  getMapPoints,
 } from '@/features/tours/service';
+import { useCartStore } from '@/features/cart/store';
 import { HomeHeroSection } from '@/features/tours/components/HomeHeroSection';
-import { TourFilter } from '@/features/tours/components/TourFilter';
-import { TourListView } from '@/features/tours/components/TourListView';
-
-const INITIAL_FILTER: TourFilterType = {
-  searchQuery: '',
-  maxPrice: 0,
-  selectedLocation: 'Tất cả địa danh',
-};
+import { HomeDestinationsSection } from '@/features/tours/components/HomeDestinationsSection';
+import { HomeTourTabsSection } from '@/features/tours/components/HomeTourTabsSection';
+import { HomeCollectionsSection } from '@/features/tours/components/HomeCollectionsSection';
+import { HomeInteractiveMap } from '@/features/tours/components/HomeInteractiveMap';
 
 export function HomePage() {
-  const [filter, setFilter] = useState<TourFilterType>(INITIAL_FILTER);
-  const [tours, setTours] = useState<Tour[]>([]);
+  const navigate = useNavigate();
+  const setCartItem = useCartStore((s) => s.setCartItem);
+
   const [slides, setSlides] = useState<CarouselSlide[]>([]);
   const [destOptions, setDestOptions] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isSearching, setIsSearching] = useState<boolean>(false);
-  const tourListRef = useRef<HTMLDivElement>(null);
+  const [destHighlights, setDestHighlights] = useState<DestinationHighlight[]>([]);
+  const [collections, setCollections] = useState<TourCollection[]>([]);
+  const [mapPoints, setMapPoints] = useState<MapPoint[]>([]);
 
   useEffect(() => {
     let isMounted = true;
-    Promise.all([getCarouselSlides(), getDestinationOptions()]).then(([sData, dData]) => {
+    Promise.all([
+      getCarouselSlides(),
+      getDestinationOptions(),
+      getDestinationHighlights(),
+      getThematicCollections(),
+      getMapPoints(),
+    ]).then(([sData, dData, hData, cData, mData]) => {
       if (isMounted) {
         setSlides(sData);
         setDestOptions(dData);
+        setDestHighlights(hData);
+        setCollections(cData);
+        setMapPoints(mData);
       }
     });
     return () => {
@@ -39,74 +54,53 @@ export function HomePage() {
     };
   }, []);
 
-  useEffect(() => {
-    let isMounted = true;
-    setIsLoading(true);
-
-    getTours(filter)
-      .then((data) => {
-        if (isMounted) {
-          setTours(data);
-          setIsLoading(false);
-        }
-      })
-      .catch(() => {
-        if (isMounted) setIsLoading(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [filter]);
-
-  const handleBookingSearch = async (data: BookingWidgetData) => {
-    setIsSearching(true);
-    try {
-      const results = await filterToursByBooking(data);
-      setTours(results);
-      tourListRef.current?.scrollIntoView({ behavior: 'smooth' });
-    } finally {
-      setIsSearching(false);
-    }
+  const handleBookingSearch = (_data: BookingWidgetData) => {
+    const el = document.getElementById('tour-noi-bat');
+    el?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleResetFilter = () => {
-    setFilter(INITIAL_FILTER);
+  const handleSelectCategory = (_cat: string) => {
+    const el = document.getElementById('tour-noi-bat');
+    el?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleBookTour = (tour: Tour) => {
+    setCartItem({
+      type: 'package',
+      tourId: tour.id,
+      tourTitle: tour.name,
+      destinations: tour.locations,
+      days: 1,
+      guests: 2,
+      basePrice: tour.price,
+      totalPrice: tour.price,
+    });
+    navigate('/checkout');
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 space-y-10">
-      {/* Hero Section: Banner Carousel 65-70% & Booking Widget 30-35% */}
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 space-y-16">
+      {/* 1. Hero Section: Banner Carousel & Booking Widget */}
       <HomeHeroSection
         slides={slides}
         destinationOptions={destOptions}
         onSearch={handleBookingSearch}
-        isLoading={isSearching}
       />
 
-      {/* Tour List & Quick Filter Section */}
-      <div id="tour-noi-bat" ref={tourListRef} className="scroll-mt-20 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-border pb-4">
-          <div>
-            <h2 className="text-2xl font-black text-ink">Các Tour Du Lịch Quảng Trị Tiêu Biểu</h2>
-            <p className="text-xs text-ink-muted">Khám phá vùng đất anh hùng với những hành trình trọn vẹn nhất</p>
-          </div>
-          <p className="text-xs font-semibold text-primary">Tìm thấy {tours.length} chương trình tour</p>
-        </div>
+      {/* 2. Destination Highlights: 6 categories */}
+      <HomeDestinationsSection
+        destinations={destHighlights}
+        onSelectCategory={handleSelectCategory}
+      />
 
-        <TourFilter
-          filter={filter}
-          locationOptions={ALL_LOCATIONS}
-          onChange={setFilter}
-          onReset={handleResetFilter}
-        />
+      {/* 3. Tour Cards with Tabs (Nổi bật, Bán chạy, Giá tốt, Mới nhất) */}
+      <HomeTourTabsSection onBookTour={handleBookTour} />
 
-        <TourListView
-          tours={tours}
-          isLoading={isLoading || isSearching}
-          onResetFilter={handleResetFilter}
-        />
-      </div>
+      {/* 4. Thematic Collections */}
+      <HomeCollectionsSection collections={collections} />
+
+      {/* 5. Interactive GPS Map of Quang Tri Landmarks */}
+      <HomeInteractiveMap points={mapPoints} />
     </div>
   );
 }

@@ -1,5 +1,20 @@
-import type { Tour, TourFilter, CarouselSlide, BookingWidgetData } from './types';
-import { MOCK_TOURS, CAROUSEL_SLIDES } from './mockData';
+import type {
+  Tour,
+  TourFilter,
+  TourTab,
+  CarouselSlide,
+  BookingWidgetData,
+  DestinationHighlight,
+  TourCollection,
+  MapPoint,
+} from './types';
+import {
+  MOCK_TOURS,
+  CAROUSEL_SLIDES,
+  DESTINATION_HIGHLIGHTS,
+  THEMATIC_COLLECTIONS,
+  QUANG_TRI_MAP_POINTS,
+} from './mockData';
 
 export { MOCK_TOURS, CAROUSEL_SLIDES };
 
@@ -15,17 +30,32 @@ export const ALL_LOCATIONS = [
 ];
 
 export async function getCarouselSlides(): Promise<CarouselSlide[]> {
-  await new Promise((resolve) => setTimeout(resolve, 30));
+  await new Promise((r) => setTimeout(r, 20));
   return CAROUSEL_SLIDES;
 }
 
 export async function getDestinationOptions(): Promise<string[]> {
-  await new Promise((resolve) => setTimeout(resolve, 20));
+  await new Promise((r) => setTimeout(r, 20));
   return ALL_LOCATIONS.filter((loc) => loc !== 'Tất cả địa danh');
 }
 
+export async function getDestinationHighlights(): Promise<DestinationHighlight[]> {
+  await new Promise((r) => setTimeout(r, 30));
+  return DESTINATION_HIGHLIGHTS;
+}
+
+export async function getThematicCollections(): Promise<TourCollection[]> {
+  await new Promise((r) => setTimeout(r, 30));
+  return THEMATIC_COLLECTIONS;
+}
+
+export async function getMapPoints(): Promise<MapPoint[]> {
+  await new Promise((r) => setTimeout(r, 20));
+  return QUANG_TRI_MAP_POINTS;
+}
+
 export async function getTours(filter?: TourFilter): Promise<Tour[]> {
-  await new Promise((resolve) => setTimeout(resolve, 60));
+  await new Promise((r) => setTimeout(r, 50));
   if (!filter) return MOCK_TOURS;
 
   return MOCK_TOURS.filter((tour) => {
@@ -33,28 +63,41 @@ export async function getTours(filter?: TourFilter): Promise<Tour[]> {
       filter.searchQuery.trim() === '' ||
       tour.name.toLowerCase().includes(filter.searchQuery.toLowerCase()) ||
       tour.description.toLowerCase().includes(filter.searchQuery.toLowerCase());
-
     const matchesPrice = filter.maxPrice <= 0 || tour.price <= filter.maxPrice;
-
     const matchesLocation =
       filter.selectedLocation === '' ||
       filter.selectedLocation === 'Tất cả địa danh' ||
       tour.locations.some((loc) => loc.includes(filter.selectedLocation));
-
     return matchesSearch && matchesPrice && matchesLocation;
   });
 }
 
 export async function getTourById(id: number): Promise<Tour | null> {
-  await new Promise((resolve) => setTimeout(resolve, 50));
+  await new Promise((r) => setTimeout(r, 40));
   return MOCK_TOURS.find((tour) => tour.id === id) ?? null;
 }
 
-export async function filterToursByBooking(criteria: BookingWidgetData): Promise<Tour[]> {
-  await new Promise((resolve) => setTimeout(resolve, 80));
+export async function getToursByTab(
+  tab: TourTab,
+  sortByPrice: 'asc' | 'desc' | 'none' = 'none'
+): Promise<Tour[]> {
+  await new Promise((r) => setTimeout(r, 50));
+  let list = MOCK_TOURS.filter((t) => t.tab === tab || (tab === 'featured' && t.isFeatured));
+  if (list.length === 0) {
+    list = MOCK_TOURS.slice(0, 4);
+  }
+  if (sortByPrice === 'asc') {
+    return [...list].sort((a, b) => a.price - b.price);
+  }
+  if (sortByPrice === 'desc') {
+    return [...list].sort((a, b) => b.price - a.price);
+  }
+  return list;
+}
 
+export async function filterToursByBooking(criteria: BookingWidgetData): Promise<Tour[]> {
+  await new Promise((r) => setTimeout(r, 60));
   return MOCK_TOURS.filter((tour) => {
-    // Lọc theo điểm đến
     const matchesDest =
       !criteria.destination ||
       criteria.destination === 'Tất cả địa danh' ||
@@ -63,13 +106,11 @@ export async function filterToursByBooking(criteria: BookingWidgetData): Promise
       ) ||
       tour.name.toLowerCase().includes(criteria.destination.toLowerCase());
 
-    // Lọc theo loại hình tour
     const matchesType =
       !criteria.tourType ||
       criteria.tourType === 'all' ||
       tour.category === criteria.tourType;
 
-    // Lọc theo khoảng giá
     let matchesPrice = true;
     if (criteria.priceRange === 'under-1m') {
       matchesPrice = tour.price < 1000000;
