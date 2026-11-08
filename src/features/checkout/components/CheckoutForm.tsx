@@ -10,9 +10,13 @@ export interface CheckoutFormProps {
   isSubmitting: boolean;
 }
 
-/**
- * Biểu mẫu có kiểm soát (Controlled Form) xác thực dữ liệu qua Zod schema.
- */
+const PAYMENT_METHODS = [
+  { id: 'banking', label: 'Chuyển khoản (QR)' },
+  { id: 'vnpay', label: 'Cổng VNPAY' },
+  { id: 'cash', label: 'Tiền mặt khi đi' },
+  { id: 'card', label: 'Thẻ Quốc tế' },
+] as const;
+
 export function CheckoutForm({ onSubmit, isSubmitting }: CheckoutFormProps) {
   const [formData, setFormData] = useState<BookingCustomerInfo>({
     fullName: '',
@@ -22,18 +26,15 @@ export function CheckoutForm({ onSubmit, isSubmitting }: CheckoutFormProps) {
     specialRequests: '',
     paymentMethod: 'banking',
   });
-
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const result = validateCheckoutForm(formData);
-
     if (!result.success) {
       setErrors(result.errors);
       return;
     }
-
     setErrors({});
     onSubmit(result.data);
   };
@@ -50,76 +51,64 @@ export function CheckoutForm({ onSubmit, isSubmitting }: CheckoutFormProps) {
   };
 
   return (
-    <Card>
-      <h2 className="text-lg font-bold text-ink">Thông tin khách hàng & Thanh toán</h2>
-      <p className="mt-1 text-xs text-ink-muted">
-        Vui lòng điền chính xác để chúng tôi gửi vé và bố trí Hướng dẫn viên chu đáo.
-      </p>
-
-      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+    <Card className="p-6">
+      <h2 className="text-xl font-bold text-ink mb-1">Thông Tin Đặt Tour</h2>
+      <p className="text-xs text-ink-muted mb-6">Vui lòng điền thông tin để hoàn tất xác nhận đặt tour</p>
+      <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         <TextField
-          label="Họ và tên người đặt tour *"
-          placeholder="Nguyễn Văn A"
+          id="fullName"
+          label="Họ và tên quý khách"
           value={formData.fullName}
           onChange={(e) => handleFieldChange('fullName', e.target.value)}
           error={errors.fullName}
+          required
         />
-
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <TextField
-            label="Số điện thoại liên hệ *"
-            placeholder="0912345678"
-            value={formData.phone}
-            onChange={(e) => handleFieldChange('phone', e.target.value)}
-            error={errors.phone}
-          />
-
-          <TextField
-            label="Địa chỉ Email nhận vé *"
+            id="email"
+            label="Địa chỉ Email"
             type="email"
-            placeholder="email@example.com"
             value={formData.email}
             onChange={(e) => handleFieldChange('email', e.target.value)}
             error={errors.email}
+            required
+          />
+          <TextField
+            id="phone"
+            label="Số điện thoại"
+            type="tel"
+            value={formData.phone}
+            onChange={(e) => handleFieldChange('phone', e.target.value)}
+            error={errors.phone}
+            required
           />
         </div>
-
         <TextField
-          label="Ngày khởi hành dự kiến *"
+          id="startDate"
+          label="Ngày dự kiến khởi hành"
           type="date"
           value={formData.startDate}
           onChange={(e) => handleFieldChange('startDate', e.target.value)}
           error={errors.startDate}
+          required
         />
-
         <div>
-          <label htmlFor="specialReq" className="mb-1.5 block text-sm font-medium text-ink">
-            Yêu cầu đặc biệt (Ăn chay, đoàn có người già/trẻ em...)
+          <label htmlFor="specialRequests" className="block text-sm font-medium text-ink mb-1">
+            Yêu cầu đặc biệt (tuỳ chọn)
           </label>
           <textarea
-            id="specialReq"
+            id="specialRequests"
             rows={2}
             value={formData.specialRequests}
             onChange={(e) => handleFieldChange('specialRequests', e.target.value)}
-            placeholder="Ghi chú thêm nếu có..."
-            className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-subtle focus:border-primary focus:outline-hidden"
+            className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-muted focus:border-primary focus:outline-none"
+            placeholder="Ghi chú về ăn uống, người cao tuổi, trẻ nhỏ..."
           />
-          {errors.specialRequests ? (
-            <p className="mt-1 text-xs text-danger">{errors.specialRequests}</p>
-          ) : null}
         </div>
-
-        {/* Phương thức thanh toán */}
-        <div>
-          <label className="block text-sm font-medium text-ink mb-2">
-            Phương thức thanh toán *
-          </label>
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-            {[
-              { id: 'banking', label: 'Chuyển khoản (QR)' },
-              { id: 'cash', label: 'Tiền mặt khi đi' },
-              { id: 'card', label: 'Thẻ Quốc tế' },
-            ].map((method) => (
+        <div className="space-y-2">
+          <span className="block text-sm font-medium text-ink">Phương thức thanh toán</span>
+          <div className="grid grid-cols-2 gap-2">
+            {PAYMENT_METHODS.map((method) => (
               <label
                 key={method.id}
                 className={`flex cursor-pointer items-center justify-between rounded-lg border p-3 text-xs font-medium transition-colors ${
@@ -134,23 +123,14 @@ export function CheckoutForm({ onSubmit, isSubmitting }: CheckoutFormProps) {
                   name="paymentMethod"
                   value={method.id}
                   checked={formData.paymentMethod === method.id}
-                  onChange={() =>
-                    handleFieldChange('paymentMethod', method.id as PaymentMethod)
-                  }
+                  onChange={() => handleFieldChange('paymentMethod', method.id as PaymentMethod)}
                   className="accent-primary"
                 />
               </label>
             ))}
           </div>
         </div>
-
-        <Button
-          type="submit"
-          variant="primary"
-          size="lg"
-          isLoading={isSubmitting}
-          className="w-full mt-4"
-        >
+        <Button type="submit" variant="primary" size="lg" isLoading={isSubmitting} className="w-full mt-4">
           Hoàn Tất & Đặt Tour Ngay
         </Button>
       </form>

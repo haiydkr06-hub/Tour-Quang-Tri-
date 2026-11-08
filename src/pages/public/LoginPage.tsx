@@ -28,10 +28,7 @@ export function LoginPage() {
   }
 
   const handleRedirect = (role: UserRole) => {
-    if (redirectTo) {
-      navigate(redirectTo);
-      return;
-    }
+    if (redirectTo) { navigate(redirectTo); return; }
     if (role === 'ADMIN') navigate('/admin');
     else if (['PARTNER', 'GUIDE', 'DRIVER'].includes(role)) navigate('/partner');
     else navigate('/');
@@ -41,10 +38,7 @@ export function LoginPage() {
     e.preventDefault();
     setServerError('');
     const validation = validateLoginForm(formData);
-    if (!validation.success) {
-      setFieldErrors(validation.errors);
-      return;
-    }
+    if (!validation.success) { setFieldErrors(validation.errors); return; }
     setFieldErrors({});
     setIsLoading(true);
     try {
@@ -53,114 +47,83 @@ export function LoginPage() {
         login(res.user, res.token);
         handleRedirect(res.user.role);
       } else {
-        setServerError(res.message);
+        setServerError(res.message || 'Đăng nhập thất bại.');
       }
+    } catch (err) {
+      setServerError(err instanceof Error ? err.message : 'Đăng nhập thất bại.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleDemo = async (acc: typeof DEMO_ACCOUNTS[0]) => {
+  const handleDemo = (acc: (typeof DEMO_ACCOUNTS)[number]) => {
+    setFormData({ identifier: acc.email, password: acc.password, rememberMe: true });
+    setFieldErrors({});
     setServerError('');
-    setIsLoading(true);
-    try {
-      const res = await loginApi({ identifier: acc.email, password: acc.password });
-      if (res.success && res.user && res.token) {
-        login(res.user, res.token);
-        handleRedirect(res.user.role);
-      }
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   return (
-    <div className="mx-auto flex min-h-[80vh] max-w-md items-center justify-center px-4 py-8">
-      <Card className="w-full">
-        <div className="text-center">
-          <span className="text-3xl">🏛️</span>
-          <h1 className="mt-2 text-2xl font-bold text-ink">Đăng Nhập Hệ Thống</h1>
-          <p className="mt-1 text-xs text-ink-muted">Quản lý và Đặt Tour Du Lịch Quảng Trị</p>
+    <div className="mx-auto flex min-h-[calc(100vh-16rem)] max-w-md items-center justify-center px-4 py-12">
+      <Card className="w-full p-8 shadow-xl">
+        <div className="mb-6 text-center">
+          <h1 className="text-2xl font-bold tracking-tight text-ink">Đăng Nhập Hệ Thống</h1>
+          <p className="mt-1 text-xs text-ink-muted">Cổng thông tin & dịch vụ du lịch tỉnh Quảng Trị</p>
         </div>
-
-        {serverError ? (
-          <div className="mt-4 rounded-lg bg-danger/10 p-3 text-xs text-danger border border-danger/20" role="alert">
-            {serverError}
-          </div>
-        ) : null}
-
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+        {serverError && (
+          <div className="mb-4 rounded-lg bg-red-500/10 border border-red-500/30 p-3 text-xs text-red-600 font-medium">{serverError}</div>
+        )}
+        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <TextField
-            label="Email hoặc Số điện thoại *"
+            id="identifier"
+            label="Email hoặc Tên đăng nhập"
             value={formData.identifier}
-            onChange={(e) => setFormData((p) => ({ ...p, identifier: e.target.value }))}
+            onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
             error={fieldErrors.identifier}
+            placeholder="vd: admin@quangtri.vn"
             required
           />
-
           <TextField
-            label="Mật khẩu *"
+            id="password"
+            label="Mật khẩu"
             type="password"
             value={formData.password}
-            onChange={(e) => setFormData((p) => ({ ...p, password: e.target.value }))}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             error={fieldErrors.password}
             required
           />
-
           <div className="flex items-center justify-between text-xs">
-            <label className="flex items-center gap-2 cursor-pointer text-ink">
+            <label className="flex items-center gap-2 text-ink cursor-pointer">
               <input
                 type="checkbox"
                 checked={formData.rememberMe}
-                onChange={(e) => setFormData((p) => ({ ...p, rememberMe: e.target.checked }))}
-                className="rounded accent-primary"
+                onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
+                className="rounded border-border text-primary focus:ring-primary accent-primary"
               />
               Ghi nhớ đăng nhập
             </label>
-            <button
-              type="button"
-              onClick={() => setIsForgotModalOpen(true)}
-              className="text-primary hover:underline cursor-pointer"
-            >
+            <button type="button" onClick={() => setIsForgotModalOpen(true)} className="text-primary hover:underline cursor-pointer">
               Quên mật khẩu?
             </button>
           </div>
-
           <Button type="submit" variant="primary" size="lg" isLoading={isLoading} className="w-full">
             Đăng Nhập
           </Button>
         </form>
-
         <div className="mt-6 border-t border-border pt-4">
           <p className="text-xs text-ink-muted mb-2 font-medium text-center">Tài khoản Demo (5 Vai Trò):</p>
           <div className="grid grid-cols-2 gap-1.5 text-[11px]">
             {DEMO_ACCOUNTS.map((acc) => (
-              <Button
-                key={acc.role}
-                variant="outline"
-                size="sm"
-                className="py-1 px-2 text-[11px] justify-start truncate"
-                onClick={() => handleDemo(acc)}
-              >
+              <Button key={acc.role} variant="outline" size="sm" className="py-1 px-2 text-[11px] justify-start truncate" onClick={() => handleDemo(acc)}>
                 {acc.label}
               </Button>
             ))}
           </div>
         </div>
-
         <div className="mt-6 border-t border-border pt-4 text-center text-xs text-ink-muted space-y-2">
-          <p>
-            Chưa có tài khoản?{' '}
-            <Link to="/register" className="font-semibold text-primary hover:underline">
-              Đăng ký ngay
-            </Link>
-          </p>
-          <Link to="/" className="inline-block text-ink-muted hover:text-ink">
-            ← Quay lại trang chủ
-          </Link>
+          <p>Chưa có tài khoản? <Link to="/register" className="font-semibold text-primary hover:underline">Đăng ký ngay</Link></p>
+          <Link to="/" className="inline-block text-ink-muted hover:text-ink">← Quay lại trang chủ</Link>
         </div>
       </Card>
-
       <ForgotPasswordModal isOpen={isForgotModalOpen} onClose={() => setIsForgotModalOpen(false)} />
     </div>
   );

@@ -14,7 +14,6 @@ export function HomeBookingWidget({
   isLoading = false,
 }: HomeBookingWidgetProps) {
   const todayStr = new Date().toISOString().split('T')[0];
-
   const [formData, setFormData] = useState<BookingWidgetData>({
     destination: 'Tất cả địa danh',
     departureDate: todayStr,
@@ -23,18 +22,15 @@ export function HomeBookingWidget({
     tourType: 'all',
     priceRange: 'all',
   });
-
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const result = validateBookingWidget(formData);
-
     if (!result.success) {
       setErrors(result.errors);
       return;
     }
-
     setErrors({});
     onSearch(result.data);
   };
@@ -48,11 +44,9 @@ export function HomeBookingWidget({
         <p className="text-xs text-ink-muted">Khởi hành thuận tiện, lịch trình chuẩn xác</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-3.5">
+      <form onSubmit={handleSubmit} className="space-y-3">
         <div>
-          <label htmlFor="bw-dest" className="block text-xs font-semibold text-ink mb-1">
-            Điểm đến mong muốn
-          </label>
+          <label htmlFor="bw-dest" className="block text-xs font-semibold text-ink mb-1">Điểm đến</label>
           <select
             id="bw-dest"
             value={formData.destination}
@@ -60,17 +54,13 @@ export function HomeBookingWidget({
             className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-xs text-ink focus:border-primary focus:outline-none"
           >
             <option value="Tất cả địa danh">Tất cả địa danh nổi tiếng</option>
-            {destinationOptions.map((opt) => (
-              <option key={opt} value={opt}>{opt}</option>
-            ))}
+            {destinationOptions.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
           </select>
           {errors.destination && <p className="text-[11px] text-red-500 mt-0.5">{errors.destination}</p>}
         </div>
 
         <div>
-          <label htmlFor="bw-date" className="block text-xs font-semibold text-ink mb-1">
-            Ngày khởi hành
-          </label>
+          <label htmlFor="bw-date" className="block text-xs font-semibold text-ink mb-1">Ngày khởi hành</label>
           <input
             id="bw-date"
             type="date"
@@ -84,9 +74,7 @@ export function HomeBookingWidget({
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label htmlFor="bw-adults" className="block text-xs font-semibold text-ink mb-1">
-              Người lớn (≥ 12 tuổi)
-            </label>
+            <label htmlFor="bw-adults" className="block text-xs font-semibold text-ink mb-1">Người lớn (≥12t)</label>
             <input
               id="bw-adults"
               type="number"
@@ -100,9 +88,7 @@ export function HomeBookingWidget({
           </div>
 
           <div>
-            <label htmlFor="bw-children" className="block text-xs font-semibold text-ink mb-1">
-              Trẻ em (&lt; 12 tuổi)
-            </label>
+            <label htmlFor="bw-children" className="block text-xs font-semibold text-ink mb-1">Trẻ em (&lt;12t)</label>
             <input
               id="bw-children"
               type="number"
@@ -118,9 +104,7 @@ export function HomeBookingWidget({
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label htmlFor="bw-type" className="block text-xs font-semibold text-ink mb-1">
-              Loại hình tour
-            </label>
+            <label htmlFor="bw-type" className="block text-xs font-semibold text-ink mb-1">Loại hình tour</label>
             <select
               id="bw-type"
               value={formData.tourType}
@@ -136,9 +120,7 @@ export function HomeBookingWidget({
           </div>
 
           <div>
-            <label htmlFor="bw-price" className="block text-xs font-semibold text-ink mb-1">
-              Khoảng giá
-            </label>
+            <label htmlFor="bw-price" className="block text-xs font-semibold text-ink mb-1">Khoảng giá</label>
             <select
               id="bw-price"
               value={formData.priceRange}
