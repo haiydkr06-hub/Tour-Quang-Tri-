@@ -4,6 +4,8 @@ import type {
   DestinationHighlight,
   TourCollection,
   MapPoint,
+  TourReview,
+  TravelArticle,
 } from './types';
 
 export const CAROUSEL_SLIDES: CarouselSlide[] = [
@@ -408,5 +410,95 @@ export const QUANG_TRI_MAP_POINTS: MapPoint[] = [
     description: 'Trung tâm hành hương Công giáo cổ kính, nổi tiếng với kiến trúc tháp chuông.',
     imageUrl: 'https://images.unsplash.com/photo-1548625361-16a7f957864f?auto=format&fit=crop&w=400&q=80',
     tourId: 6,
+  },
+];
+
+export const CUSTOMER_REVIEWS: TourReview[] = [
+  {
+    id: 'rev-1',
+    authorName: 'Nguyễn Văn Hùng',
+    authorLocation: 'Hà Nội',
+    authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
+    rating: 5,
+    tourName: 'Ký ức 81 Ngày Đêm — Thành Cổ Quảng Trị & Thạch Hãn',
+    reviewDate: '28/10/2026',
+    content:
+      'Chuyến đi vô cùng xúc động và thiêng liêng. Anh hướng dẫn viên địa phương am hiểu sâu sắc từng tấc đất Thành Cổ, kể chuyện khiến cả đoàn rơi nước mắt. Bữa trưa bánh bột lọc và nem lụi Mai Lĩnh rất ngon!',
+  },
+  {
+    id: 'rev-2',
+    authorName: 'Trần Thị Mai Lan',
+    authorLocation: 'TP. Hồ Chí Minh',
+    authorAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80',
+    rating: 5,
+    tourName: 'Du Lịch Biển Đảo — Khám Phá Hòn Ngọc Xanh Cồn Cỏ (2N1Đ)',
+    reviewDate: '15/10/2026',
+    content:
+      'Đảo Cồn Cỏ tuyệt đẹp, nước biển trong vắt nhìn thấy cả rạn san hô dưới đáy. Tàu cao tốc đi êm, chỉ mất 40 phút từ Cảng Cửa Việt. Hải sản tươi rói, người dân đảo thân thiện nhiệt tình. Chắc chắn sẽ quay lại!',
+  },
+  {
+    id: 'rev-3',
+    authorName: 'Lê Hoàng Long',
+    authorLocation: 'Đà Nẵng',
+    authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
+    rating: 5,
+    tourName: 'Huyền Thoại Lòng Đất — Địa Đạo Vịnh Mốc & Biển Cửa Tùng',
+    reviewDate: '02/10/2026',
+    content:
+      'Địa đạo Vịnh Mốc thực sự là một kỳ quan lòng đất. Cả gia đình tôi rất ấn tượng với cách bảo tồn nguyên vẹn các công trình sống ngầm. Khâu tổ chức xe đưa đón và chăm sóc khách cực kỳ chu đáo.',
+  },
+  {
+    id: 'rev-4',
+    authorName: 'Phạm Minh Trang',
+    authorLocation: 'Hải Phòng',
+    authorAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
+    rating: 4.8,
+    tourName: 'Khúc Tráng Ca Đường 9 — Khe Sanh, Tà Cơn & Lao Bảo',
+    reviewDate: '20/09/2026',
+    content:
+      'Hành trình ngược ngàn đường 9 rất thú vị, phong cảnh đèo dốc hùng vĩ và không khí trong lành mát mẻ ở Khe Sanh. Được tận mắt chứng kiến xác phi cơ Tà Cơn thật choáng ngợp!',
+  },
+];
+
+export const TRAVEL_ARTICLES: TravelArticle[] = [
+  {
+    id: 'art-kinh-nghiem-vinh-moc',
+    title: 'Kinh nghiệm khám phá Địa đạo Vịnh Mốc — Cẩm nang chi tiết từ A đến Z',
+    category: 'Kinh nghiệm',
+    readTime: '5 phút đọc',
+    date: '02/11/2026',
+    imageUrl: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80',
+    summary:
+      'Hướng dẫn lộ trình di chuyển, trang phục phù hợp khi đi sâu vào lòng đất và những góc check-in di sản lịch sử không thể bỏ lỡ tại Vĩnh Linh.',
+  },
+  {
+    id: 'art-am-thuc-quang-tri',
+    title: 'Top 7 món ngon đặc sản Quảng Trị làm say lòng du khách phương xa',
+    category: 'Ẩm thực',
+    readTime: '4 phút đọc',
+    date: '28/10/2026',
+    imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80',
+    summary:
+      'Thưởng thức bánh ướt Phương Lang, cháo bột cá lóc Hải Lăng, lòng sả An Tiêm và thịt dê núi Khe Sanh cay nồng chuẩn vị miền gió Lào.',
+  },
+  {
+    id: 'art-con-co-cam-nang',
+    title: 'Lịch trình du lịch đảo Cồn Cỏ 2 ngày 1 đêm trọn gói tiết kiệm nhất',
+    category: 'Lưu trú',
+    readTime: '6 phút đọc',
+    date: '22/10/2026',
+    imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80',
+    summary:
+      'Chi tiết giờ tàu xuất bến tại Cảng Cửa Việt, thông tin homestay sinh thái trên đảo, điểm ngắm bình minh Mũi Nghè và dịch vụ thuê xe điện.',
+  },
+  {
+    id: 'art-le-hoi-thanh-co',
+    title: 'Lễ hội Đêm hoa đăng tri ân sông Thạch Hãn — Nét văn hóa tri ân thiêng liêng',
+    category: 'Lễ hội',
+    readTime: '4 phút đọc',
+    date: '15/10/2026',
+    imageUrl: 'https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?auto=format&fit=crop&w=600&q=80',
+    summary:
+      'Hòa mình vào không gian hoa đăng lung linh dòng Thạch Hãn mỗi dịp ngày rằm, lắng đọng khúc ca tưởng nhớ những người lính tuổi đôi mươi.',
   },
 ];

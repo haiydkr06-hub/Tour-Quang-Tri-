@@ -43,12 +43,23 @@
 ### ✅ Phase 3: Danh mục địa điểm, Tour Card Tabs, Bộ sưu tập Chủ đề & Bản đồ Tương tác (Hoàn thành)
 - **Thời gian**: 2026-11-08
 - **Nội dung thực hiện**:
-  1. `src/features/tours/mockData.ts`: Mở rộng danh mục 6 nhóm địa điểm (`DESTINATION_HIGHLIGHTS`), 4 bộ sưu tập chủ đề (`THEMATIC_COLLECTIONS`), dữ liệu tọa độ GPS thực tế 6 danh thắng (`QUANG_TRI_MAP_POINTS`) và bổ sung các tour du lịch phong phú.
-  2. `src/features/tours/service.ts`: Bổ sung các hàm dịch vụ `getDestinationHighlights()`, `getThematicCollections()`, `getMapPoints()`, `getToursByTab(tab, sortByPrice)`.
-  3. `src/features/tours/components/HomeDestinationsSection.tsx`: 6 thẻ nhóm địa điểm (Lịch sử, Biển đảo, Sinh thái, Tâm linh, Văn hóa, Trải nghiệm) với hiệu ứng hover zoom ảnh, số lượng tour và tag di sản.
-  4. `src/features/tours/components/TourCardItem.tsx`: Card tour đa năng hiển thị nhãn nổi bật, giảm giá %, ngày khởi hành, số chỗ còn lại, sao đánh giá, điểm xuất phát và 2 nút "Chi tiết" / "Đặt tour".
-  5. `src/features/tours/components/HomeTourTabsSection.tsx`: Chuyển đổi linh hoạt giữa 4 Tabs (Tour Nổi Bật, Bán Chạy Nhất, Giá Ưu Đãi, Mới Nhất), bộ chọn sắp xếp theo giá và các trạng thái loading, empty.
-  6. `src/features/tours/components/HomeCollectionsSection.tsx`: Thẻ bộ sưu tập chuyên đề với bố cục hình ảnh sắc nét, badge chuyên đề và liên kết khám phá.
-  7. `src/features/tours/components/HomeInteractiveMap.tsx`: Bản đồ định vị các tọa độ di tích Quảng Trị (Vịnh Mốc, Thành Cổ, Hiền Lương, Cồn Cỏ, Tà Cơn, La Vang) kèm thẻ thông tin chi tiết và liên kết xem tour.
-  8. `src/pages/HomePage.tsx`: Tích hợp toàn diện 5 khối nội dung trải nghiệm người dùng, điều phối luồng "Đặt tour" chuyển mượt mà vào giỏ hàng (`useCartStore`) và checkout.
-- **Kiểm thử**: `npm run typecheck` và `npm run build` thành công 100% (0 lỗi TypeScript, 0 cảnh báo màu cứng).
+  1. `src/features/tours/mockData.ts`: Mở rộng danh mục 6 nhóm địa điểm (`DESTINATION_HIGHLIGHTS`), 4 bộ sưu tập chủ đề (`THEMATIC_COLLECTIONS`), dữ liệu tọa độ GPS thực tế 6 danh thắng (`QUANG_TRI_MAP_POINTS`) và các tour phong phú.
+  2. `src/features/tours/service.ts`: Cung cấp `getDestinationHighlights()`, `getThematicCollections()`, `getMapPoints()`, `getToursByTab()`.
+  3. `src/features/tours/components/HomeDestinationsSection.tsx`: 6 thẻ nhóm địa điểm với hiệu ứng hover zoom ảnh.
+  4. `src/features/tours/components/TourCardItem.tsx`: Card tour hiển thị chi tiết thông tin, giá, ngày, số chỗ, sao đánh giá.
+  5. `src/features/tours/components/HomeTourTabsSection.tsx`: Chuyển đổi 4 Tabs tour, bộ lọc sắp xếp giá và trạng thái loading, empty.
+  6. `src/features/tours/components/HomeCollectionsSection.tsx`: Bộ sưu tập chuyên đề Quảng Trị.
+  7. `src/features/tours/components/HomeInteractiveMap.tsx`: Bản đồ định vị các tọa độ di tích Quảng Trị kèm thẻ chi tiết.
+  8. `src/pages/HomePage.tsx`: Tích hợp 5 phân đoạn và điều hướng đặt tour vào giỏ hàng.
+- **Commit Git**: `6dff2ed`
+
+### ✅ Phase 4: Đánh giá khách hàng, Cẩm nang du lịch & Footer chuyên nghiệp (Hoàn thành)
+- **Thời gian**: 2026-11-08
+- **Nội dung thực hiện**:
+  1. `src/features/tours/mockData.ts`: Bổ sung đánh giá thực tế từ khách hàng (`CUSTOMER_REVIEWS`) và cẩm nang kinh nghiệm, ẩm thực, lưu trú, lễ hội (`TRAVEL_ARTICLES`).
+  2. `src/features/tours/service.ts`: Bổ sung hàm async `getCustomerReviews()` và `getTravelArticles(category)`.
+  3. `src/features/tours/components/HomeReviewsSection.tsx`: Khối đánh giá khách hàng (sao, ảnh đại diện, địa phương, tour đã trải nghiệm, huy hiệu xác thực và điểm tổng quan 4.9/5).
+  4. `src/features/tours/components/HomeTravelArticlesSection.tsx`: Khối cẩm nang du lịch Quảng Trị kèm bộ lọc danh mục (Tất cả, Kinh nghiệm, Ẩm thực, Lưu trú, Lễ hội), thời gian đọc và tóm tắt bài viết.
+  5. `src/components/Footer.tsx`: Nâng cấp chân trang chuyên nghiệp với thông tin trụ sở TP. Đông Hà, hotline 24/7, email hỗ trợ, giấy phép lữ hành, liên kết di sản, dịch vụ, chính sách và các đối tác thanh toán (VNPAY, MoMo, Visa, ATM).
+  6. `src/pages/HomePage.tsx`: Tích hợp đầy đủ các khối nội dung, đảm bảo phân trang mượt mà và trực quan.
+- **Kiểm thử**: `npm run typecheck` và `npm run build` thành công 100% (0 lỗi TypeScript, 0 lỗi CSS).

@@ -7,6 +7,8 @@ import type {
   DestinationHighlight,
   TourCollection,
   MapPoint,
+  TourReview,
+  TravelArticle,
 } from './types';
 import {
   MOCK_TOURS,
@@ -14,6 +16,8 @@ import {
   DESTINATION_HIGHLIGHTS,
   THEMATIC_COLLECTIONS,
   QUANG_TRI_MAP_POINTS,
+  CUSTOMER_REVIEWS,
+  TRAVEL_ARTICLES,
 } from './mockData';
 
 export { MOCK_TOURS, CAROUSEL_SLIDES };
@@ -54,8 +58,19 @@ export async function getMapPoints(): Promise<MapPoint[]> {
   return QUANG_TRI_MAP_POINTS;
 }
 
+export async function getCustomerReviews(): Promise<TourReview[]> {
+  await new Promise((r) => setTimeout(r, 30));
+  return CUSTOMER_REVIEWS;
+}
+
+export async function getTravelArticles(category?: string): Promise<TravelArticle[]> {
+  await new Promise((r) => setTimeout(r, 30));
+  if (!category || category === 'Tất cả') return TRAVEL_ARTICLES;
+  return TRAVEL_ARTICLES.filter((a) => a.category === category);
+}
+
 export async function getTours(filter?: TourFilter): Promise<Tour[]> {
-  await new Promise((r) => setTimeout(r, 50));
+  await new Promise((r) => setTimeout(r, 40));
   if (!filter) return MOCK_TOURS;
 
   return MOCK_TOURS.filter((tour) => {
@@ -73,7 +88,7 @@ export async function getTours(filter?: TourFilter): Promise<Tour[]> {
 }
 
 export async function getTourById(id: number): Promise<Tour | null> {
-  await new Promise((r) => setTimeout(r, 40));
+  await new Promise((r) => setTimeout(r, 30));
   return MOCK_TOURS.find((tour) => tour.id === id) ?? null;
 }
 
@@ -81,7 +96,7 @@ export async function getToursByTab(
   tab: TourTab,
   sortByPrice: 'asc' | 'desc' | 'none' = 'none'
 ): Promise<Tour[]> {
-  await new Promise((r) => setTimeout(r, 50));
+  await new Promise((r) => setTimeout(r, 40));
   let list = MOCK_TOURS.filter((t) => t.tab === tab || (tab === 'featured' && t.isFeatured));
   if (list.length === 0) {
     list = MOCK_TOURS.slice(0, 4);
@@ -96,7 +111,7 @@ export async function getToursByTab(
 }
 
 export async function filterToursByBooking(criteria: BookingWidgetData): Promise<Tour[]> {
-  await new Promise((r) => setTimeout(r, 60));
+  await new Promise((r) => setTimeout(r, 50));
   return MOCK_TOURS.filter((tour) => {
     const matchesDest =
       !criteria.destination ||

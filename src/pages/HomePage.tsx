@@ -6,6 +6,8 @@ import type {
   DestinationHighlight,
   TourCollection,
   MapPoint,
+  TourReview,
+  TravelArticle,
   Tour,
 } from '@/features/tours/types';
 import {
@@ -14,6 +16,8 @@ import {
   getDestinationHighlights,
   getThematicCollections,
   getMapPoints,
+  getCustomerReviews,
+  getTravelArticles,
 } from '@/features/tours/service';
 import { useCartStore } from '@/features/cart/store';
 import { HomeHeroSection } from '@/features/tours/components/HomeHeroSection';
@@ -21,6 +25,8 @@ import { HomeDestinationsSection } from '@/features/tours/components/HomeDestina
 import { HomeTourTabsSection } from '@/features/tours/components/HomeTourTabsSection';
 import { HomeCollectionsSection } from '@/features/tours/components/HomeCollectionsSection';
 import { HomeInteractiveMap } from '@/features/tours/components/HomeInteractiveMap';
+import { HomeReviewsSection } from '@/features/tours/components/HomeReviewsSection';
+import { HomeTravelArticlesSection } from '@/features/tours/components/HomeTravelArticlesSection';
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -31,6 +37,8 @@ export function HomePage() {
   const [destHighlights, setDestHighlights] = useState<DestinationHighlight[]>([]);
   const [collections, setCollections] = useState<TourCollection[]>([]);
   const [mapPoints, setMapPoints] = useState<MapPoint[]>([]);
+  const [reviews, setReviews] = useState<TourReview[]>([]);
+  const [articles, setArticles] = useState<TravelArticle[]>([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -40,13 +48,17 @@ export function HomePage() {
       getDestinationHighlights(),
       getThematicCollections(),
       getMapPoints(),
-    ]).then(([sData, dData, hData, cData, mData]) => {
+      getCustomerReviews(),
+      getTravelArticles(),
+    ]).then(([sData, dData, hData, cData, mData, rData, aData]) => {
       if (isMounted) {
         setSlides(sData);
         setDestOptions(dData);
         setDestHighlights(hData);
         setCollections(cData);
         setMapPoints(mData);
+        setReviews(rData);
+        setArticles(aData);
       }
     });
     return () => {
@@ -55,13 +67,11 @@ export function HomePage() {
   }, []);
 
   const handleBookingSearch = (_data: BookingWidgetData) => {
-    const el = document.getElementById('tour-noi-bat');
-    el?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('tour-noi-bat')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleSelectCategory = (_cat: string) => {
-    const el = document.getElementById('tour-noi-bat');
-    el?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('tour-noi-bat')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleBookTour = (tour: Tour) => {
@@ -80,27 +90,26 @@ export function HomePage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 space-y-16">
-      {/* 1. Hero Section: Banner Carousel & Booking Widget */}
       <HomeHeroSection
         slides={slides}
         destinationOptions={destOptions}
         onSearch={handleBookingSearch}
       />
 
-      {/* 2. Destination Highlights: 6 categories */}
       <HomeDestinationsSection
         destinations={destHighlights}
         onSelectCategory={handleSelectCategory}
       />
 
-      {/* 3. Tour Cards with Tabs (Nổi bật, Bán chạy, Giá tốt, Mới nhất) */}
       <HomeTourTabsSection onBookTour={handleBookTour} />
 
-      {/* 4. Thematic Collections */}
       <HomeCollectionsSection collections={collections} />
 
-      {/* 5. Interactive GPS Map of Quang Tri Landmarks */}
       <HomeInteractiveMap points={mapPoints} />
+
+      <HomeReviewsSection reviews={reviews} />
+
+      <HomeTravelArticlesSection articles={articles} />
     </div>
   );
 }
