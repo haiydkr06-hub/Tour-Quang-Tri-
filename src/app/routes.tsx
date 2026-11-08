@@ -8,13 +8,12 @@ import { PartnerDashboard } from '@/pages/PartnerDashboard';
 import { AdminDashboard } from '@/pages/AdminDashboard';
 import { LoginPage } from '@/pages/public/LoginPage';
 import { RegisterPage } from '@/pages/public/RegisterPage';
+import { ToursPage } from '@/pages/public/ToursPage';
+import { AboutPage } from '@/pages/public/AboutPage';
+import { ContactPage } from '@/pages/public/ContactPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { RoleGuard } from '@/features/auth/components/RoleGuard';
 
-/**
- * Danh sách định tuyến ứng dụng chuẩn React Router 8 (Data Mode).
- * Phân quyền truy cập theo 5 vai trò (ADMIN, CUSTOMER, PARTNER, GUIDE, DRIVER) bằng RoleGuard.
- */
 export const routes: RouteObject[] = [
   {
     path: '/',
@@ -25,8 +24,20 @@ export const routes: RouteObject[] = [
         element: <HomePage />,
       },
       {
+        path: 'tours',
+        element: <ToursPage />,
+      },
+      {
         path: 'tours/:id',
         element: <TourDetailPage />,
+      },
+      {
+        path: 'about',
+        element: <AboutPage />,
+      },
+      {
+        path: 'contact',
+        element: <ContactPage />,
       },
       {
         path: 'custom-tour',

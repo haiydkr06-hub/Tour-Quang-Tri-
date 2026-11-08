@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
-import { Button } from './ui/Button';
-import { Badge } from './ui/Badge';
+import { NAV_ITEMS } from '@/features/navigation/data';
+import { DesktopNavLinks } from '@/features/navigation/components/DesktopNavLinks';
+import { MobileNavDrawer } from '@/features/navigation/components/MobileNavDrawer';
 import { UserAccountMenu } from './UserAccountMenu';
+import { Button } from './ui/Button';
 
 export interface NavbarProps {
   theme: 'light' | 'dark';
@@ -13,16 +15,6 @@ export interface NavbarProps {
   onLogout: () => void;
 }
 
-const NAV_LINKS = [
-  { label: 'Trang chủ', to: '/' },
-  { label: 'Khám phá', to: '/#kham-pha' },
-  { label: 'Tour', to: '/#tour-noi-bat' },
-  { label: 'Lịch trình', to: '/custom-tour' },
-  { label: 'Ưu đãi', to: '/#uu-dai' },
-  { label: 'Giới thiệu', to: '/#gioi-thieu' },
-  { label: 'Liên hệ', to: '/#lien-he' },
-];
-
 export function Navbar({
   theme,
   onToggleTheme,
@@ -31,11 +23,29 @@ export function Navbar({
   cartCount,
   onLogout,
 }: NavbarProps) {
+  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-surface-card/95 backdrop-blur-md transition-colors">
+    <header
+      role="banner"
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-surface/95 backdrop-blur-md shadow-md border-b border-border text-ink'
+          : 'bg-surface/80 backdrop-blur-sm border-b border-border/40 text-ink'
+      }`}
+    >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        {/* Brand Logo */}
         <Link to="/" className="flex items-center gap-2">
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white text-lg font-black shadow-sm">
             QT
@@ -46,33 +56,10 @@ export function Navbar({
           </div>
         </Link>
 
-        {/* Desktop Nav Links */}
-        <nav className="hidden xl:flex items-center gap-5 text-sm font-medium">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className="text-ink hover:text-primary transition-colors"
-            >
-              {link.label}
-            </Link>
-          ))}
-          <Link
-            to="/checkout"
-            className="flex items-center gap-1.5 text-ink hover:text-primary transition-colors"
-            title="Tour yêu thích / Giỏ tour"
-          >
-            <span>❤️</span>
-            <span>Yêu thích</span>
-            {cartCount > 0 && (
-              <Badge variant="primary" className="px-1.5 py-0 text-[10px]">
-                {cartCount}
-              </Badge>
-            )}
-          </Link>
-        </nav>
+        {/* Desktop Navigation */}
+        <DesktopNavLinks navItems={NAV_ITEMS} cartCount={cartCount} />
 
-        {/* Action Controls */}
+        {/* Action Controls: Theme, User Auth, Mobile Toggle */}
         <div className="flex items-center gap-2 sm:gap-3">
           <button
             type="button"
@@ -87,56 +74,34 @@ export function Navbar({
             <UserAccountMenu user={user} role={role} onLogout={onLogout} />
           ) : (
             <div className="flex items-center gap-2">
-              <Link to="/login">
-                <Button variant="outline" size="sm">
-                  Đăng nhập
-                </Button>
-              </Link>
-              <Link to="/register" className="hidden sm:inline-block">
-                <Button variant="primary" size="sm">
-                  Đăng ký
-                </Button>
-              </Link>
+              <Link to="/login"><Button variant="outline" size="sm">Đăng nhập</Button></Link>
+              <Link to="/register" className="hidden sm:inline-block"><Button variant="primary" size="sm">Đăng ký</Button></Link>
             </div>
           )}
 
-          {/* Mobile menu trigger */}
+          {/* Mobile Disclosure Button */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen((p) => !p)}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation-disclosure"
+            aria-label={mobileMenuOpen ? 'Đóng menu điều hướng' : 'Mở menu điều hướng'}
             className="xl:hidden rounded-lg border border-border p-2 text-ink hover:bg-surface-alt transition-colors cursor-pointer"
-            aria-label="Mở menu điều hướng"
           >
             {mobileMenuOpen ? '✕' : '☰'}
           </button>
         </div>
       </div>
 
-      {/* Mobile Nav Drawer */}
-      {mobileMenuOpen && (
-        <div className="border-b border-border bg-surface-card px-4 py-3 xl:hidden shadow-lg animate-in fade-in">
-          <div className="flex flex-col gap-2 text-sm font-medium">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                onClick={() => setMobileMenuOpen(false)}
-                className="rounded-lg px-3 py-2 text-ink hover:bg-surface-alt"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              to="/checkout"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-between rounded-lg px-3 py-2 text-ink hover:bg-surface-alt"
-            >
-              <span>❤️ Tour yêu thích / Giỏ</span>
-              {cartCount > 0 && <Badge variant="primary">{cartCount}</Badge>}
-            </Link>
-          </div>
-        </div>
-      )}
+      {/* Mobile Nav Disclosure Drawer */}
+      <MobileNavDrawer
+        navItems={NAV_ITEMS}
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+        cartCount={cartCount}
+      />
     </header>
   );
 }
+
+export { Navbar as Header };
