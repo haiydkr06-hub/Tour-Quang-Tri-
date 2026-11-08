@@ -42,8 +42,22 @@
      - `loginSchema`: Xác thực tên đăng nhập/email và mật khẩu.
      - `registerSchema`: Xác thực họ tên, email, số điện thoại chuẩn Việt Nam (10 chữ số), độ phức tạp mật khẩu (chữ + số), mật khẩu xác nhận trùng khớp, và bắt buộc đồng ý điều khoản.
      - `forgotPasswordSchema`: Xác thực định dạng email nhận mã khôi phục.
-     - Các hàm kiểm tra an toàn: `validateLoginForm`, `validateRegisterForm`, `validateForgotPasswordForm` nhận dữ liệu kiểu `unknown` và thu hẹp an toàn qua Zod.
-  3. Kiểm tra chất lượng code (Vibe Coding Loop):
+     - Các hàm kiểm tra an toàn: `validateLoginForm`, `validateRegisterForm`, `validateForgotPasswordForm` nhận kiểu `unknown` và thu hẹp an toàn qua Zod.
+  3. Vibe Coding Check: Typecheck & Build xanh 100%. Đã push Git repo.
+
+### ✅ Phase 3: Login Interface (Hoàn thành)
+- **Thời gian hoàn thành**: 2026-11-08
+- **Nội dung thực hiện**:
+  1. Dựng trang Đăng nhập công khai [`src/pages/public/LoginPage.tsx`](file:///d:/Tour%20QuangTri/src/pages/public/LoginPage.tsx):
+     - Áp dụng mô hình Biểu mẫu có kiểm soát (**Controlled Form**).
+     - Các trường nhập liệu: Email/Tên đăng nhập, Mật khẩu (có nút ẩn/hiện), Checkbox Ghi nhớ đăng nhập (Remember me).
+     - Rà soát dữ liệu đầu vào bằng `validateLoginForm` (Zod schema) hiển thị lỗi chuẩn xác theo từng trường.
+     - Trạng thái `isLoading` xử lý mượt mà khi người dùng submit.
+     - Tích hợp cụm nút chọn nhanh 5 tài khoản demo tương ứng 5 vai trò (`ADMIN`, `CUSTOMER`, `PARTNER`, `GUIDE`, `DRIVER`).
+     - Tự động điều hướng thông minh theo quyền: `ADMIN` ➔ `/admin`, `PARTNER`/`GUIDE`/`DRIVER` ➔ `/partner`, `CUSTOMER` ➔ `/`.
+  2. Xây dựng modal khôi phục mật khẩu [`src/features/auth/components/ForgotPasswordModal.tsx`](file:///d:/Tour%20QuangTri/src/features/auth/components/ForgotPasswordModal.tsx) kết nối trực tiếp với `forgotPasswordApi`.
+  3. Cập nhật `routes.tsx` bổ sung tuyến `/login` và cập nhật liên kết đăng nhập trên `Navbar.tsx`.
+  4. Kiểm tra chất lượng code (Vibe Coding Loop):
      - `npm run typecheck`: Xanh (0 lỗi).
-     - `npm run build`: Xanh (Build thành công trong 3.09s).
-- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 3 (Login Interface).
+     - `npm run build`: Xanh (Build thành công trong 1.45s).
+- **Trạng thái**: Đã sẵn sàng chuyển sang Phase 4 (Register Interface).

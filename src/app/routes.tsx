@@ -6,7 +6,7 @@ import { CustomTourBuilderPage } from '@/pages/CustomTourBuilderPage';
 import { CheckoutPage } from '@/pages/CheckoutPage';
 import { PartnerDashboard } from '@/pages/PartnerDashboard';
 import { AdminDashboard } from '@/pages/AdminDashboard';
-import { AdminLoginPage } from '@/pages/AdminLoginPage';
+import { LoginPage } from '@/pages/public/LoginPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { RoleGuard } from '@/features/auth/components/RoleGuard';
 
@@ -38,7 +38,7 @@ export const routes: RouteObject[] = [
       {
         path: 'partner',
         element: (
-          <RoleGuard requiredRole={['PARTNER', 'GUIDE', 'DRIVER']} redirectTo="/admin/login">
+          <RoleGuard requiredRole={['PARTNER', 'GUIDE', 'DRIVER']} redirectTo="/login">
             <PartnerDashboard />
           </RoleGuard>
         ),
@@ -46,14 +46,18 @@ export const routes: RouteObject[] = [
       {
         path: 'admin',
         element: (
-          <RoleGuard requiredRole="ADMIN" redirectTo="/admin/login">
+          <RoleGuard requiredRole="ADMIN" redirectTo="/login">
             <AdminDashboard />
           </RoleGuard>
         ),
       },
       {
+        path: 'login',
+        element: <LoginPage />,
+      },
+      {
         path: 'admin/login',
-        element: <AdminLoginPage />,
+        element: <LoginPage />,
       },
       {
         path: '*',

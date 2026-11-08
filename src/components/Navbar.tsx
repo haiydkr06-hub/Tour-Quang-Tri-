@@ -86,7 +86,7 @@ export function Navbar({
               </Button>
             </div>
           ) : (
-            <Link to="/admin/login">
+            <Link to="/login">
               <Button variant="primary" size="sm">
                 Đăng nhập
               </Button>
