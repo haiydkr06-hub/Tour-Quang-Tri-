@@ -40,3 +40,29 @@
   6. `src/components/Navbar.tsx`: Nâng cấp Header ngữ nghĩa `<header role="banner">` và `<nav aria-label="Điều hướng chính">`, hiệu ứng Scroll-linked (cuộn > 50px đổi nền sang `bg-surface/95` và chữ `text-ink`), kết nối Zustand Auth Store (`user`, `role`, avatar, menu tài khoản).
   7. `src/pages/public/{ToursPage,AboutPage,ContactPage}.tsx` & `src/app/routes.tsx`: Hoàn thiện trang và định tuyến tương ứng để tất cả các mục điều hướng hoạt động 100% không gặp lỗi 404.
 - **Kiểm thử**: `npm run typecheck` (0 lỗi) và `npm run build` (0 lỗi).
+
+
+---
+
+## 5. Giai đoạn 5: Rà soát & hoàn thiện theo PRD/ROUTES/AGENTS (Claude Code)
+- **Thời gian**: 2026-11-09
+- **Nội dung thực hiện**:
+  1. User story 1 — kéo thả: `ItineraryBuilder.tsx` (HTML5 drag & drop, nút ↑ ↓ ✕), store có `addDestination/moveDestination/removeDestination`, lịch trình giữ đúng thứ tự tới đơn đặt.
+  2. Slice 2 — `/tours` dùng `TourFilter` + `TourListView` (Container/View), bộ lọc lưu trên URL; ô tìm kiếm trang chủ chuyển sang `/tours?…`; thanh trượt giá tối đa 2.000.000 đ ("Không giới hạn").
+  3. Tuyến `/my-bookings` + kho đơn `src/lib/booking/repository.ts` (localStorage, Zod khi đọc); menu tài khoản trỏ đúng trang (trước đó trỏ /profile, /my-tours, /booking-history không tồn tại).
+  4. `/admin` chưa đăng nhập → `/admin/login` (`AdminLoginPage`), các trang tải bằng `lazy`.
+  5. AGENTS.md: bỏ import chéo feature (kiểu dùng chung chuyển sang `src/lib/booking`), thay màu cứng bằng token (`on-media`, `scrim`, `danger-foreground`, thêm `primary-dark/light` vốn đang dùng mà chưa khai báo), `Card onClick` → `<button>`.
+  6. Nâng `react-router` 7.18 → 8.5.1 (đúng mô tả công nghệ), `react` ≥ 19.2.7 theo yêu cầu của RR8; thêm favicon.
+  7. Kiểm thử: Vitest + jsdom, 32 test (logic + smoke test bộ tuyến); script `typecheck` đổi thành `tsc -b`.
+- **Kiểm thử**: `npm run typecheck` (0 lỗi), `npm test` (32/32), `npm run build` (thành công).
+
+- **Bổ sung (cùng ngày)**:
+  8. Đối tác: chuyến sinh từ đơn đã duyệt (`src/features/partner/bookingTrips.ts`), trạng thái chuyến lưu localStorage, hoàn thành chuyến → đơn khách `completed`.
+  9. Admin: `buildMonthlyStats` gộp số liệu lịch sử với đơn thật; KPI doanh thu / lượt đặt / % tăng trưởng không còn viết cứng.
+  10. `server/`: thêm `npm run server`, test API `server/index.test.ts`; ghi rõ trong readme frontend không phụ thuộc server.
+  11. Test tích hợp `src/app/bookingFlow.test.ts` (Khách → Admin → Đối tác → Khách). Tổng 46 test.
+  12. Kiểm tra giao diện bằng Edge headless (sáng + tối): sửa lớp phủ ảnh dùng `from-ink/via-ink` (ở chế độ tối `ink` là màu sáng → ảnh bị phủ trắng, chữ không đọc được) sang `scrim`; nút mũi tên banner đè lên tiêu đề → tăng lề ngang.
+  13. Thay 2 ảnh Unsplash đã bị gỡ (404) ở Nghĩa trang Trường Sơn, TP. Đông Hà, La Vang.
+  14. Thêm `<ScrollRestoration />` vào `RootLayout`: chuyển trang cuộn lên đầu, link `/#id` ở footer cuộn đúng mục.
+  15. Đổi nhãn "Yêu thích" thành "Giỏ tour" (mục này thực chất dẫn tới `/checkout`).
+  16. Test kéo thả `ItineraryBuilder.test.tsx` (giả lập sự kiện drag/drop + DataTransfer). Tổng 51 test.

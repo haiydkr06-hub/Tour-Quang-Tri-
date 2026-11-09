@@ -9,7 +9,7 @@ export function Footer() {
           {/* Brand & Contact Info */}
           <div className="lg:col-span-2 space-y-4">
             <Link to="/" className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white text-lg font-black shadow-sm">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground text-lg font-black shadow-sm">
                 QT
               </span>
               <div>

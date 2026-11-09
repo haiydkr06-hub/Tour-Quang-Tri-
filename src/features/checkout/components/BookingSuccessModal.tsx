@@ -21,20 +21,25 @@ export function BookingSuccessModal({
 
   if (!booking) return null;
 
-  const handleFinish = () => {
+  const goTo = (path: string) => {
     onClose();
-    navigate('/');
+    navigate(path);
   };
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={handleFinish}
+      onClose={() => goTo('/my-bookings')}
       title="Đặt Tour Thành Công! 🎉"
       footer={
-        <Button variant="primary" onClick={handleFinish}>
-          Quay Về Trang Chủ
-        </Button>
+        <>
+          <Button variant="ghost" onClick={() => goTo('/')}>
+            Về Trang Chủ
+          </Button>
+          <Button variant="primary" onClick={() => goTo('/my-bookings')}>
+            Xem Đơn Của Tôi
+          </Button>
+        </>
       }
     >
       <div className="space-y-4 text-center">

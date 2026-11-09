@@ -41,7 +41,7 @@ export function UserAccountMenu({ user, role, onLogout }: UserAccountMenuProps) 
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary font-bold text-white text-xs shadow-sm">
+        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary font-bold text-primary-foreground text-xs shadow-sm">
           {initials}
         </div>
         <div className="hidden text-left sm:block">
@@ -62,25 +62,11 @@ export function UserAccountMenu({ user, role, onLogout }: UserAccountMenuProps) 
 
           <div className="py-1 text-xs">
             <Link
-              to="/profile"
+              to="/my-bookings"
               onClick={() => setIsOpen(false)}
               className="flex items-center gap-2 rounded-lg px-3 py-2 text-ink hover:bg-surface-alt transition-colors"
             >
-              <span>👤</span> Hồ sơ cá nhân
-            </Link>
-            <Link
-              to="/my-tours"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-2 rounded-lg px-3 py-2 text-ink hover:bg-surface-alt transition-colors"
-            >
-              <span>🎒</span> Tour của tôi
-            </Link>
-            <Link
-              to="/booking-history"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-2 rounded-lg px-3 py-2 text-ink hover:bg-surface-alt transition-colors"
-            >
-              <span>📜</span> Lịch sử đặt tour
+              <span>🎒</span> Đơn đặt tour của tôi
             </Link>
             {role === 'ADMIN' && (
               <Link
@@ -109,7 +95,7 @@ export function UserAccountMenu({ user, role, onLogout }: UserAccountMenuProps) 
                 setIsOpen(false);
                 onLogout();
               }}
-              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors cursor-pointer"
+              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold text-danger hover:bg-danger/10 transition-colors cursor-pointer"
             >
               <span>🚪</span> Đăng xuất
             </button>

@@ -34,7 +34,7 @@ export const MOCK_DESTINATIONS: HistoricalDestination[] = [
     region: 'Huyện Gio Linh',
     description: 'Nơi an nghỉ của hơn 10.000 liệt sĩ đã chiến đấu và hi sinh trên tuyến đường mòn Hồ Chí Minh.',
     entryFee: 0,
-    imageUrl: 'https://images.unsplash.com/photo-1508873696983-2df5293cb32b?auto=format&fit=crop&w=600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=600&q=80',
     timeRequired: '2 giờ',
   },
   {
@@ -52,7 +52,7 @@ export const MOCK_DESTINATIONS: HistoricalDestination[] = [
     region: 'Huyện Hải Lăng',
     description: 'Thánh địa tôn giáo và kiến trúc cổ kính nổi tiếng bậc nhất miền Trung.',
     entryFee: 0,
-    imageUrl: 'https://images.unsplash.com/photo-1548625361-16a7f957864f?auto=format&fit=crop&w=600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=600&q=80',
     timeRequired: '1.5 giờ',
   },
 ];

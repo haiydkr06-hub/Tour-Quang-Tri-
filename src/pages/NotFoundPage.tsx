@@ -15,7 +15,7 @@ export function NotFoundPage() {
       </p>
       <Link
         to="/"
-        className="mt-6 rounded-lg bg-primary px-6 py-2.5 font-medium text-white hover:opacity-90 transition-all"
+        className="mt-6 rounded-lg bg-primary px-6 py-2.5 font-medium text-primary-foreground hover:opacity-90 transition-all"
       >
         Về Trang Chủ
       </Link>

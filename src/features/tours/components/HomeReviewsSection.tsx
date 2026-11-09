@@ -17,7 +17,7 @@ export function HomeReviewsSection({ reviews }: HomeReviewsSectionProps) {
           </h2>
         </div>
         <div className="flex items-center gap-2 rounded-2xl bg-surface-card border border-border px-3.5 py-1.5 shadow-sm">
-          <span className="text-amber-500 font-bold text-sm">★ 4.9/5.0</span>
+          <span className="text-warning font-bold text-sm">★ 4.9/5.0</span>
           <span className="text-xs text-ink-muted">từ 1.250+ du khách đã đi</span>
         </div>
       </div>
@@ -31,7 +31,7 @@ export function HomeReviewsSection({ reviews }: HomeReviewsSectionProps) {
             <div className="space-y-3">
               {/* Stars & Date */}
               <div className="flex items-center justify-between text-xs">
-                <div className="flex text-amber-500 text-sm">
+                <div className="flex text-warning text-sm">
                   {'★'.repeat(Math.floor(rev.rating))}
                   {rev.rating % 1 !== 0 && '½'}
                 </div>
@@ -61,7 +61,7 @@ export function HomeReviewsSection({ reviews }: HomeReviewsSectionProps) {
                 <p className="text-[10px] text-ink-muted flex items-center gap-1">
                   <span>{rev.authorLocation}</span>
                   <span>•</span>
-                  <span className="text-emerald-600 font-medium">✓ Đã đi tour</span>
+                  <span className="text-success font-medium">✓ Đã đi tour</span>
                 </p>
               </div>
             </div>

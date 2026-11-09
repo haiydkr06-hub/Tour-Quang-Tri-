@@ -36,7 +36,7 @@ export function HomeTravelArticlesSection({ articles }: HomeTravelArticlesSectio
               onClick={() => setSelectedCat(cat)}
               className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer ${
                 selectedCat === cat
-                  ? 'bg-primary text-white shadow-sm'
+                  ? 'bg-primary text-primary-foreground shadow-sm'
                   : 'bg-surface-card border border-border text-ink hover:bg-surface-alt'
               }`}
             >
@@ -62,7 +62,7 @@ export function HomeTravelArticlesSection({ articles }: HomeTravelArticlesSectio
                 <span className="absolute top-3 left-3 rounded-full bg-surface-card/90 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-primary">
                   {art.category}
                 </span>
-                <span className="absolute bottom-3 right-3 rounded-full bg-ink/75 backdrop-blur-md px-2 py-0.5 text-[10px] font-medium text-white">
+                <span className="absolute bottom-3 right-3 rounded-full bg-scrim/75 backdrop-blur-md px-2 py-0.5 text-[10px] font-medium text-on-media">
                   ⏱ {art.readTime}
                 </span>
               </div>

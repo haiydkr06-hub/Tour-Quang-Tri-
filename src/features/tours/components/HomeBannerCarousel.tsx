@@ -57,18 +57,18 @@ export function HomeBannerCarousel({
       ))}
 
       {/* Layer Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/50 to-transparent sm:bg-gradient-to-r sm:from-ink/90 sm:via-ink/60 sm:to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-scrim/90 via-scrim/50 to-transparent sm:bg-gradient-to-r sm:from-scrim/90 sm:via-scrim/60 sm:to-transparent" />
 
       {/* Hero Content */}
-      <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10 lg:justify-center lg:max-w-xl">
-        <div className="inline-flex items-center gap-2 rounded-full bg-primary/20 backdrop-blur-md border border-primary/40 px-3.5 py-1 text-xs font-semibold text-primary-light text-white mb-3 w-fit">
+      <div className="absolute inset-0 flex flex-col justify-end p-6 sm:px-16 sm:py-10 lg:justify-center lg:max-w-xl">
+        <div className="inline-flex items-center gap-2 rounded-full bg-primary/20 backdrop-blur-md border border-primary/40 px-3.5 py-1 text-xs font-semibold text-primary-light mb-3 w-fit">
           <span>★</span>
           <span>{current.badge}</span>
           <span>•</span>
           <span>{current.location}</span>
         </div>
 
-        <h1 className="text-3xl font-black tracking-tight text-white sm:text-4xl lg:text-5xl drop-shadow-md">
+        <h1 className="text-3xl font-black tracking-tight text-on-media sm:text-4xl lg:text-5xl drop-shadow-md">
           KHÁM PHÁ QUẢNG TRỊ
         </h1>
 
@@ -76,11 +76,11 @@ export function HomeBannerCarousel({
           {current.title}
         </p>
 
-        <p className="mt-1 text-sm text-neutral-200 line-clamp-2 sm:line-clamp-none">
+        <p className="mt-1 text-sm text-on-media/90 line-clamp-2 sm:line-clamp-none">
           {current.subtitle}
         </p>
 
-        <p className="mt-4 text-xs italic text-neutral-300">
+        <p className="mt-4 text-xs italic text-on-media/80">
           "Về miền di sản – Khám phá thiên nhiên – Trải nghiệm những hành trình đáng nhớ."
         </p>
       </div>
@@ -90,7 +90,7 @@ export function HomeBannerCarousel({
         type="button"
         onClick={prevSlide}
         aria-label="Ảnh trước"
-        className="absolute left-4 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-ink/40 text-white backdrop-blur-md hover:bg-primary transition-colors cursor-pointer border border-white/20"
+        className="absolute left-4 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-scrim/40 text-on-media backdrop-blur-md hover:bg-primary transition-colors cursor-pointer border border-on-media/20"
       >
         ❮
       </button>
@@ -99,13 +99,13 @@ export function HomeBannerCarousel({
         type="button"
         onClick={nextSlide}
         aria-label="Ảnh kế tiếp"
-        className="absolute right-4 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-ink/40 text-white backdrop-blur-md hover:bg-primary transition-colors cursor-pointer border border-white/20"
+        className="absolute right-4 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-scrim/40 text-on-media backdrop-blur-md hover:bg-primary transition-colors cursor-pointer border border-on-media/20"
       >
         ❯
       </button>
 
       {/* Dot Indicators */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 rounded-full bg-ink/40 backdrop-blur-md px-3 py-1.5 border border-white/10">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 rounded-full bg-scrim/40 backdrop-blur-md px-3 py-1.5 border border-on-media/10">
         {slides.map((slide, idx) => (
           <button
             key={slide.id}
@@ -113,7 +113,7 @@ export function HomeBannerCarousel({
             onClick={() => setCurrentIndex(idx)}
             aria-label={`Chuyển đến slide ${slide.title}`}
             className={`h-2 rounded-full transition-all cursor-pointer ${
-              idx === currentIndex ? 'w-6 bg-primary' : 'w-2 bg-white/50 hover:bg-white'
+              idx === currentIndex ? 'w-6 bg-primary' : 'w-2 bg-on-media/50 hover:bg-on-media'
             }`}
           />
         ))}

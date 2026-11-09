@@ -54,7 +54,7 @@ export function HomeInteractiveMap({ points }: HomeInteractiveMapProps) {
                   onClick={() => setSelectedPoint(pt)}
                   className={`group relative flex flex-col items-center gap-1.5 rounded-2xl p-2.5 text-center transition-all cursor-pointer ${
                     isSelected
-                      ? 'bg-primary text-white scale-105 shadow-lg shadow-primary/30'
+                      ? 'bg-primary text-primary-foreground scale-105 shadow-lg shadow-primary/30'
                       : 'bg-surface-card/90 backdrop-blur-md border border-border hover:border-primary text-ink'
                   }`}
                 >
@@ -62,7 +62,7 @@ export function HomeInteractiveMap({ points }: HomeInteractiveMapProps) {
                   <span className="text-[11px] font-bold line-clamp-1 leading-tight">
                     {pt.name}
                   </span>
-                  <span className={`text-[9px] ${isSelected ? 'text-white/80' : 'text-ink-muted'}`}>
+                  <span className={`text-[9px] ${isSelected ? 'text-primary-foreground/80' : 'text-ink-muted'}`}>
                     {pt.latitude.toFixed(2)}°N
                   </span>
                 </button>
@@ -87,7 +87,7 @@ export function HomeInteractiveMap({ points }: HomeInteractiveMapProps) {
                   alt={selectedPoint.name}
                   className="h-full w-full object-cover"
                 />
-                <span className="absolute bottom-2 left-2 rounded-full bg-ink/75 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold text-white">
+                <span className="absolute bottom-2 left-2 rounded-full bg-scrim/75 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold text-on-media">
                   {selectedPoint.latitude}° N, {selectedPoint.longitude}° E
                 </span>
               </div>
@@ -105,7 +105,7 @@ export function HomeInteractiveMap({ points }: HomeInteractiveMapProps) {
 
             <Link
               to={`/tours/${selectedPoint.tourId}`}
-              className="w-full rounded-xl bg-primary py-2.5 text-center text-xs font-bold text-white shadow-sm hover:bg-primary-dark transition-colors"
+              className="w-full rounded-xl bg-primary py-2.5 text-center text-xs font-bold text-primary-foreground shadow-sm hover:bg-primary-dark transition-colors"
             >
               Xem tour ghé thăm điểm này ➔
             </Link>

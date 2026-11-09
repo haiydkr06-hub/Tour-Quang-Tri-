@@ -44,22 +44,22 @@ export function HomeCollectionsSection({
               alt={col.title}
               className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/50 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-scrim/95 via-scrim/50 to-transparent" />
 
             <div className="absolute top-4 right-4">
-              <span className="rounded-full bg-primary/90 backdrop-blur-md px-2.5 py-1 text-[10px] font-black text-white shadow-sm">
+              <span className="rounded-full bg-primary/90 backdrop-blur-md px-2.5 py-1 text-[10px] font-black text-primary-foreground shadow-sm">
                 {col.toursCount} Tours
               </span>
             </div>
 
-            <div className="absolute bottom-0 inset-x-0 p-5 text-white space-y-1.5">
+            <div className="absolute bottom-0 inset-x-0 p-5 text-on-media space-y-1.5">
               <span className="text-[10px] font-bold uppercase tracking-wider text-primary-light">
                 Chuyên đề Quảng Trị
               </span>
-              <h3 className="text-lg font-black text-white leading-tight group-hover:text-primary-light transition-colors">
+              <h3 className="text-lg font-black text-on-media leading-tight group-hover:text-primary-light transition-colors">
                 {col.title}
               </h3>
-              <p className="text-xs text-neutral-300 line-clamp-2 leading-relaxed">
+              <p className="text-xs text-on-media/80 line-clamp-2 leading-relaxed">
                 {col.subtitle}
               </p>
               <div className="pt-2 flex items-center gap-1.5 text-xs font-bold text-primary-light">

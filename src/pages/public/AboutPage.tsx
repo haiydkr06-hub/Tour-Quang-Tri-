@@ -42,7 +42,7 @@ export function AboutPage() {
         <h3 className="text-xl font-bold text-ink">Sẵn Sàng Cho Chuyến Đi Về Miền Di Sản?</h3>
         <p className="text-xs text-ink-muted">Hãy bắt đầu hành trình của bạn ngay hôm nay cùng những người con đất lửa Quảng Trị.</p>
         <div className="flex justify-center gap-3">
-          <Link to="/tours" className="rounded-xl bg-primary px-5 py-2.5 text-xs font-bold text-white hover:bg-primary-dark transition-colors">
+          <Link to="/tours" className="rounded-xl bg-primary px-5 py-2.5 text-xs font-bold text-primary-foreground hover:bg-primary-dark transition-colors">
             Xem Tất Cả Tour
           </Link>
           <Link to="/contact" className="rounded-xl border border-border bg-surface px-5 py-2.5 text-xs font-bold text-ink hover:bg-surface-alt transition-colors">

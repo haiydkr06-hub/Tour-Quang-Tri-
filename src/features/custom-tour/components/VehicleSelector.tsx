@@ -1,5 +1,4 @@
 import type { VehicleOption } from '../types';
-import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 
 export interface VehicleSelectorProps {
@@ -39,34 +38,36 @@ export function VehicleSelector({
         {vehicles.map((v) => {
           const isSelected = selectedVehicleId === v.id;
           return (
-            <Card
+            <button
               key={v.id}
+              type="button"
               onClick={() => onSelect(isSelected ? null : v.id)}
-              className={`flex cursor-pointer flex-col justify-between p-4 transition-all ${
+              aria-pressed={isSelected}
+              className={`flex cursor-pointer flex-col justify-between rounded-xl border bg-surface-card p-4 text-left shadow-xs transition-all focus-visible:outline-2 focus-visible:outline-primary ${
                 isSelected
                   ? 'border-primary ring-2 ring-primary/20 bg-primary/5'
-                  : 'hover:border-border/80'
+                  : 'border-border hover:border-primary/50'
               }`}
             >
-              <div>
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-ink">{v.name}</h3>
+              <span className="block">
+                <span className="flex items-center justify-between">
+                  <span className="block text-sm font-bold text-ink">{v.name}</span>
                   <Badge variant={isSelected ? 'primary' : 'neutral'}>
                     {v.seats} chỗ
                   </Badge>
-                </div>
-                <p className="mt-2 text-xs text-ink-muted leading-relaxed">
+                </span>
+                <span className="block mt-2 text-xs text-ink-muted leading-relaxed">
                   {v.description}
-                </p>
-              </div>
+                </span>
+              </span>
 
-              <div className="mt-4 flex items-center justify-between border-t border-border/50 pt-2 text-xs">
-                <span className="font-bold text-primary">{formatVND(v.pricePerDay)}</span>
-                <span className="text-[11px] font-medium text-ink">
+              <span className="mt-4 flex items-center justify-between border-t border-border/50 pt-2 text-xs">
+                <span className="block font-bold text-primary">{formatVND(v.pricePerDay)}</span>
+                <span className="block text-[11px] font-medium text-ink">
                   {isSelected ? '✓ Đã chọn' : '+ Chọn'}
                 </span>
-              </div>
-            </Card>
+              </span>
+            </button>
           );
         })}
       </div>

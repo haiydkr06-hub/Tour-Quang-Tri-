@@ -19,7 +19,7 @@ export const NAV_ITEMS: NavItem[] = [
         label: 'TP. Đông Hà',
         to: '/#kham-pha',
         description: 'Trung tâm tỉnh lỵ sôi động, cửa ngõ xuất phát các tour và thiên đường ẩm thực',
-        image: 'https://images.unsplash.com/photo-1508873696983-2df5293cb32b?auto=format&fit=crop&w=400&q=80',
+        image: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=400&q=80',
       },
       {
         id: 'dest-thanh-co',

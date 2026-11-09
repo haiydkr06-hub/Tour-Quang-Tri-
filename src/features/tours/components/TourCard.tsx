@@ -24,7 +24,7 @@ export function TourCard({ tour }: TourCardProps) {
           loading="lazy"
         />
         {tour.isFeatured ? (
-          <span className="absolute top-3 left-3 rounded-md bg-primary px-2.5 py-1 text-[11px] font-bold text-white shadow-xs">
+          <span className="absolute top-3 left-3 rounded-md bg-primary px-2.5 py-1 text-[11px] font-bold text-primary-foreground shadow-xs">
             Nổi bật
           </span>
         ) : null}

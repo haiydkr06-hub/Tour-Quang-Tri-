@@ -111,8 +111,8 @@ export function MobileNavDrawer({
           }
         >
           <span className="flex items-center gap-1.5">
-            <span>❤️</span>
-            <span>Tour yêu thích / Giỏ</span>
+            <span aria-hidden="true">🧳</span>
+            <span>Giỏ tour</span>
           </span>
           {cartCount > 0 && <Badge variant="primary">{cartCount}</Badge>}
         </NavLink>

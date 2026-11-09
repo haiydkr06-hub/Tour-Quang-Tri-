@@ -1,6 +1,30 @@
+import { z } from 'zod';
+import { changeBookingStatus, listBookings } from '@/lib/booking/repository';
 import type { PartnerTrip, FaqItem, TripStatus } from './types';
+import { applyTripStatuses, tripsFromBookings } from './bookingTrips';
 
-let MOCK_PARTNER_TRIPS: PartnerTrip[] = [
+const TRIP_STATUS_KEY = 'qt_partner_trip_status';
+const tripStatusMapSchema = z.record(z.string(), z.enum(['assigned', 'in_progress', 'completed', 'cancelled']));
+
+function readTripStatuses(): Record<string, TripStatus> {
+  try {
+    const parsed = tripStatusMapSchema.safeParse(JSON.parse(localStorage.getItem(TRIP_STATUS_KEY) ?? '{}'));
+    return parsed.success ? parsed.data : {};
+  } catch {
+    return {};
+  }
+}
+
+function writeTripStatus(tripId: string, status: TripStatus): void {
+  try {
+    localStorage.setItem(TRIP_STATUS_KEY, JSON.stringify({ ...readTripStatuses(), [tripId]: status }));
+  } catch {
+    // Bỏ qua khi trình duyệt chặn lưu trữ
+  }
+}
+
+/** Chuyến mẫu có sẵn để bảng điều khiển không trống khi demo */
+const MOCK_PARTNER_TRIPS: PartnerTrip[] = [
   {
     id: 'TRIP-QT-101',
     tourTitle: 'Ký ức 81 Ngày Đêm — Thành Cổ Quảng Trị',
@@ -66,9 +90,14 @@ export const MOCK_FAQS: FaqItem[] = [
   },
 ];
 
+/**
+ * Lịch chuyến của Đối tác = chuyến sinh từ đơn khách đã được Admin duyệt (mới nhất trước)
+ * + chuyến mẫu; trạng thái đối tác cập nhật được lưu bền vững.
+ */
 export async function getPartnerTrips(): Promise<PartnerTrip[]> {
   await new Promise((r) => setTimeout(r, 60));
-  return [...MOCK_PARTNER_TRIPS];
+  const trips = [...tripsFromBookings(listBookings()), ...MOCK_PARTNER_TRIPS];
+  return applyTripStatuses(trips, readTripStatuses());
 }
 
 export async function updatePartnerTripStatus(
@@ -76,12 +105,16 @@ export async function updatePartnerTripStatus(
   newStatus: TripStatus
 ): Promise<boolean> {
   await new Promise((r) => setTimeout(r, 60));
-  const trip = MOCK_PARTNER_TRIPS.find((t) => t.id === tripId);
-  if (trip) {
-    trip.status = newStatus;
-    return true;
+  const trips = [...tripsFromBookings(listBookings()), ...MOCK_PARTNER_TRIPS];
+  const trip = trips.find((t) => t.id === tripId);
+  if (!trip) return false;
+
+  writeTripStatus(tripId, newStatus);
+  // Đối tác báo hoàn thành → đơn của khách cũng chuyển sang "Đã hoàn thành"
+  if (newStatus === 'completed' && trip.bookingId) {
+    changeBookingStatus(trip.bookingId, 'completed');
   }
-  return false;
+  return true;
 }
 
 export async function getFaqs(): Promise<FaqItem[]> {

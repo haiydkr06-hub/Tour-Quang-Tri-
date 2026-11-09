@@ -101,7 +101,7 @@ export function PartnerDashboard() {
                 onClick={() => setStatusFilter(tab.id as 'all' | TripStatus)}
                 className={`rounded-lg px-3 py-1.5 font-medium transition-colors cursor-pointer ${
                   statusFilter === tab.id
-                    ? 'bg-primary text-white'
+                    ? 'bg-primary text-primary-foreground'
                     : 'bg-surface border border-border text-ink-muted hover:text-ink'
                 }`}
               >

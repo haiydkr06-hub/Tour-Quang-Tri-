@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router';
+import { Outlet, ScrollRestoration } from 'react-router';
 import { useTheme } from '@/context/useTheme';
 import { useAuthStore } from '@/features/auth/store';
 import { useCartStore } from '@/features/cart/store';
@@ -30,6 +30,9 @@ export function RootLayout() {
       </main>
 
       <Footer />
+
+      {/* Chuyển trang thì cuộn lên đầu, bấm Back thì về đúng vị trí cũ, link "/#id" cuộn tới mục */}
+      <ScrollRestoration />
     </div>
   );
 }

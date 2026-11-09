@@ -63,7 +63,7 @@ export const CAROUSEL_SLIDES: CarouselSlide[] = [
     subtitle: 'Trung tâm hành hương cổ kính, nét đẹp kiến trúc tôn giáo và tâm linh',
     location: 'Huyện Hải Lăng',
     badge: 'Vương cung thánh đường',
-    imageUrl: 'https://images.unsplash.com/photo-1548625361-16a7f957864f?auto=format&fit=crop&w=1600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=1600&q=80',
   },
 ];
 
@@ -206,7 +206,7 @@ export const MOCK_TOURS: Tour[] = [
     originalPrice: 750000,
     locations: ['Thánh địa La Vang', 'Làng Cổ Bích La', 'Chùa Sắc Tứ Tịnh Quang'],
     duration: '1 Ngày',
-    imageUrl: 'https://images.unsplash.com/photo-1548625361-16a7f957864f?auto=format&fit=crop&w=800&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=800&q=80',
     rating: 4.9,
     reviewsCount: 112,
     isFeatured: true,
@@ -289,7 +289,7 @@ export const DESTINATION_HIGHLIGHTS: DestinationHighlight[] = [
     category: 'spiritual',
     categoryName: 'Văn hóa tâm linh',
     toursCount: 6,
-    imageUrl: 'https://images.unsplash.com/photo-1548625361-16a7f957864f?auto=format&fit=crop&w=600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=600&q=80',
     description: 'Thánh địa La Vang, Nghĩa trang Trường Sơn, Chùa Sắc Tứ Tịnh Quang',
     tag: 'Tĩnh tâm & Tri ân',
   },
@@ -345,7 +345,7 @@ export const THEMATIC_COLLECTIONS: TourCollection[] = [
     title: 'Tuyến Hành Hương & Tĩnh Tâm La Vang',
     subtitle: 'Tìm về an nhiên giữa không gian thánh đường cổ kính và vùng đất an lành Hải Lăng',
     toursCount: 3,
-    imageUrl: 'https://images.unsplash.com/photo-1548625361-16a7f957864f?auto=format&fit=crop&w=800&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=800&q=80',
     link: '#tour-noi-bat',
   },
 ];
@@ -408,7 +408,7 @@ export const QUANG_TRI_MAP_POINTS: MapPoint[] = [
     longitude: 107.1963,
     address: 'Xã Hải Phú, Huyện Hải Lăng, Quảng Trị',
     description: 'Trung tâm hành hương Công giáo cổ kính, nổi tiếng với kiến trúc tháp chuông.',
-    imageUrl: 'https://images.unsplash.com/photo-1548625361-16a7f957864f?auto=format&fit=crop&w=400&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=400&q=80',
     tourId: 6,
   },
 ];

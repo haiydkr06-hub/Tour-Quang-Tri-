@@ -70,7 +70,7 @@ export function LoginPage() {
           <p className="mt-1 text-xs text-ink-muted">Cổng thông tin & dịch vụ du lịch tỉnh Quảng Trị</p>
         </div>
         {serverError && (
-          <div className="mb-4 rounded-lg bg-red-500/10 border border-red-500/30 p-3 text-xs text-red-600 font-medium">{serverError}</div>
+          <div className="mb-4 rounded-lg bg-danger/10 border border-danger/30 p-3 text-xs text-danger font-medium">{serverError}</div>
         )}
         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <TextField

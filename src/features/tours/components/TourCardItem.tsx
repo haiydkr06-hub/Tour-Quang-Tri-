@@ -22,17 +22,17 @@ export function TourCardItem({ tour, onBookNow }: TourCardItemProps) {
           alt={tour.name}
           className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-scrim/60 via-transparent to-transparent opacity-80" />
 
         {/* Category tag */}
         <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
           {tour.isFeatured && (
-            <span className="rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-black text-white shadow-sm">
+            <span className="rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-black text-primary-foreground shadow-sm">
               ★ NỔI BẬT
             </span>
           )}
           {discountPercent && (
-            <span className="rounded-full bg-red-600 px-2 py-0.5 text-[10px] font-black text-white shadow-sm">
+            <span className="rounded-full bg-danger px-2 py-0.5 text-[10px] font-black text-danger-foreground shadow-sm">
               -{discountPercent}%
             </span>
           )}
@@ -48,7 +48,7 @@ export function TourCardItem({ tour, onBookNow }: TourCardItemProps) {
         {/* Available seats */}
         {tour.availableSeats && (
           <div className="absolute bottom-3 right-3">
-            <span className="rounded-full bg-ink/75 backdrop-blur-md px-2.5 py-1 text-[11px] font-medium text-white shadow-sm">
+            <span className="rounded-full bg-scrim/75 backdrop-blur-md px-2.5 py-1 text-[11px] font-medium text-on-media shadow-sm">
               Còn {tour.availableSeats} chỗ
             </span>
           </div>
@@ -60,7 +60,7 @@ export function TourCardItem({ tour, onBookNow }: TourCardItemProps) {
         <div className="space-y-2">
           {/* Rating & Departure */}
           <div className="flex items-center justify-between text-xs text-ink-muted">
-            <div className="flex items-center gap-1 font-semibold text-amber-500">
+            <div className="flex items-center gap-1 font-semibold text-warning">
               <span>★</span>
               <span>{tour.rating.toFixed(1)}</span>
               <span className="text-ink-muted">({tour.reviewsCount})</span>

@@ -1,4 +1,5 @@
-import type { BookingRecord, BookingStatus } from '@/features/checkout/types';
+import type { BookingRecord, BookingStatus } from '@/lib/booking/types';
+import { BOOKING_STATUS_BADGE as statusBadgeConfig } from '@/lib/booking/status';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -7,13 +8,6 @@ export interface AdminBookingManagerProps {
   bookings: BookingRecord[];
   onUpdateStatus: (id: string, status: BookingStatus) => void;
 }
-
-const statusBadgeConfig: Record<BookingStatus, { variant: 'warning' | 'primary' | 'success' | 'danger'; text: string }> = {
-  pending: { variant: 'warning', text: 'Chờ duyệt' },
-  confirmed: { variant: 'primary', text: 'Đã xác nhận' },
-  completed: { variant: 'success', text: 'Đã hoàn thành' },
-  cancelled: { variant: 'danger', text: 'Đã hủy' },
-};
 
 /**
  * Presentational View: Quản lý và phê duyệt các đơn đặt tour của khách hàng.

@@ -54,7 +54,7 @@ export function RegisterPage() {
           <p className="mt-1 text-xs text-ink-muted">Khám phá và đặt tour du lịch Quảng Trị cá nhân hóa</p>
         </div>
         {serverError && (
-          <div className="mb-4 rounded-lg bg-red-500/10 border border-red-500/30 p-3 text-xs text-red-600 font-medium" role="alert">{serverError}</div>
+          <div className="mb-4 rounded-lg bg-danger/10 border border-danger/30 p-3 text-xs text-danger font-medium" role="alert">{serverError}</div>
         )}
         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <TextField
@@ -118,7 +118,7 @@ export function RegisterPage() {
               />
               <span>Tôi đồng ý với <span className="text-primary font-medium hover:underline">Điều khoản sử dụng</span> & Quy định du lịch Quảng Trị.</span>
             </label>
-            {fieldErrors.agreeTerms && <p className="mt-1 text-xs text-red-500" role="alert">{fieldErrors.agreeTerms}</p>}
+            {fieldErrors.agreeTerms && <p className="mt-1 text-xs text-danger" role="alert">{fieldErrors.agreeTerms}</p>}
           </div>
           <Button type="submit" variant="primary" size="lg" isLoading={isLoading} className="w-full mt-2">
             Đăng Ký Tài Khoản

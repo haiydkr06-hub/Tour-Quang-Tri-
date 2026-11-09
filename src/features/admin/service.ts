@@ -1,6 +1,7 @@
 import type { AdminTourItem, AdminStats } from './types';
-import { getBookings, updateBookingStatus } from '@/features/checkout/service';
-import type { BookingRecord, BookingStatus } from '@/features/checkout/types';
+import { changeBookingStatus, listBookings } from '@/lib/booking/repository';
+import type { BookingRecord, BookingStatus } from '@/lib/booking/types';
+import { buildMonthlyStats } from './stats';
 
 let ADMIN_TOURS: AdminTourItem[] = [
   {
@@ -80,28 +81,32 @@ export async function deleteAdminTour(id: number): Promise<boolean> {
 
 export async function getAdminStats(): Promise<AdminStats> {
   await new Promise((r) => setTimeout(r, 60));
+  // Thống kê tính từ đơn thật (localStorage) gộp với số liệu lịch sử giả lập
+  const monthlyStats = buildMonthlyStats(listBookings(), new Date());
+  const current = monthlyStats[monthlyStats.length - 1];
+  const previous = monthlyStats[monthlyStats.length - 2];
   return {
-    totalRevenue: 48500000,
-    totalBookings: 38,
+    totalRevenue: monthlyStats.reduce((sum, m) => sum + m.revenue, 0),
+    totalBookings: monthlyStats.reduce((sum, m) => sum + m.count, 0),
     activeTours: ADMIN_TOURS.filter((t) => t.isActive).length,
     totalPartners: 14,
-    monthlyStats: [
-      { month: 'T7', count: 18, revenue: 15400000 },
-      { month: 'T8', count: 24, revenue: 21800000 },
-      { month: 'T9', count: 20, revenue: 18200000 },
-      { month: 'T10', count: 29, revenue: 26500000 },
-      { month: 'T11', count: 38, revenue: 48500000 },
-    ],
+    revenueGrowthPercent:
+      previous && previous.revenue > 0
+        ? Math.round(((current.revenue - previous.revenue) / previous.revenue) * 100)
+        : null,
+    monthlyStats,
   };
 }
 
 export async function getAdminBookings(): Promise<BookingRecord[]> {
-  return getBookings();
+  await new Promise((r) => setTimeout(r, 60));
+  return listBookings();
 }
 
 export async function setBookingStatus(
   id: string,
   status: BookingStatus
 ): Promise<boolean> {
-  return updateBookingStatus(id, status);
+  await new Promise((r) => setTimeout(r, 60));
+  return changeBookingStatus(id, status);
 }

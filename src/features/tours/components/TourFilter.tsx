@@ -3,6 +3,9 @@ import { TextField } from '@/components/ui/TextField';
 import { Select } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
 
+const PRICE_MIN = 500000;
+const PRICE_MAX = 2000000;
+
 export interface TourFilterProps {
   filter: TourFilterType;
   locationOptions: string[];
@@ -56,18 +59,20 @@ export function TourFilter({
           <input
             id="price-slider"
             type="range"
-            min={500000}
-            max={1500000}
+            min={PRICE_MIN}
+            max={PRICE_MAX}
             step={50000}
-            value={filter.maxPrice > 0 ? filter.maxPrice : 1500000}
-            onChange={(e) =>
-              onChange({ ...filter, maxPrice: Number(e.target.value) })
-            }
+            value={filter.maxPrice > 0 ? filter.maxPrice : PRICE_MAX}
+            onChange={(e) => {
+              const value = Number(e.target.value);
+              // Kéo hết cỡ = không giới hạn giá (maxPrice 0)
+              onChange({ ...filter, maxPrice: value >= PRICE_MAX ? 0 : value });
+            }}
             className="w-full accent-primary cursor-pointer"
           />
           <div className="mt-1 flex justify-between text-[11px] text-ink-muted">
-            <span>500.000 đ</span>
-            <span>1.500.000 đ</span>
+            <span>{formatVND(PRICE_MIN)}</span>
+            <span>Không giới hạn</span>
           </div>
         </div>
       </div>

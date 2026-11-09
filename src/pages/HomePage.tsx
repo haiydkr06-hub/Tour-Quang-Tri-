@@ -19,6 +19,7 @@ import {
   getCustomerReviews,
   getTravelArticles,
 } from '@/features/tours/service';
+import { filterFromBookingWidget, filterToParams } from '@/features/tours/filterParams';
 import { useCartStore } from '@/features/cart/store';
 import { HomeHeroSection } from '@/features/tours/components/HomeHeroSection';
 import { HomeDestinationsSection } from '@/features/tours/components/HomeDestinationsSection';
@@ -66,8 +67,10 @@ export function HomePage() {
     };
   }, []);
 
-  const handleBookingSearch = (_data: BookingWidgetData) => {
-    document.getElementById('tour-noi-bat')?.scrollIntoView({ behavior: 'smooth' });
+  // Tìm kiếm ở trang chủ → sang /tours với bộ lọc trên URL (có thanh trượt giá & trạng thái rỗng)
+  const handleBookingSearch = (data: BookingWidgetData) => {
+    const params = filterToParams(filterFromBookingWidget(data)).toString();
+    navigate(params ? `/tours?${params}` : '/tours');
   };
 
   const handleSelectCategory = (_cat: string) => {

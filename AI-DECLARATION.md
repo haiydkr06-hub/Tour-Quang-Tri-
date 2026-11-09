@@ -1,6 +1,6 @@
 # AI-DECLARATION.md — Khai báo phần việc có AI hỗ trợ
 
-Công cụ AI đã dùng: Gemini 3.8 Flash (High) / Antigravity Assistant
+Công cụ AI đã dùng: Gemini 3.8 Flash (High) / Antigravity Assistant; Claude Code (Claude Opus 5.5) — đợt rà soát & hoàn thiện ngày 2026-11-09
 
 | Tệp / Chức năng | Mức hỗ trợ của AI | Người giải thích (Sinh viên) |
 |---|---|---|
@@ -18,6 +18,13 @@ Công cụ AI đã dùng: Gemini 3.8 Flash (High) / Antigravity Assistant
 | `src/features/checkout/*` (Controlled Form, Zod boundary validation) | Sinh toàn bộ | Thành viên Form/Logic |
 | `src/features/partner/*` (PartnerDashboard, nhận chuyến theo role GUIDE/DRIVER) | Sinh toàn bộ | Thành viên Chức năng |
 | `src/features/admin/*` (AdminDashboard, CRUD tour, duyệt đơn, KPI) | Sinh toàn bộ | Thành viên Quản trị |
+| `src/lib/booking/*` (kiểu Booking dùng chung, kho lưu đơn localStorage + Zod, nhãn trạng thái) | Sinh toàn bộ (Claude Code) | (nhóm điền) |
+| `src/features/custom-tour/{store,pricing}.ts`, `ItineraryBuilder.tsx`, `LocationSelector.tsx` (kéo thả lịch trình) | Sinh toàn bộ (Claude Code) | (nhóm điền) |
+| `src/pages/public/ToursPage.tsx`, `src/features/tours/filterParams.ts` (bộ lọc giá trên URL) | Sinh toàn bộ (Claude Code) | (nhóm điền) |
+| `src/pages/MyBookingsPage.tsx`, `MyBookingList.tsx` (tuyến /my-bookings) | Sinh toàn bộ (Claude Code) | (nhóm điền) |
+| `src/app/routes.tsx` (lazy routes, /admin/login), `*.test.ts(x)`, `vitest.config.ts` | Sinh toàn bộ (Claude Code) | (nhóm điền) |
+| `src/features/partner/bookingTrips.ts`, `src/features/admin/stats.ts` (chuyến đối tác từ đơn đã duyệt, thống kê từ đơn thật), `src/app/bookingFlow.test.ts`, `server/index.test.ts` | Sinh toàn bộ (Claude Code) | (nhóm điền) |
+| Thay màu cứng bằng Design Tokens (21 tệp), Guide/VehicleSelector dùng `<button>` | Sinh rồi sửa ít (Claude Code) | (nhóm điền) |
 
 **Mức hỗ trợ:** Sinh toàn bộ / Sinh rồi sửa nhiều / Sinh rồi sửa ít / Tự viết.
 

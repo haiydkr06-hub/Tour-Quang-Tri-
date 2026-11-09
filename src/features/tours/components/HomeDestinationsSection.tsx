@@ -47,7 +47,7 @@ export function HomeDestinationsSection({
             />
 
             {/* Dark & Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/40 to-transparent transition-opacity group-hover:via-ink/50" />
+            <div className="absolute inset-0 bg-gradient-to-t from-scrim/95 via-scrim/40 to-transparent transition-opacity group-hover:via-scrim/50" />
 
             {/* Badge top-left */}
             <div className="absolute top-4 left-4">
@@ -58,20 +58,20 @@ export function HomeDestinationsSection({
 
             {/* Tours count top-right */}
             <div className="absolute top-4 right-4">
-              <span className="rounded-full bg-primary/90 backdrop-blur-md px-2.5 py-1 text-[10px] font-black text-white shadow-sm">
+              <span className="rounded-full bg-primary/90 backdrop-blur-md px-2.5 py-1 text-[10px] font-black text-primary-foreground shadow-sm">
                 {dest.toursCount} Tours
               </span>
             </div>
 
             {/* Content bottom */}
-            <div className="absolute bottom-0 inset-x-0 p-5 text-white">
+            <div className="absolute bottom-0 inset-x-0 p-5 text-on-media">
               <p className="text-[11px] font-semibold uppercase tracking-wider text-primary-light">
                 {dest.categoryName}
               </p>
-              <h3 className="text-xl font-black text-white leading-tight mt-0.5 group-hover:text-primary-light transition-colors">
+              <h3 className="text-xl font-black text-on-media leading-tight mt-0.5 group-hover:text-primary-light transition-colors">
                 {dest.name}
               </h3>
-              <p className="mt-1 text-xs text-neutral-300 line-clamp-2 leading-relaxed">
+              <p className="mt-1 text-xs text-on-media/80 line-clamp-2 leading-relaxed">
                 {dest.description}
               </p>
               <div className="mt-2 flex items-center text-xs font-bold text-primary-light gap-1 opacity-0 group-hover:opacity-100 transition-opacity">

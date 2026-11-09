@@ -36,7 +36,7 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity"
+        className="fixed inset-0 bg-scrim/50 backdrop-blur-xs transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />

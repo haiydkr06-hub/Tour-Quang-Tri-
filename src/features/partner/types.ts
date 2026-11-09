@@ -15,6 +15,8 @@ export interface PartnerTrip {
   payout: number;
   status: TripStatus;
   specialNotes?: string;
+  /** Mã đơn đặt tour sinh ra chuyến này (nếu chuyến được phân công từ đơn khách đặt) */
+  bookingId?: string;
 }
 
 export interface FaqItem {

@@ -55,3 +55,22 @@
 - **Kết quả AI trả về (tóm tắt):** Hoàn thiện backend API engine với bcrypt hashing; nâng cấp TextField accessibility; tạo schemas Zod; xây dựng LoginPage và RegisterPage; tối ưu RoleGuard tự động lưu URL đích và điều hướng chính xác theo 5 vai trò.
 - **Nhóm đã sửa gì và vì sao:** Bổ sung tính năng nhận diện `redirectTo` từ URL search params để người dùng sau khi đăng nhập được đưa ngay về trang đang xem dở.
 - **Bài học rút ra:** Cơ chế phân quyền nhiều tầng (Store + RoleGuard + UI Filter) mang lại độ bảo mật cao và trải nghiệm người dùng xuyên suốt.
+
+
+---
+
+## Sprint 5 (Rà soát & Hoàn thiện theo PRD / ROUTES / AGENTS)
+
+### Prompt 7
+- **Mục đích:** Rà soát toàn bộ dự án so với PRD, TASKS, ROUTES, AGENTS.md và sửa những phần còn thiếu.
+- **Prompt đã dùng:** "D:\Tour QuangTri bạn hãy xem file này giúp tôi còn thiếu những gì và làm gì để hoàn thiện hơn" → sau đó "bạn hãy sữa giúp cho mình" (Claude Code).
+- **Kết quả AI trả về (tóm tắt):** Phát hiện 18 vấn đề (thiếu kéo thả, bộ lọc giá không được gắn vào trang, thiếu `/my-bookings`, `/admin` chuyển sai trang đăng nhập, không có test, đơn mất khi F5, màu cứng, import chéo feature, script `typecheck` không kiểm tra tệp nào, menu tài khoản trỏ tới 3 trang không tồn tại...). Đã sửa: kéo thả lịch trình, `/tours` có bộ lọc trên URL, `/my-bookings`, kho đơn localStorage + Zod, `src/lib/booking`, Design Tokens, lazy routes, nâng React Router lên 8.5.1, 32 test Vitest.
+- **Nhóm đã sửa gì và vì sao:** (nhóm điền sau khi review)
+- **Bài học rút ra:** Cần chạy test/typecheck thật (`tsc -b`) — `tsc --noEmit` với tsconfig dạng references không kiểm tra tệp nào nên "0 lỗi" là giả.
+
+### Prompt 8
+- **Mục đích:** Hoàn thiện các phần còn lại sau đợt rà soát: nối dữ liệu giữa Khách – Admin – Đối tác, thống kê thật, xử lý `server/`.
+- **Prompt đã dùng:** "bạn hãy làm tiếp cho mình nhé" (Claude Code).
+- **Kết quả AI trả về (tóm tắt):** Đơn đã duyệt tự sinh chuyến cho HDV/Tài xế; đối tác báo hoàn thành thì đơn khách hoàn thành; biểu đồ & KPI Admin tính từ đơn thật; thêm `npm run server` + test API; test tích hợp xuyên 3 vai trò (46 test).
+- **Nhóm đã sửa gì và vì sao:** (nhóm điền sau khi review)
+- **Bài học rút ra:** Tách logic thành hàm thuần (`tripsFromBookings`, `buildMonthlyStats`) giúp viết test dễ và tránh số liệu viết cứng.

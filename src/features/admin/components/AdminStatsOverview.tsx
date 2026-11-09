@@ -17,11 +17,20 @@ export function AdminStatsOverview({ stats }: AdminStatsOverviewProps) {
       {/* 4 Thẻ KPI */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card className="p-5">
-          <span className="text-xs font-semibold text-ink-muted">Tổng Doanh Thu</span>
+          <span className="text-xs font-semibold text-ink-muted">
+            Doanh Thu {stats.monthlyStats.length} Tháng
+          </span>
           <p className="mt-2 text-2xl font-extrabold text-primary">
             {formatVND(stats.totalRevenue)}
           </p>
-          <span className="text-[11px] text-success">↑ +24% so với tháng trước</span>
+          {stats.revenueGrowthPercent === null ? (
+            <span className="text-[11px] text-ink-muted">Chưa có số liệu tháng trước</span>
+          ) : (
+            <span className={`text-[11px] ${stats.revenueGrowthPercent >= 0 ? 'text-success' : 'text-danger'}`}>
+              {stats.revenueGrowthPercent >= 0 ? '↑ +' : '↓ '}
+              {Math.abs(stats.revenueGrowthPercent)}% tháng này so với tháng trước
+            </span>
+          )}
         </Card>
 
         <Card className="p-5">
@@ -29,7 +38,7 @@ export function AdminStatsOverview({ stats }: AdminStatsOverviewProps) {
           <p className="mt-2 text-2xl font-extrabold text-ink">
             {stats.totalBookings}
           </p>
-          <span className="text-[11px] text-primary">Đơn đặt thành công</span>
+          <span className="text-[11px] text-primary">{stats.monthlyStats.length} tháng gần nhất, không tính đơn hủy</span>
         </Card>
 
         <Card className="p-5">

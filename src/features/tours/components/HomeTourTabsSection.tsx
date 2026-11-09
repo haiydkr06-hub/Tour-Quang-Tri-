@@ -82,7 +82,7 @@ export function HomeTourTabsSection({ onBookTour }: HomeTourTabsSectionProps) {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition-all cursor-pointer ${
                 isActive
-                  ? 'bg-primary text-white shadow-md'
+                  ? 'bg-primary text-primary-foreground shadow-md'
                   : 'border border-border bg-surface-card text-ink hover:bg-surface-alt'
               }`}
             >

@@ -32,12 +32,12 @@ export function TourDetailView({ tour, onBookNow, onBack }: TourDetailViewProps)
           alt={tour.name}
           className="h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-        <div className="absolute bottom-6 left-6 right-6 text-white">
+        <div className="absolute inset-0 bg-gradient-to-t from-scrim/70 via-scrim/20 to-transparent" />
+        <div className="absolute bottom-6 left-6 right-6 text-on-media">
           <Badge variant="primary" className="mb-2">
             Mã Tour #{tour.id} • {tour.duration}
           </Badge>
-          <h1 className="text-2xl font-extrabold sm:text-4xl text-white">
+          <h1 className="text-2xl font-extrabold sm:text-4xl text-on-media">
             {tour.name}
           </h1>
         </div>

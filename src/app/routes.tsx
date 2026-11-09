@@ -1,84 +1,84 @@
 import type { RouteObject } from 'react-router';
 import { RootLayout } from './RootLayout';
 import { HomePage } from '@/pages/HomePage';
-import { TourDetailPage } from '@/pages/TourDetailPage';
-import { CustomTourBuilderPage } from '@/pages/CustomTourBuilderPage';
-import { CheckoutPage } from '@/pages/CheckoutPage';
-import { PartnerDashboard } from '@/pages/PartnerDashboard';
-import { AdminDashboard } from '@/pages/AdminDashboard';
-import { LoginPage } from '@/pages/public/LoginPage';
-import { RegisterPage } from '@/pages/public/RegisterPage';
-import { ToursPage } from '@/pages/public/ToursPage';
-import { AboutPage } from '@/pages/public/AboutPage';
-import { ContactPage } from '@/pages/public/ContactPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { RoleGuard } from '@/features/auth/components/RoleGuard';
 
+/**
+ * Bảng tuyến của ứng dụng (React Router Data Mode).
+ * Trang chủ và 404 tải ngay; các trang còn lại dùng `lazy` để tách gói JS
+ * (code-splitting) — người dùng chỉ tải mã của trang họ mở.
+ */
 export const routes: RouteObject[] = [
   {
     path: '/',
     element: <RootLayout />,
     children: [
-      {
-        index: true,
-        element: <HomePage />,
-      },
+      { index: true, element: <HomePage /> },
       {
         path: 'tours',
-        element: <ToursPage />,
+        lazy: () => import('@/pages/public/ToursPage').then((m) => ({ Component: m.ToursPage })),
       },
       {
         path: 'tours/:id',
-        element: <TourDetailPage />,
+        lazy: () => import('@/pages/TourDetailPage').then((m) => ({ Component: m.TourDetailPage })),
       },
       {
         path: 'about',
-        element: <AboutPage />,
+        lazy: () => import('@/pages/public/AboutPage').then((m) => ({ Component: m.AboutPage })),
       },
       {
         path: 'contact',
-        element: <ContactPage />,
+        lazy: () => import('@/pages/public/ContactPage').then((m) => ({ Component: m.ContactPage })),
       },
       {
         path: 'custom-tour',
-        element: <CustomTourBuilderPage />,
+        lazy: () =>
+          import('@/pages/CustomTourBuilderPage').then((m) => ({ Component: m.CustomTourBuilderPage })),
       },
       {
         path: 'checkout',
-        element: <CheckoutPage />,
+        lazy: () => import('@/pages/CheckoutPage').then((m) => ({ Component: m.CheckoutPage })),
+      },
+      {
+        path: 'my-bookings',
+        lazy: () => import('@/pages/MyBookingsPage').then((m) => ({ Component: m.MyBookingsPage })),
       },
       {
         path: 'partner',
-        element: (
-          <RoleGuard requiredRole={['PARTNER', 'GUIDE', 'DRIVER']} redirectTo="/login">
-            <PartnerDashboard />
-          </RoleGuard>
-        ),
+        lazy: () =>
+          import('@/pages/PartnerDashboard').then(({ PartnerDashboard }) => ({
+            element: (
+              <RoleGuard requiredRole={['PARTNER', 'GUIDE', 'DRIVER']} redirectTo="/login">
+                <PartnerDashboard />
+              </RoleGuard>
+            ),
+          })),
       },
       {
         path: 'admin',
-        element: (
-          <RoleGuard requiredRole="ADMIN" redirectTo="/login">
-            <AdminDashboard />
-          </RoleGuard>
-        ),
-      },
-      {
-        path: 'login',
-        element: <LoginPage />,
-      },
-      {
-        path: 'register',
-        element: <RegisterPage />,
+        lazy: () =>
+          import('@/pages/AdminDashboard').then(({ AdminDashboard }) => ({
+            element: (
+              <RoleGuard requiredRole="ADMIN" redirectTo="/admin/login">
+                <AdminDashboard />
+              </RoleGuard>
+            ),
+          })),
       },
       {
         path: 'admin/login',
-        element: <LoginPage />,
+        lazy: () => import('@/pages/AdminLoginPage').then((m) => ({ Component: m.AdminLoginPage })),
       },
       {
-        path: '*',
-        element: <NotFoundPage />,
+        path: 'login',
+        lazy: () => import('@/pages/public/LoginPage').then((m) => ({ Component: m.LoginPage })),
       },
+      {
+        path: 'register',
+        lazy: () => import('@/pages/public/RegisterPage').then((m) => ({ Component: m.RegisterPage })),
+      },
+      { path: '*', element: <NotFoundPage /> },
     ],
   },
 ];

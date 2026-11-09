@@ -65,10 +65,10 @@ export function DesktopNavLinks({ navItems, cartCount }: DesktopNavLinksProps) {
             isActive ? 'text-primary font-bold' : 'text-ink font-medium hover:text-primary'
           }`
         }
-        title="Tour yêu thích / Giỏ tour"
+        title="Giỏ tour đang chọn"
       >
-        <span>❤️</span>
-        <span>Yêu thích</span>
+        <span aria-hidden="true">🧳</span>
+        <span>Giỏ tour</span>
         {cartCount > 0 && <Badge variant="primary" className="px-1.5 py-0 text-[10px]">{cartCount}</Badge>}
       </NavLink>
     </nav>

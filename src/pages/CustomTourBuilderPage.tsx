@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router';
 import type { HistoricalDestination, TourGuide, VehicleOption } from '@/features/custom-tour/types';
 import { getHistoricalDestinations, getTourGuides, getVehicleOptions } from '@/features/custom-tour/service';
 import { useCustomTourStore } from '@/features/custom-tour/store';
+import { calculateCustomTourPrice } from '@/features/custom-tour/pricing';
 import { useCartStore } from '@/features/cart/store';
 import { LocationSelector } from '@/features/custom-tour/components/LocationSelector';
+import { ItineraryBuilder } from '@/features/custom-tour/components/ItineraryBuilder';
 import { GuideSelector } from '@/features/custom-tour/components/GuideSelector';
 import { VehicleSelector } from '@/features/custom-tour/components/VehicleSelector';
 import { TourSummaryBar } from '@/features/custom-tour/components/TourSummaryBar';
@@ -14,7 +16,8 @@ export function CustomTourBuilderPage() {
   const setCartItem = useCartStore((s) => s.setCartItem);
   const {
     selectedDestinationIds, days, guests, selectedGuideId, selectedVehicleId,
-    toggleDestination, setDays, setGuests, setSelectedGuide, setSelectedVehicle,
+    toggleDestination, addDestination, removeDestination, moveDestination,
+    setDays, setGuests, setSelectedGuide, setSelectedVehicle,
   } = useCustomTourStore();
 
   const [destinations, setDestinations] = useState<HistoricalDestination[]>([]);
@@ -35,15 +38,17 @@ export function CustomTourBuilderPage() {
     return () => { isMounted = false; };
   }, []);
 
-  const selectedDests = destinations.filter((d) => selectedDestinationIds.includes(d.id));
+  // Giữ đúng thứ tự lịch trình người dùng đã sắp xếp
+  const selectedDests = selectedDestinationIds
+    .map((id) => destinations.find((d) => d.id === id))
+    .filter((d): d is HistoricalDestination => d !== undefined);
   const selectedGuide = guides.find((g) => g.id === selectedGuideId) ?? null;
   const selectedVehicle = vehicles.find((v) => v.id === selectedVehicleId) ?? null;
 
   const handleProceedToCheckout = () => {
-    const baseTicketPrice = selectedDests.reduce((sum, d) => sum + d.entryFee, 0) * guests;
-    const guidePrice = selectedGuide ? selectedGuide.pricePerDay * days : 0;
-    const vehiclePrice = selectedVehicle ? selectedVehicle.pricePerDay * days : 0;
-    const totalPrice = baseTicketPrice + guidePrice + vehiclePrice;
+    const price = calculateCustomTourPrice({
+      destinations: selectedDests, guests, days, guide: selectedGuide, vehicle: selectedVehicle,
+    });
 
     setCartItem({
       type: 'custom',
@@ -51,14 +56,14 @@ export function CustomTourBuilderPage() {
       destinations: selectedDests.map((d) => d.name),
       days,
       guests,
-      basePrice: baseTicketPrice,
+      basePrice: price.tickets,
       guide: selectedGuide ? {
         id: selectedGuide.id, name: selectedGuide.name, pricePerDay: selectedGuide.pricePerDay, rating: selectedGuide.rating,
       } : null,
       vehicle: selectedVehicle ? {
         id: selectedVehicle.id, name: selectedVehicle.name, seats: selectedVehicle.seats, pricePerDay: selectedVehicle.pricePerDay,
       } : null,
-      totalPrice,
+      totalPrice: price.total,
     });
     navigate('/checkout');
   };
@@ -77,10 +82,16 @@ export function CustomTourBuilderPage() {
       <div>
         <h1 className="text-3xl font-extrabold text-ink sm:text-4xl">Trình Tạo Tour Cá Nhân Hóa Quảng Trị</h1>
         <p className="mt-2 text-sm text-ink-muted sm:text-base">
-          Tự do lựa chọn các di tích lịch sử muốn đến, thuê hướng dẫn viên bản địa và phương tiện riêng theo ý thích.
+          Kéo thả các di tích lịch sử vào lịch trình, sắp xếp thứ tự tham quan, thuê hướng dẫn viên bản địa và phương tiện riêng.
         </p>
       </div>
 
+      <ItineraryBuilder
+        stops={selectedDests}
+        onAdd={addDestination}
+        onMove={moveDestination}
+        onRemove={removeDestination}
+      />
       <LocationSelector destinations={destinations} selectedIds={selectedDestinationIds} onToggle={toggleDestination} />
       <GuideSelector guides={guides} selectedGuideId={selectedGuideId} onSelect={setSelectedGuide} />
       <VehicleSelector vehicles={vehicles} selectedVehicleId={selectedVehicleId} onSelect={setSelectedVehicle} />

@@ -56,7 +56,7 @@ export function HomeBookingWidget({
             <option value="Tất cả địa danh">Tất cả địa danh nổi tiếng</option>
             {destinationOptions.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
           </select>
-          {errors.destination && <p className="text-[11px] text-red-500 mt-0.5">{errors.destination}</p>}
+          {errors.destination && <p className="text-[11px] text-danger mt-0.5">{errors.destination}</p>}
         </div>
 
         <div>
@@ -69,7 +69,7 @@ export function HomeBookingWidget({
             onChange={(e) => setFormData({ ...formData, departureDate: e.target.value })}
             className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-xs text-ink focus:border-primary focus:outline-none"
           />
-          {errors.departureDate && <p className="text-[11px] text-red-500 mt-0.5">{errors.departureDate}</p>}
+          {errors.departureDate && <p className="text-[11px] text-danger mt-0.5">{errors.departureDate}</p>}
         </div>
 
         <div className="grid grid-cols-2 gap-3">
@@ -84,7 +84,7 @@ export function HomeBookingWidget({
               onChange={(e) => setFormData({ ...formData, adults: Number(e.target.value) })}
               className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-xs text-ink focus:border-primary focus:outline-none"
             />
-            {errors.adults && <p className="text-[11px] text-red-500 mt-0.5">{errors.adults}</p>}
+            {errors.adults && <p className="text-[11px] text-danger mt-0.5">{errors.adults}</p>}
           </div>
 
           <div>
@@ -98,7 +98,7 @@ export function HomeBookingWidget({
               onChange={(e) => setFormData({ ...formData, children: Number(e.target.value) })}
               className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-xs text-ink focus:border-primary focus:outline-none"
             />
-            {errors.children && <p className="text-[11px] text-red-500 mt-0.5">{errors.children}</p>}
+            {errors.children && <p className="text-[11px] text-danger mt-0.5">{errors.children}</p>}
           </div>
         </div>
 
@@ -138,7 +138,7 @@ export function HomeBookingWidget({
         <button
           type="submit"
           disabled={isLoading}
-          className="mt-2 w-full rounded-xl bg-primary py-3 text-xs font-bold text-white shadow-md hover:bg-primary-dark transition-all cursor-pointer flex items-center justify-center gap-2"
+          className="mt-2 w-full rounded-xl bg-primary py-3 text-xs font-bold text-primary-foreground shadow-md hover:bg-primary-dark transition-all cursor-pointer flex items-center justify-center gap-2"
         >
           {isLoading ? 'Đang tìm kiếm...' : '🔍 TÌM TOUR NGAY'}
         </button>

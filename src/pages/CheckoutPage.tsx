@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Navigate, Link } from 'react-router';
 import { useCartStore } from '@/features/cart/store';
+import { useAuthStore } from '@/features/auth/store';
 import type { BookingCustomerInfo, BookingRecord } from '@/features/checkout/types';
 import { createBooking } from '@/features/checkout/service';
 import { OrderSummary } from '@/features/checkout/components/OrderSummary';
@@ -13,6 +14,7 @@ import { BookingSuccessModal } from '@/features/checkout/components/BookingSucce
  */
 export function CheckoutPage() {
   const { item, clearCart } = useCartStore();
+  const userId = useAuthStore((s) => s.user?.id);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [createdBooking, setCreatedBooking] = useState<BookingRecord | null>(null);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState<boolean>(false);
@@ -27,7 +29,7 @@ export function CheckoutPage() {
     setIsSubmitting(true);
 
     try {
-      const booking = await createBooking(customerData, item);
+      const booking = await createBooking(customerData, item, userId);
       setCreatedBooking(booking);
       clearCart();
       setIsSuccessModalOpen(true);

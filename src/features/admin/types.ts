@@ -9,6 +9,8 @@ export interface AdminStats {
   totalBookings: number;
   activeTours: number;
   totalPartners: number;
+  /** % thay đổi doanh thu tháng này so với tháng trước; null nếu tháng trước bằng 0 */
+  revenueGrowthPercent: number | null;
   monthlyStats: MonthlyStat[];
 }
 

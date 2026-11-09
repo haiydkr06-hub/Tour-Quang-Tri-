@@ -1,4 +1,5 @@
 import type { HistoricalDestination, TourGuide, VehicleOption } from '../types';
+import { calculateCustomTourPrice } from '../pricing';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 
@@ -28,11 +29,19 @@ export function TourSummaryBar({
 }: TourSummaryBarProps) {
   const formatVND = (v: number) => `${v.toLocaleString('vi-VN')} đ`;
 
-  // Tính toán chi phí thời gian thực
-  const totalTickets = selectedDestinations.reduce((sum, d) => sum + d.entryFee, 0) * guests;
-  const totalGuide = (selectedGuide?.pricePerDay ?? 0) * days;
-  const totalVehicle = (selectedVehicle?.pricePerDay ?? 0) * days;
-  const grandTotal = totalTickets + totalGuide + totalVehicle;
+  // Tính toán chi phí thời gian thực (dùng chung hàm thuần với bước tạo giỏ hàng)
+  const {
+    tickets: totalTickets,
+    guide: totalGuide,
+    vehicle: totalVehicle,
+    total: grandTotal,
+  } = calculateCustomTourPrice({
+    destinations: selectedDestinations,
+    guests,
+    days,
+    guide: selectedGuide,
+    vehicle: selectedVehicle,
+  });
 
   const isValid = selectedDestinations.length > 0;
 

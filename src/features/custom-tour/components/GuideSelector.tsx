@@ -1,5 +1,4 @@
 import type { TourGuide } from '../types';
-import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 
 export interface GuideSelectorProps {
@@ -39,51 +38,53 @@ export function GuideSelector({
         {guides.map((g) => {
           const isSelected = selectedGuideId === g.id;
           return (
-            <Card
+            <button
               key={g.id}
+              type="button"
               onClick={() => onSelect(isSelected ? null : g.id)}
-              className={`flex cursor-pointer flex-col justify-between p-4 transition-all ${
+              aria-pressed={isSelected}
+              className={`flex cursor-pointer flex-col justify-between rounded-xl border bg-surface-card p-4 text-left shadow-xs transition-all focus-visible:outline-2 focus-visible:outline-primary ${
                 isSelected
                   ? 'border-primary ring-2 ring-primary/20 bg-primary/5'
-                  : 'hover:border-border/80'
+                  : 'border-border hover:border-primary/50'
               }`}
             >
-              <div>
-                <div className="flex items-center gap-3">
+              <span className="block">
+                <span className="flex items-center gap-3">
                   <img
                     src={g.avatar}
-                    alt={g.name}
+                    alt=""
                     className="h-12 w-12 rounded-full object-cover border border-border"
                   />
-                  <div>
-                    <h3 className="text-sm font-bold text-ink">{g.name}</h3>
-                    <div className="flex items-center gap-1 text-xs text-warning">
-                      <span>★ {g.rating}</span>
-                      <span className="text-ink-muted">({g.reviewsCount})</span>
-                    </div>
-                  </div>
-                </div>
+                  <span className="block">
+                    <span className="block text-sm font-bold text-ink">{g.name}</span>
+                    <span className="flex items-center gap-1 text-xs text-warning">
+                      <span className="block">★ {g.rating}</span>
+                      <span className="block text-ink-muted">({g.reviewsCount})</span>
+                    </span>
+                  </span>
+                </span>
 
-                <p className="mt-3 text-xs text-ink-muted italic">
+                <span className="block mt-3 text-xs text-ink-muted italic">
                   "{g.specialty}"
-                </p>
+                </span>
 
-                <div className="mt-3 flex flex-wrap gap-1">
+                <span className="mt-3 flex flex-wrap gap-1">
                   {g.languages.map((lang) => (
                     <Badge key={lang} variant="neutral" className="text-[10px]">
                       {lang}
                     </Badge>
                   ))}
-                </div>
-              </div>
+                </span>
+              </span>
 
-              <div className="mt-4 flex items-center justify-between border-t border-border/50 pt-2 text-xs">
-                <span className="font-bold text-primary">{formatVND(g.pricePerDay)}</span>
-                <span className="text-[11px] font-medium text-ink">
+              <span className="mt-4 flex items-center justify-between border-t border-border/50 pt-2 text-xs">
+                <span className="block font-bold text-primary">{formatVND(g.pricePerDay)}</span>
+                <span className="block text-[11px] font-medium text-ink">
                   {isSelected ? '✓ Đã chọn' : '+ Chọn'}
                 </span>
-              </div>
-            </Card>
+              </span>
+            </button>
           );
         })}
       </div>

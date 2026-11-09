@@ -1,4 +1,4 @@
-import type { CartItem } from '@/features/cart/types';
+import type { CartItem } from '@/lib/booking/types';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 
