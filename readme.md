@@ -4,7 +4,7 @@ Dự án xuyên suốt học phần **Web FrontEnd nâng cao** (INT.7.18)
 **Trường Đại học Phú Xuân — Khoa Công nghệ thông tin**  
 **Người phụ trách:** Hồ Hải Ý 
 
-🌐 **Demo trực tuyến:** https://tour-quang-tri.vercel.app — tài khoản demo xem mục [🔑 Tài khoản demo](#-tài-khoản-demo).
+🌐 **Demo trực tuyến:** https://tour-quang-tri-opal.vercel.app — tài khoản demo xem mục [🔑 Tài khoản demo](#-tài-khoản-demo).
 
 ## 📖 Giới thiệu Dự án
 
