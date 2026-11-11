@@ -43,7 +43,7 @@ export function TourSummaryBar({
     vehicle: selectedVehicle,
   });
 
-  const isValid = selectedDestinations.length > 0;
+  const isValid = selectedDestinations.length > 0 || selectedGuide !== null || selectedVehicle !== null;
 
   return (
     <Card className="sticky bottom-4 z-40 border-2 border-primary shadow-xl bg-surface-card">
@@ -131,7 +131,7 @@ export function TourSummaryBar({
             className="mt-2 w-full sm:w-auto"
             onClick={onProceed}
           >
-            {isValid ? 'Tiến Hành Đặt Tour →' : 'Chọn ít nhất 1 điểm'}
+            {isValid ? 'Tiến Hành Đặt Tour →' : 'Chọn điểm hoặc HDV / Xe'}
           </Button>
         </div>
       </div>

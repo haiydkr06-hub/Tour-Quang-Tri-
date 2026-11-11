@@ -57,6 +57,11 @@ export const NAV_ITEMS: NavItem[] = [
     to: '/tours',
   },
   {
+    id: 'nav-hire',
+    label: 'Thuê HDV & Xe',
+    to: '/custom-tour',
+  },
+  {
     id: 'nav-about',
     label: 'Giới thiệu',
     to: '/about',

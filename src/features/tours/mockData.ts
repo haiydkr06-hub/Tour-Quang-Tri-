@@ -470,6 +470,17 @@ export const TRAVEL_ARTICLES: TravelArticle[] = [
     imageUrl: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80',
     summary:
       'Hướng dẫn lộ trình di chuyển, trang phục phù hợp khi đi sâu vào lòng đất và những góc check-in di sản lịch sử không thể bỏ lỡ tại Vĩnh Linh.',
+    relatedTourId: 3,
+    content: [
+      'Địa đạo Vịnh Mốc là kỳ tích sống ngầm vĩ đại của quân và dân Vĩnh Linh, Quảng Trị trong cuộc kháng chiến chống Mỹ. Được đào thủ công sâu tới gần 30 mét trong lòng đất bazan, hệ thống địa đạo gồm 3 tầng liên hoàn dài gần 2km với đầy đủ hội trường, trạm phẫu thuật, phòng họp và nhà hộ sinh.',
+      'Dù sâu trong lòng đất, hệ thống thông gió ra biển vẫn giữ cho không khí luôn thoáng đãng mát mẻ ở mức 20-22 độ C quanh năm. Hệ thống chiếu sáng hiện đại kết hợp bảng thuyết minh song ngữ giúp du khách có một trải nghiệm khám phá chân thực và đầy cảm xúc.',
+      'Từ cửa hầm số 4 trổ thẳng ra biển Cửa Tùng lộng gió, du khách sẽ cảm nhận trọn vẹn sự kỳ diệu và tinh thần quả cảm kiên cường của con người vùng đất lửa Quảng Trị.'
+    ],
+    tips: [
+      'Nên đi giày thể thao có độ bám tốt để thuận tiện đi lại trong đường hầm.',
+      'Thời gian tham quan lý tưởng là 2 - 3 giờ, nên thuê hướng dẫn viên bản địa để nghe thuyết minh chi tiết.',
+      'Có thể kết hợp tắm biển Cửa Tùng và thưởng thức hải sản tươi sống ngay cạnh khu di tích.'
+    ],
   },
   {
     id: 'art-am-thuc-quang-tri',
@@ -480,6 +491,17 @@ export const TRAVEL_ARTICLES: TravelArticle[] = [
     imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80',
     summary:
       'Thưởng thức bánh ướt Phương Lang, cháo bột cá lóc Hải Lăng, lòng sả An Tiêm và thịt dê núi Khe Sanh cay nồng chuẩn vị miền gió Lào.',
+    relatedTourId: 1,
+    content: [
+      'Ẩm thực Quảng Trị ghi dấu ấn sâu đậm trong lòng thực khách bởi sự mộc mạc, cay nồng và đậm đà khó quên. Món ăn đầu tiên phải thử là cháo bột cá lóc Hải Lăng (hay còn gọi là cháo vạc giường) với sợi bột gạo dẻo mềm và thịt cá lóc đồng rim thơm phức.',
+      'Bánh ướt Phương Lang ăn cùng thịt heo ba chỉ luộc, rau sống và nước chấm làm từ tương đậu nành gia truyền tạo nên hương vị béo ngậy, bùi bùi đặc trưng.',
+      'Lên đến vùng cao Khe Sanh, du khách không thể bỏ lỡ món thịt dê núi nướng mọi hoặc hấp lá tía tô thơm lừng, kèm một chén rượu nếp men lá của đồng bào Vân Kiều.'
+    ],
+    tips: [
+      'Đặc sản Quảng Trị thường dùng ớt cay nồng; nếu không quen ăn cay bạn nên nhắc chủ quán giảm ớt.',
+      'Cháo bột cá lóc ăn nóng vào buổi sáng hoặc chiều muộn là chuẩn vị nhất.',
+      'Bạn có thể mua bánh bột lọc Mỹ Chánh gói lá chuối làm quà mang về (bảo quản tốt 2 - 3 ngày).'
+    ],
   },
   {
     id: 'art-con-co-cam-nang',
@@ -490,6 +512,17 @@ export const TRAVEL_ARTICLES: TravelArticle[] = [
     imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80',
     summary:
       'Chi tiết giờ tàu xuất bến tại Cảng Cửa Việt, thông tin homestay sinh thái trên đảo, điểm ngắm bình minh Mũi Nghè và dịch vụ thuê xe điện.',
+    relatedTourId: 4,
+    content: [
+      'Đảo Cồn Cỏ — tiền đồn tiền tiêu của Tổ quốc giữa trùng khơi Biển Đông, cách đất liền chừng 30km. Từ Cảng Cửa Việt, chuyến tàu cao tốc Con Co Tourist chỉ mất 40 - 50 phút lướt sóng êm ái để đưa du khách cập bến hòn đảo xanh.',
+      'Khám phá Cồn Cỏ, bạn sẽ được đi bộ xuyên rừng nguyên sinh với độ che phủ hơn 70%, leo lên ngọn hải đăng phóng tầm mắt ngắm trọn vẹn biển trời bao la và trải nghiệm lặn biển ngắm hệ sinh thái san hô đỏ quý hiếm.',
+      'Buổi tối tại đảo rất yên bình, du khách có thể cùng ngư dân câu mực đêm, thưởng thức các loại ốc biển độc đáo như ốc mắt ngọc, cua đá và mực một nắng.'
+    ],
+    tips: [
+      'Nên đi vào khoảng tháng 3 đến tháng 8 là mùa biển êm, sóng lặn và nước trong xanh nhất.',
+      'Cần mang theo căn cước công dân hoặc hộ chiếu để làm thủ tục lên tàu ra đảo.',
+      'Tuyệt đối không bẻ hay mang san hô về đất liền để bảo vệ môi trường sinh thái biển.'
+    ],
   },
   {
     id: 'art-le-hoi-thanh-co',
@@ -500,5 +533,16 @@ export const TRAVEL_ARTICLES: TravelArticle[] = [
     imageUrl: 'https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?auto=format&fit=crop&w=600&q=80',
     summary:
       'Hòa mình vào không gian hoa đăng lung linh dòng Thạch Hãn mỗi dịp ngày rằm, lắng đọng khúc ca tưởng nhớ những người lính tuổi đôi mươi.',
+    relatedTourId: 1,
+    content: [
+      'Đêm hoa đăng trên dòng sông Thạch Hãn là nét sinh hoạt văn hóa tâm linh thiêng liêng và xúc động nhất của người dân Quảng Trị. Mỗi dịp rằm, mùng một và đặc biệt là ngày 27/7, hàng vạn ngọn nến hoa đăng được thả trôi theo dòng nước.',
+      'Sông Thạch Hãn — nơi yên nghỉ của hàng ngàn chiến sĩ tuổi đôi mươi trong 81 ngày đêm máu lửa bảo vệ Thành Cổ Quảng Trị. Khung cảnh lung linh soi bóng dòng sông đưa lòng người về với những khúc tráng ca bất tử của non sông.',
+      'Sau khi thả hoa đăng, du khách có thể tản bộ trong công viên bờ sông, ghé thăm Nhà hành lễ và tượng đài tưởng niệm để cảm nhận trọn vẹn sự bình yên của thị xã hôm nay.'
+    ],
+    tips: [
+      'Thời điểm thả hoa đăng đẹp nhất là từ 18:30 đến 20:00 khi trời vừa nhá nhem tối.',
+      'Nên mặc trang phục lịch sự, trang nghiêm khi tham gia lễ tưởng niệm tại bờ sông và Thành Cổ.',
+      'Nên kết hợp dâng hương Thành Cổ vào buổi chiều trước khi ra bờ sông thả đèn.'
+    ],
   },
 ];

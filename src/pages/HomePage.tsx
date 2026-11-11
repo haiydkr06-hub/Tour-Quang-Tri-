@@ -10,6 +10,7 @@ import type {
   TravelArticle,
   Tour,
 } from '@/features/tours/types';
+import type { TourGuide, VehicleOption } from '@/features/custom-tour/types';
 import {
   getCarouselSlides,
   getDestinationOptions,
@@ -19,11 +20,13 @@ import {
   getCustomerReviews,
   getTravelArticles,
 } from '@/features/tours/service';
+import { getTourGuides, getVehicleOptions } from '@/features/custom-tour/service';
 import { filterFromBookingWidget, filterToParams } from '@/features/tours/filterParams';
 import { useCartStore } from '@/features/cart/store';
 import { HomeHeroSection } from '@/features/tours/components/HomeHeroSection';
 import { HomeDestinationsSection } from '@/features/tours/components/HomeDestinationsSection';
 import { HomeTourTabsSection } from '@/features/tours/components/HomeTourTabsSection';
+import { HomeHireSection } from '@/features/tours/components/HomeHireSection';
 import { HomeCollectionsSection } from '@/features/tours/components/HomeCollectionsSection';
 import { HomeInteractiveMap } from '@/features/tours/components/HomeInteractiveMap';
 import { HomeReviewsSection } from '@/features/tours/components/HomeReviewsSection';
@@ -40,6 +43,8 @@ export function HomePage() {
   const [mapPoints, setMapPoints] = useState<MapPoint[]>([]);
   const [reviews, setReviews] = useState<TourReview[]>([]);
   const [articles, setArticles] = useState<TravelArticle[]>([]);
+  const [guides, setGuides] = useState<TourGuide[]>([]);
+  const [vehicles, setVehicles] = useState<VehicleOption[]>([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -51,7 +56,9 @@ export function HomePage() {
       getMapPoints(),
       getCustomerReviews(),
       getTravelArticles(),
-    ]).then(([sData, dData, hData, cData, mData, rData, aData]) => {
+      getTourGuides(),
+      getVehicleOptions(),
+    ]).then(([sData, dData, hData, cData, mData, rData, aData, gData, vData]) => {
       if (isMounted) {
         setSlides(sData);
         setDestOptions(dData);
@@ -60,6 +67,8 @@ export function HomePage() {
         setMapPoints(mData);
         setReviews(rData);
         setArticles(aData);
+        setGuides(gData);
+        setVehicles(vData);
       }
     });
     return () => {
@@ -67,14 +76,13 @@ export function HomePage() {
     };
   }, []);
 
-  // Tìm kiếm ở trang chủ → sang /tours với bộ lọc trên URL (có thanh trượt giá & trạng thái rỗng)
   const handleBookingSearch = (data: BookingWidgetData) => {
     const params = filterToParams(filterFromBookingWidget(data)).toString();
     navigate(params ? `/tours?${params}` : '/tours');
   };
 
-  const handleSelectCategory = (_cat: string) => {
-    document.getElementById('tour-noi-bat')?.scrollIntoView({ behavior: 'smooth' });
+  const handleSelectCategory = (cat: string) => {
+    navigate(`/tours?cat=${cat}`);
   };
 
   const handleBookTour = (tour: Tour) => {
@@ -91,27 +99,50 @@ export function HomePage() {
     navigate('/checkout');
   };
 
+  const handleHireGuide = (guide: TourGuide) => {
+    setCartItem({
+      type: 'custom',
+      tourTitle: `Thuê Hướng Dẫn Viên Bản Địa: ${guide.name} (1 ngày)`,
+      destinations: ['Lịch trình tự do theo yêu cầu của du khách'],
+      days: 1,
+      guests: 2,
+      basePrice: 0,
+      guide: { id: guide.id, name: guide.name, pricePerDay: guide.pricePerDay, rating: guide.rating },
+      vehicle: null,
+      totalPrice: guide.pricePerDay,
+    });
+    navigate('/checkout');
+  };
+
+  const handleHireVehicle = (vehicle: VehicleOption) => {
+    setCartItem({
+      type: 'custom',
+      tourTitle: `Thuê Xe & Tài Xế: ${vehicle.name} (1 ngày)`,
+      destinations: ['Lịch trình tự do theo yêu cầu của du khách'],
+      days: 1,
+      guests: 2,
+      basePrice: 0,
+      guide: null,
+      vehicle: { id: vehicle.id, name: vehicle.name, seats: vehicle.seats, pricePerDay: vehicle.pricePerDay },
+      totalPrice: vehicle.pricePerDay,
+    });
+    navigate('/checkout');
+  };
+
   return (
     <div className="mx-auto max-w-7xl space-y-20 px-4 pb-4 pt-6 sm:space-y-24 sm:px-6 lg:px-8">
-      <HomeHeroSection
-        slides={slides}
-        destinationOptions={destOptions}
-        onSearch={handleBookingSearch}
-      />
-
-      <HomeDestinationsSection
-        destinations={destHighlights}
-        onSelectCategory={handleSelectCategory}
-      />
-
+      <HomeHeroSection slides={slides} destinationOptions={destOptions} onSearch={handleBookingSearch} />
+      <HomeDestinationsSection destinations={destHighlights} onSelectCategory={handleSelectCategory} />
       <HomeTourTabsSection onBookTour={handleBookTour} />
-
+      <HomeHireSection
+        guides={guides}
+        vehicles={vehicles}
+        onHireGuide={handleHireGuide}
+        onHireVehicle={handleHireVehicle}
+      />
       <HomeCollectionsSection collections={collections} />
-
       <HomeInteractiveMap points={mapPoints} />
-
       <HomeReviewsSection reviews={reviews} />
-
       <HomeTravelArticlesSection articles={articles} />
     </div>
   );

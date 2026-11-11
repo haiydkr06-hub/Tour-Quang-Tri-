@@ -1,6 +1,6 @@
-import { Link } from 'react-router';
+import { useNavigate } from 'react-router';
 import type { Tour } from '../types';
-import { Button, buttonClasses } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { discountPercent as getDiscount, formatTourDate, formatVND } from '../format';
 import { TourIcon } from './TourIcon';
 
@@ -10,17 +10,34 @@ export interface TourCardItemProps {
 }
 
 /**
- * Thẻ tour dùng chung cho trang chủ và trang /tours — cùng một bố cục:
- * ảnh, tên, địa điểm, thời gian, giá, khởi hành, nút Chi tiết + Đặt tour.
+ * Thẻ tour dùng chung: toàn bộ thẻ có thể bấm để chuyển thẳng vào trang xem chi tiết (/tours/:id).
+ * Nút "Chi tiết" và "Đặt tour" là các thẻ <button> chuẩn ngữ nghĩa.
  */
 export function TourCardItem({ tour, onBookNow }: TourCardItemProps) {
+  const navigate = useNavigate();
   const discountPercent = getDiscount(tour.price, tour.originalPrice);
   const hasDiscount = discountPercent !== null;
   const shownLocations = tour.locations.slice(0, 2).join(' · ');
   const moreLocations = tour.locations.length - 2;
 
+  const handleOpenDetail = () => {
+    navigate(`/tours/${tour.id}`);
+  };
+
   return (
-    <article className="reveal group flex h-full flex-col overflow-hidden rounded-3xl border border-border/80 bg-surface-card shadow-card transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/30 hover:shadow-card-hover">
+    <article
+      tabIndex={0}
+      role="button"
+      aria-label={`Xem chi tiết tour: ${tour.name}`}
+      onClick={handleOpenDetail}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleOpenDetail();
+        }
+      }}
+      className="reveal group flex h-full flex-col overflow-hidden rounded-3xl border border-border/80 bg-surface-card shadow-card transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/30 hover:shadow-card-hover cursor-pointer focus-visible:outline-2 focus-visible:outline-primary"
+    >
       {/* Ảnh & nhãn */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-alt">
         <img
@@ -67,10 +84,8 @@ export function TourCardItem({ tour, onBookNow }: TourCardItemProps) {
           {tour.departureFrom && <span className="truncate text-ink-muted">Xuất phát: {tour.departureFrom}</span>}
         </div>
 
-        <h3 className="mt-2 text-[17px] font-bold leading-snug text-ink line-clamp-2">
-          <Link to={`/tours/${tour.id}`} className="transition-colors hover:text-primary">
-            {tour.name}
-          </Link>
+        <h3 className="mt-2 text-[17px] font-bold leading-snug text-ink line-clamp-2 transition-colors group-hover:text-primary">
+          {tour.name}
         </h3>
 
         <p className="mt-1.5 text-sm leading-relaxed text-ink-muted line-clamp-2">{tour.description}</p>
@@ -104,10 +119,26 @@ export function TourCardItem({ tour, onBookNow }: TourCardItemProps) {
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            <Link to={`/tours/${tour.id}`} className={buttonClasses('outline', 'sm', 'w-full')}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full relative z-10"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleOpenDetail();
+              }}
+            >
               Chi tiết
-            </Link>
-            <Button variant="primary" size="sm" className="w-full" onClick={() => onBookNow?.(tour)}>
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              className="w-full relative z-10"
+              onClick={(e) => {
+                e.stopPropagation();
+                onBookNow?.(tour);
+              }}
+            >
               Đặt tour
             </Button>
           </div>

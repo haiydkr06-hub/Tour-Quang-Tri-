@@ -100,8 +100,8 @@ export function HomeTourTabsSection({ onBookTour }: HomeTourTabsSectionProps) {
 
       {/* States: Loading, Empty, Grid */}
       {isLoading ? (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" aria-busy="true">
-          {[1, 2, 3].map((n) => (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4" aria-busy="true">
+          {[1, 2, 3, 4].map((n) => (
             <TourCardSkeleton key={n} />
           ))}
         </div>
@@ -111,28 +111,14 @@ export function HomeTourTabsSection({ onBookTour }: HomeTourTabsSectionProps) {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {tours.map((tour) => (
               <TourCardItem key={tour.id} tour={tour} onBookNow={onBookTour} />
             ))}
-            {/* Lưới 3 cột còn ô trống → lấp bằng thẻ "Xem tất cả tour" */}
-            {tours.length % 3 !== 0 ? (
-              <Link
-                to="/tours"
-                className="group relative isolate hidden min-h-[320px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-navy p-8 text-center shadow-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-card-hover lg:flex"
-              >
-                <span aria-hidden="true" className="absolute -right-12 -top-12 -z-10 h-48 w-48 rounded-full bg-primary/40 blur-3xl transition-transform duration-700 group-hover:scale-150" />
-                <span aria-hidden="true" className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-2xl text-primary-foreground shadow-lg shadow-primary/40 transition-transform duration-300 group-hover:rotate-[-8deg]">
-                  ➔
-                </span>
-                <span className="mt-5 text-xl font-extrabold text-on-media">Xem Tất Cả Tour</span>
-                <span className="mt-2 text-sm text-on-media/70">Danh Sách Tour Quảng Trị</span>
-              </Link>
-            ) : null}
           </div>
-          <div className={`justify-center pt-2 ${tours.length % 3 !== 0 ? 'flex lg:hidden' : 'flex'}`}>
+          <div className="flex justify-center pt-4">
             <Link to="/tours" className={buttonClasses('outline', 'md')}>
-              Xem Tất Cả Tour ➔
+              Xem Tất Cả Tour Tuyển Chọn ➔
             </Link>
           </div>
         </>

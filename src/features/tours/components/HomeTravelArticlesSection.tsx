@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import type { TravelArticle } from '../types';
+import { ArticleDetailModal } from './ArticleDetailModal';
 
 export interface HomeTravelArticlesSectionProps {
   articles: TravelArticle[];
@@ -8,7 +10,9 @@ export interface HomeTravelArticlesSectionProps {
 const CATEGORIES = ['Tất cả', 'Kinh nghiệm', 'Ẩm thực', 'Lưu trú', 'Lễ hội'] as const;
 
 export function HomeTravelArticlesSection({ articles }: HomeTravelArticlesSectionProps) {
+  const navigate = useNavigate();
   const [selectedCat, setSelectedCat] = useState<string>('Tất cả');
+  const [activeArticle, setActiveArticle] = useState<TravelArticle | null>(null);
 
   const filtered =
     selectedCat === 'Tất cả'
@@ -46,11 +50,21 @@ export function HomeTravelArticlesSection({ articles }: HomeTravelArticlesSectio
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {filtered.map((art) => (
           <article
             key={art.id}
-            className="group flex flex-col justify-between overflow-hidden rounded-3xl border border-border/80 bg-surface-card shadow-card hover:-translate-y-1 hover:shadow-card-hover transition-all duration-300"
+            tabIndex={0}
+            role="button"
+            aria-label={`Xem chi tiết bài viết: ${art.title}`}
+            onClick={() => setActiveArticle(art)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setActiveArticle(art);
+              }
+            }}
+            className="group flex flex-col justify-between overflow-hidden rounded-3xl border border-border/80 bg-surface-card shadow-card hover:-translate-y-1 hover:shadow-card-hover transition-all duration-300 cursor-pointer focus-visible:outline-2 focus-visible:outline-primary"
           >
             <div>
               <div className="relative h-44 w-full overflow-hidden bg-surface-alt">
@@ -88,6 +102,12 @@ export function HomeTravelArticlesSection({ articles }: HomeTravelArticlesSectio
           </article>
         ))}
       </div>
+
+      <ArticleDetailModal
+        article={activeArticle}
+        onClose={() => setActiveArticle(null)}
+        onExploreTour={(tourId) => navigate(`/tours/${tourId}`)}
+      />
     </section>
   );
 }

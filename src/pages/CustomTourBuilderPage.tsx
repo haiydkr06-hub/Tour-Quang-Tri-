@@ -53,8 +53,15 @@ export function CustomTourBuilderPage() {
 
     setCartItem({
       type: 'custom',
-      tourTitle: `Tour Tuỳ Chỉnh (${selectedDests.length} địa danh di tích)`,
-      destinations: selectedDests.map((d) => d.name),
+      tourTitle:
+        selectedDests.length > 0
+          ? `Tour Tuỳ Chỉnh (${selectedDests.length} địa danh di tích)`
+          : selectedGuide && selectedVehicle
+            ? `Thuê Hướng Dẫn Viên & Xe (${days} ngày)`
+            : selectedGuide
+              ? `Thuê Hướng Dẫn Viên: ${selectedGuide.name} (${days} ngày)`
+              : `Thuê Xe Du Lịch: ${selectedVehicle?.name ?? ''} (${days} ngày)`,
+      destinations: selectedDests.length > 0 ? selectedDests.map((d) => d.name) : ['Lịch trình tự do theo yêu cầu du khách'],
       days,
       guests,
       basePrice: price.tickets,

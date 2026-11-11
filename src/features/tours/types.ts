@@ -115,4 +115,7 @@ export interface TravelArticle {
   date: string;
   imageUrl: string;
   summary: string;
+  content?: string[];
+  tips?: string[];
+  relatedTourId?: number;
 }
