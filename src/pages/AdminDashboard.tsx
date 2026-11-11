@@ -15,6 +15,7 @@ import { AdminTourManager } from '@/features/admin/components/AdminTourManager';
 import { AdminTourFormModal } from '@/features/admin/components/AdminTourFormModal';
 import { AdminBookingManager } from '@/features/admin/components/AdminBookingManager';
 import { Button } from '@/components/ui/Button';
+import { PageHeader } from '@/components/PageHeader';
 
 type AdminTab = 'overview' | 'tours' | 'bookings';
 
@@ -60,20 +61,13 @@ export function AdminDashboard() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
-      {/* Header Quản trị */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-border pb-6">
-        <div>
-          <span className="text-xs font-semibold text-primary">Khu Vực Quản Trị Hệ Thống</span>
-          <h1 className="text-2xl font-extrabold text-ink sm:text-3xl">
-            Bảng Điều Hành Tour Du Lịch Quảng Trị
-          </h1>
-          <p className="mt-1 text-xs text-ink-muted">
-            Quản trị danh mục tour di tích, duyệt đơn đặt hàng và theo dõi chỉ số tăng trưởng.
-          </p>
-        </div>
-
-        {/* Tab chuyển đổi */}
+    <div className="mx-auto max-w-7xl space-y-8 px-4 py-10 sm:px-6 lg:px-8">
+      {/* Header Quản trị + tab chuyển đổi */}
+      <PageHeader
+        eyebrow="Khu Vực Quản Trị Hệ Thống"
+        title="Bảng Điều Hành Tour Du Lịch Quảng Trị"
+        description="Quản trị danh mục tour di tích, duyệt đơn đặt hàng và theo dõi chỉ số tăng trưởng."
+        actions={
         <div className="flex flex-wrap gap-2">
           <Button
             variant={activeTab === 'overview' ? 'primary' : 'outline'}
@@ -97,7 +91,8 @@ export function AdminDashboard() {
             📋 Duyệt Đơn Đặt ({bookings.length})
           </Button>
         </div>
-      </div>
+        }
+      />
 
       {/* Nội dung theo Tab */}
       {activeTab === 'overview' && stats ? (

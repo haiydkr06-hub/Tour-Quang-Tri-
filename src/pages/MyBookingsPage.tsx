@@ -4,6 +4,7 @@ import type { BookingRecord } from '@/features/checkout/types';
 import { getMyBookings } from '@/features/checkout/service';
 import { MyBookingList } from '@/features/checkout/components/MyBookingList';
 import { useAuthStore } from '@/features/auth/store';
+import { PageHeader } from '@/components/PageHeader';
 
 /**
  * Container: Trang "Đơn đặt tour của tôi" (/my-bookings).
@@ -32,10 +33,12 @@ export function MyBookingsPage() {
   }, [userId, userEmail]);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10 space-y-6">
-      <div>
-        <h1 className="text-2xl font-extrabold text-ink sm:text-3xl">Đơn Đặt Tour Của Tôi</h1>
-        <p className="mt-1 text-sm text-ink-muted">
+    <div className="mx-auto max-w-5xl space-y-8 px-4 py-10 sm:px-6 lg:px-8">
+      <PageHeader
+        eyebrow="Tài khoản"
+        title="Đơn Đặt Tour Của Tôi"
+        description={
+          <>
           {user
             ? `Xin chào ${user.name}, đây là các đơn gắn với tài khoản ${user.email}.`
             : 'Đây là các đơn bạn đã đặt trên trình duyệt này. '}
@@ -44,8 +47,9 @@ export function MyBookingsPage() {
               Đăng nhập để xem đơn theo tài khoản
             </Link>
           ) : null}
-        </p>
-      </div>
+          </>
+        }
+      />
 
       <MyBookingList bookings={bookings} isLoading={isLoading} />
     </div>

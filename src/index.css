@@ -1,58 +1,74 @@
 @import "tailwindcss";
 
+/*
+ * Hệ thống thiết kế Tour Quảng Trị
+ * Bảng màu chính theo tài liệu nâng cấp giao diện:
+ *   Xanh ngọc #07998D · Xanh đậm #101D38 · Trắng #FFFFFF · Nền xám sáng #F6F8FB
+ */
 :root {
-  --color-primary: #0d9488;
-  --color-primary-hover: #0f766e;
-  --color-primary-dark: #115e59;
-  --color-primary-light: #5eead4;
+  --color-primary: #07998d;
+  --color-primary-hover: #068277;
+  --color-primary-dark: #056b63;
+  --color-primary-light: #7fe0d6;
   --color-primary-foreground: #ffffff;
+
+  /* Xanh đậm thương hiệu — cố định ở cả 2 chế độ (footer, khối nhấn) */
+  --color-navy: #101d38;
 
   /* Màu cố định cho nội dung đặt trên ảnh (không đổi theo theme) */
   --color-on-media: #ffffff;
-  --color-scrim: #020617;
+  --color-scrim: #0a1226;
   --color-danger-foreground: #ffffff;
 
-  --color-surface: #f8fafc;
+  --color-surface: #f6f8fb;
   --color-surface-card: #ffffff;
-  --color-surface-alt: #f1f5f9;
+  --color-surface-alt: #eef2f7;
 
-  --color-ink: #0f172a;
-  --color-ink-muted: #64748b;
-  --color-ink-subtle: #94a3b8;
+  --color-ink: #101d38;
+  --color-ink-muted: #5a6478;
+  --color-ink-subtle: #8c95a8;
 
-  --color-border: #e2e8f0;
-  --color-danger: #ef4444;
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
+  --color-border: #e3e8ef;
+  --color-danger: #e5484d;
+  --color-success: #12a150;
+  --color-warning: #e8a317;
+
+  /* Đổ bóng nhẹ, ám màu xanh đậm thay vì đen thuần */
+  --shadow-color: 16 29 56;
 }
 
 .dark {
-  --color-primary: #14b8a6;
-  --color-primary-hover: #2dd4bf;
-  --color-primary-dark: #0f766e;
-  --color-primary-light: #99f6e4;
-  --color-primary-foreground: #042f2e;
+  --color-primary: #1ab3a6;
+  --color-primary-hover: #35c6b9;
+  --color-primary-dark: #07998d;
+  --color-primary-light: #8eebe1;
+  --color-primary-foreground: #04201d;
 
-  --color-surface: #090d16;
-  --color-surface-card: #131b2e;
-  --color-surface-alt: #1e293b;
+  --color-surface: #0a1428;
+  --color-surface-card: #101d38;
+  --color-surface-alt: #17284a;
 
-  --color-ink: #f8fafc;
-  --color-ink-muted: #94a3b8;
-  --color-ink-subtle: #64748b;
+  --color-ink: #eef2f8;
+  --color-ink-muted: #9aa6bd;
+  --color-ink-subtle: #6b7891;
 
-  --color-border: #334155;
-  --color-danger: #f87171;
-  --color-success: #34d399;
-  --color-warning: #fbbf24;
+  --color-border: #233659;
+  --color-danger: #f2777a;
+  --color-success: #3dd68c;
+  --color-warning: #f5c04e;
+
+  --shadow-color: 0 0 0;
 }
 
 @theme {
+  --font-sans: 'Be Vietnam Pro', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
   --color-primary: var(--color-primary);
   --color-primary-hover: var(--color-primary-hover);
   --color-primary-foreground: var(--color-primary-foreground);
   --color-primary-dark: var(--color-primary-dark);
   --color-primary-light: var(--color-primary-light);
+  --color-navy: var(--color-navy);
 
   --color-on-media: var(--color-on-media);
   --color-scrim: var(--color-scrim);
@@ -70,12 +86,90 @@
   --color-danger: var(--color-danger);
   --color-success: var(--color-success);
   --color-warning: var(--color-warning);
+
+  /* Bóng đổ dùng chung: shadow-card, shadow-card-hover, shadow-pop */
+  --shadow-card: 0 1px 2px rgb(var(--shadow-color) / 0.04), 0 6px 20px -8px rgb(var(--shadow-color) / 0.1);
+  --shadow-card-hover: 0 2px 4px rgb(var(--shadow-color) / 0.05), 0 18px 40px -16px rgb(var(--shadow-color) / 0.22);
+  --shadow-pop: 0 24px 60px -20px rgb(var(--shadow-color) / 0.35);
+
+  --animate-fade-in: fade-in 0.6s ease-out both;
+  --animate-fade-up: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-body {
-  margin: 0;
-  background-color: var(--color-surface);
-  color: var(--color-ink);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  min-height: 100vh;
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-primary) 22%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/*
+ * Hiệu ứng hiện dần khi cuộn — chỉ bằng CSS (scroll-driven animation).
+ * Trình duyệt chưa hỗ trợ hoặc người dùng bật "giảm chuyển động" thì nội dung hiện bình thường.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: fade-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+}
+
+/* Lưới tọa độ mờ cho khung bản đồ trang chủ (dùng màu token, hợp cả chế độ sáng/tối) */
+.map-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-on-media) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-on-media) 7%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

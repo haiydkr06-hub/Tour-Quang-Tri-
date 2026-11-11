@@ -6,7 +6,8 @@ import { validateRegisterForm } from '@/features/auth/schemas';
 import type { RegisterData } from '@/features/auth/types';
 import { TextField } from '@/components/ui/TextField';
 import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
+import { Alert } from '@/components/ui/Alert';
+import { AuthLayout } from '@/components/AuthLayout';
 
 export function RegisterPage() {
   const navigate = useNavigate();
@@ -47,15 +48,8 @@ export function RegisterPage() {
   };
 
   return (
-    <div className="mx-auto flex min-h-[calc(100vh-16rem)] max-w-lg items-center justify-center px-4 py-12">
-      <Card className="w-full p-8 shadow-xl">
-        <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold tracking-tight text-ink">Đăng Ký Tài Khoản Du Khách</h1>
-          <p className="mt-1 text-xs text-ink-muted">Khám phá và đặt tour du lịch Quảng Trị cá nhân hóa</p>
-        </div>
-        {serverError && (
-          <div className="mb-4 rounded-lg bg-danger/10 border border-danger/30 p-3 text-xs text-danger font-medium" role="alert">{serverError}</div>
-        )}
+    <AuthLayout size="lg" title="Đăng Ký Tài Khoản Du Khách" subtitle="Khám phá và đặt tour du lịch Quảng Trị cá nhân hóa">
+        {serverError && <Alert variant="error" className="mb-5">{serverError}</Alert>}
         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <TextField
             id="fullName"
@@ -128,7 +122,6 @@ export function RegisterPage() {
           <p>Đã có tài khoản? <Link to="/login" className="font-semibold text-primary hover:underline">Đăng nhập tại đây</Link></p>
           <Link to="/" className="inline-block text-ink-muted hover:text-ink">← Quay lại trang chủ</Link>
         </div>
-      </Card>
-    </div>
+    </AuthLayout>
   );
 }

@@ -6,6 +6,7 @@ import { PartnerScheduleList } from '@/features/partner/components/PartnerSchedu
 import { TripDetailModal } from '@/features/partner/components/TripDetailModal';
 import { SupportSection } from '@/features/partner/components/SupportSection';
 import { Button } from '@/components/ui/Button';
+import { PageHeader } from '@/components/PageHeader';
 
 type Tab = 'schedule' | 'support';
 
@@ -56,19 +57,13 @@ export function PartnerDashboard() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 space-y-6">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-border pb-6">
-        <div>
-          <span className="text-xs font-semibold text-primary">Khu Vực Nghiệp Vụ Đối Tác ({role})</span>
-          <h1 className="text-2xl font-bold text-ink sm:text-3xl">
-            {getDashboardHeading()}
-          </h1>
-          <p className="mt-1 text-xs text-ink-muted">
-            Quản lý các chuyến dẫn đoàn và điều phối phương tiện tham quan di tích Quảng Trị.
-          </p>
-        </div>
-
-        <div className="flex gap-2">
+    <div className="mx-auto max-w-6xl space-y-8 px-4 py-10 sm:px-6 lg:px-8">
+      <PageHeader
+        eyebrow={`Khu Vực Nghiệp Vụ Đối Tác (${role})`}
+        title={getDashboardHeading()}
+        description="Quản lý các chuyến dẫn đoàn và điều phối phương tiện tham quan di tích Quảng Trị."
+        actions={
+        <div className="flex flex-wrap gap-2">
           <Button
             variant={activeTab === 'schedule' ? 'primary' : 'outline'}
             size="sm"
@@ -84,7 +79,8 @@ export function PartnerDashboard() {
             ℹ️ Quy Định & Hỗ Trợ
           </Button>
         </div>
-      </div>
+        }
+      />
 
       {activeTab === 'schedule' ? (
         <div className="space-y-4">

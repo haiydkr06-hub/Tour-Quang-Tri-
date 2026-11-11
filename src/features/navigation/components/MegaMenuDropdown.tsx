@@ -14,7 +14,7 @@ export function MegaMenuDropdown({ items, isOpen, onClose }: MegaMenuDropdownPro
     <div
       role="region"
       aria-label="Danh sách điểm đến khám phá Quảng Trị"
-      className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[720px] rounded-3xl border border-border bg-surface-card p-5 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2"
+      className="absolute left-1/2 top-full z-50 mt-3 w-[720px] -translate-x-1/2 animate-fade-up rounded-3xl border border-border bg-surface-card p-5 shadow-pop before:absolute before:inset-x-0 before:-top-3 before:h-3 before:content-['']"
     >
       <div className="mb-3 flex items-center justify-between border-b border-border pb-2">
         <span className="text-xs font-bold uppercase tracking-wider text-primary">

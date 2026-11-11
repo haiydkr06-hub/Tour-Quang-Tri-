@@ -29,7 +29,7 @@ export function TextField({
       {label ? (
         <label
           htmlFor={inputId}
-          className="mb-1.5 block text-sm font-medium text-ink"
+          className="mb-1.5 block text-sm font-semibold text-ink"
         >
           {label}
         </label>
@@ -48,7 +48,7 @@ export function TextField({
                 ? `${inputId}-helper`
                 : undefined
           }
-          className={`w-full rounded-lg border bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-subtle transition-colors focus:border-primary focus:outline-hidden disabled:bg-surface-alt disabled:opacity-60 ${
+          className={`h-11 w-full rounded-xl border bg-surface-card px-3.5 text-sm text-ink placeholder:text-ink-subtle transition-all focus:border-primary focus:ring-4 focus:ring-primary/15 focus:outline-hidden disabled:bg-surface-alt disabled:opacity-60 ${
             isPasswordField ? 'pr-10' : ''
           } ${
             error ? 'border-danger focus:border-danger' : 'border-border'

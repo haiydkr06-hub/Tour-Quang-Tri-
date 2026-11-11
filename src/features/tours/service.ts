@@ -1,6 +1,10 @@
 import type {
   Tour,
   TourFilter,
+  TourCategory,
+  TourDurationFilter,
+  TourSort,
+  FilterOption,
   TourTab,
   CarouselSlide,
   BookingWidgetData,
@@ -69,22 +73,92 @@ export async function getTravelArticles(category?: string): Promise<TravelArticl
   return TRAVEL_ARTICLES.filter((a) => a.category === category);
 }
 
+/** Dịch vụ đã bao gồm trong mọi tour trọn gói (hiện ở trang chi tiết tour và dải cam kết trang chủ) */
+export const TOUR_INCLUDED_SERVICES: { icon: 'bus' | 'ticket' | 'guide' | 'shield'; text: string }[] = [
+  { icon: 'bus', text: 'Bao gồm xe đưa đón khứ hồi' },
+  { icon: 'ticket', text: 'Bao gồm vé tham quan di tích' },
+  { icon: 'guide', text: 'Hướng dẫn viên bản địa theo suốt tuyến' },
+  { icon: 'shield', text: 'Bảo hiểm du lịch đầy đủ' },
+];
+
+/** Nhãn tiếng Việt cho từng loại hình tour */
+export const TOUR_CATEGORY_LABELS: Record<TourCategory, string> = {
+  history: 'Di tích lịch sử',
+  beach: 'Biển đảo',
+  ecotourism: 'Sinh thái',
+  spiritual: 'Tâm linh',
+  culture: 'Văn hóa',
+  experience: 'Trải nghiệm',
+};
+
+/** Chỉ hiện loại hình đang có tour, để không có nút lọc nào luôn ra 0 kết quả */
+export const TOUR_CATEGORY_OPTIONS: FilterOption<TourCategory>[] = (
+  Object.keys(TOUR_CATEGORY_LABELS) as TourCategory[]
+)
+  .filter((cat) => MOCK_TOURS.some((tour) => tour.category === cat))
+  .map((cat) => ({ value: cat, label: TOUR_CATEGORY_LABELS[cat] }));
+
+export const TOUR_DURATION_OPTIONS: FilterOption<TourDurationFilter>[] = [
+  { value: '', label: 'Tất cả thời lượng' },
+  { value: 'single', label: 'Trong ngày' },
+  { value: 'multi', label: 'Nhiều ngày' },
+];
+
+export const TOUR_SORT_OPTIONS: FilterOption<TourSort>[] = [
+  { value: '', label: 'Mặc định' },
+  { value: 'price-asc', label: 'Giá tăng dần' },
+  { value: 'price-desc', label: 'Giá giảm dần' },
+  { value: 'rating', label: 'Đánh giá cao nhất' },
+  { value: 'departure', label: 'Khởi hành sớm nhất' },
+];
+
+/** Số ngày của tour, đọc từ chuỗi "1 Ngày", "2 Ngày 1 Đêm"... */
+function durationDays(duration: string): number {
+  const days = parseInt(duration, 10);
+  return Number.isFinite(days) ? days : 1;
+}
+
+function sortTours(tours: Tour[], sortBy: TourSort): Tour[] {
+  const list = [...tours];
+  switch (sortBy) {
+    case 'price-asc':
+      return list.sort((a, b) => a.price - b.price);
+    case 'price-desc':
+      return list.sort((a, b) => b.price - a.price);
+    case 'rating':
+      return list.sort((a, b) => b.rating - a.rating || b.reviewsCount - a.reviewsCount);
+    case 'departure':
+      // Tour chưa có ngày khởi hành xếp cuối; chuỗi YYYY-MM-DD so sánh được trực tiếp
+      return list.sort((a, b) => (a.departureDate ?? '9999').localeCompare(b.departureDate ?? '9999'));
+    default:
+      return list;
+  }
+}
+
 export async function getTours(filter?: TourFilter): Promise<Tour[]> {
   await new Promise((r) => setTimeout(r, 40));
   if (!filter) return MOCK_TOURS;
 
-  return MOCK_TOURS.filter((tour) => {
+  const query = filter.searchQuery.trim().toLowerCase();
+  const matched = MOCK_TOURS.filter((tour) => {
     const matchesSearch =
-      filter.searchQuery.trim() === '' ||
-      tour.name.toLowerCase().includes(filter.searchQuery.toLowerCase()) ||
-      tour.description.toLowerCase().includes(filter.searchQuery.toLowerCase());
+      query === '' ||
+      tour.name.toLowerCase().includes(query) ||
+      tour.description.toLowerCase().includes(query);
     const matchesPrice = filter.maxPrice <= 0 || tour.price <= filter.maxPrice;
     const matchesLocation =
       filter.selectedLocation === '' ||
       filter.selectedLocation === 'Tất cả địa danh' ||
       tour.locations.some((loc) => loc.includes(filter.selectedLocation));
-    return matchesSearch && matchesPrice && matchesLocation;
+    const matchesCategory = filter.category === '' || tour.category === filter.category;
+    const days = durationDays(tour.duration);
+    const matchesDuration =
+      filter.duration === '' ||
+      (filter.duration === 'single' && days <= 1) ||
+      (filter.duration === 'multi' && days >= 2);
+    return matchesSearch && matchesPrice && matchesLocation && matchesCategory && matchesDuration;
   });
+  return sortTours(matched, filter.sortBy);
 }
 
 export async function getTourById(id: number): Promise<Tour | null> {

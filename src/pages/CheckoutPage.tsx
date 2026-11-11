@@ -7,6 +7,8 @@ import { createBooking } from '@/features/checkout/service';
 import { OrderSummary } from '@/features/checkout/components/OrderSummary';
 import { CheckoutForm } from '@/features/checkout/components/CheckoutForm';
 import { BookingSuccessModal } from '@/features/checkout/components/BookingSuccessModal';
+import { PageHeader } from '@/components/PageHeader';
+import { buttonClasses } from '@/components/ui/Button';
 
 /**
  * Container component: Màn hình Thanh toán Đặt tour (CheckoutPage).
@@ -39,24 +41,18 @@ export function CheckoutPage() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
-      <div className="mb-6 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-extrabold text-ink sm:text-3xl">
-            Thanh Toán & Xác Nhận Đặt Tour
-          </h1>
-          <p className="mt-1 text-xs text-ink-muted sm:text-sm">
-            Vui lòng rà soát lại chi tiết lịch trình và điền thông tin để hoàn tất đơn đặt vé.
-          </p>
-        </div>
-
-        <Link
-          to="/"
-          className="text-xs font-medium text-ink-muted hover:text-ink transition-colors"
-        >
-          ← Tiếp tục xem tour khác
-        </Link>
-      </div>
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+      <PageHeader
+        eyebrow="Giỏ tour"
+        title="Thanh Toán & Xác Nhận Đặt Tour"
+        description="Vui lòng rà soát lại chi tiết lịch trình và điền thông tin để hoàn tất đơn đặt vé."
+        className="mb-8"
+        actions={
+          <Link to="/" className={buttonClasses('ghost', 'sm')}>
+            ← Tiếp tục xem tour khác
+          </Link>
+        }
+      />
 
       {item ? (
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 items-start">

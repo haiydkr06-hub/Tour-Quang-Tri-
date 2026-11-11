@@ -6,28 +6,32 @@ export interface HomeReviewsSectionProps {
 
 export function HomeReviewsSection({ reviews }: HomeReviewsSectionProps) {
   return (
-    <section id="danh-gia" className="scroll-mt-20 space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-border pb-4">
+    <section id="danh-gia" className="reveal scroll-mt-24 space-y-6">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-primary">
+          <span className="mb-2 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-primary before:h-px before:w-6 before:bg-primary before:content-['']">
             Cảm Nhận Thực Tế
           </span>
-          <h2 className="text-2xl font-black text-ink sm:text-3xl">
+          <h2 className="text-2xl font-extrabold tracking-tight text-ink sm:text-[2rem] sm:leading-tight">
             Khách Hàng Nói Về Tour Quảng Trị
           </h2>
         </div>
-        <div className="flex items-center gap-2 rounded-2xl bg-surface-card border border-border px-3.5 py-1.5 shadow-sm">
+        <div className="flex items-center gap-2 rounded-2xl border border-border/80 bg-surface-card px-4 py-2 shadow-card">
           <span className="text-warning font-bold text-sm">★ 4.9/5.0</span>
           <span className="text-xs text-ink-muted">từ 1.250+ du khách đã đi</span>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Điện thoại: vuốt ngang từng thẻ (snap); từ máy tính bảng: lưới */}
+      <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-3 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4 lg:gap-6">
         {reviews.map((rev) => (
           <div
             key={rev.id}
-            className="flex flex-col justify-between rounded-3xl border border-border bg-surface-card p-5 shadow-sm hover:shadow-md transition-shadow"
+            className="group relative flex w-[85%] shrink-0 snap-center flex-col justify-between overflow-hidden rounded-3xl sm:w-auto border border-border/80 bg-surface-card p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-card-hover"
           >
+            <span aria-hidden="true" className="pointer-events-none absolute right-4 top-2 font-serif text-[88px] leading-[0.8] text-primary/10 transition-colors duration-300 group-hover:text-primary/20">
+              &rdquo;
+            </span>
             <div className="space-y-3">
               {/* Stars & Date */}
               <div className="flex items-center justify-between text-xs">
@@ -44,7 +48,7 @@ export function HomeReviewsSection({ reviews }: HomeReviewsSectionProps) {
               </p>
 
               {/* Review content */}
-              <p className="text-xs text-ink leading-relaxed italic">
+              <p className="text-sm leading-relaxed text-ink/90 italic">
                 "{rev.content}"
               </p>
             </div>

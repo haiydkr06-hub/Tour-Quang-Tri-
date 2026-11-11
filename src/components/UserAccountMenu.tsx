@@ -54,7 +54,7 @@ export function UserAccountMenu({ user, role, onLogout }: UserAccountMenuProps) 
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 rounded-xl border border-border bg-surface-card p-2 shadow-xl z-50 animate-in fade-in slide-in-from-top-2">
+        <div className="absolute right-0 mt-2 w-56 rounded-2xl border border-border bg-surface-card p-2 shadow-pop z-50 animate-fade-up">
           <div className="border-b border-border px-3 py-2 text-xs">
             <p className="font-bold text-ink">{user.name}</p>
             {user.email && <p className="text-ink-muted truncate">{user.email}</p>}

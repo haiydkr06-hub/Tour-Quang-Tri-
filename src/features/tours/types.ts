@@ -27,12 +27,24 @@ export interface Tour {
   itinerary: ItineraryItem[];
 }
 
+/** Thời lượng: '' = tất cả, 'single' = tour trong ngày, 'multi' = từ 2 ngày trở lên */
+export type TourDurationFilter = '' | 'single' | 'multi';
+/** Cách sắp xếp danh sách: '' = mặc định (thứ tự dữ liệu) */
+export type TourSort = '' | 'price-asc' | 'price-desc' | 'rating' | 'departure';
+
 export interface TourFilter {
   searchQuery: string;
   maxPrice: number;
   selectedLocation: string;
-  category?: string;
-  departureDate?: string;
+  /** '' = tất cả loại hình */
+  category: TourCategory | '';
+  duration: TourDurationFilter;
+  sortBy: TourSort;
+}
+
+export interface FilterOption<T extends string> {
+  value: T;
+  label: string;
 }
 
 export interface CarouselSlide {

@@ -6,7 +6,7 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Thẻ bao bọc nội dung (Card) chuẩn Design Tokens cho giao diện.
+ * Thẻ bao bọc nội dung (Card) chuẩn Design Tokens: bo góc mềm, đổ bóng nhẹ.
  */
 export function Card({
   children,
@@ -16,10 +16,8 @@ export function Card({
 }: CardProps) {
   return (
     <div
-      className={`rounded-xl border border-border bg-surface-card p-6 shadow-xs transition-all ${
-        isHoverable
-          ? 'hover:border-primary/50 hover:shadow-md'
-          : ''
+      className={`rounded-2xl border border-border/80 bg-surface-card p-6 shadow-card transition-all duration-300 ${
+        isHoverable ? 'hover:-translate-y-1 hover:border-primary/40 hover:shadow-card-hover' : ''
       } ${className}`}
       {...props}
     >

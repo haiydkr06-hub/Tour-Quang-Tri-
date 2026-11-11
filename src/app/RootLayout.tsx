@@ -4,6 +4,7 @@ import { useAuthStore } from '@/features/auth/store';
 import { useCartStore } from '@/features/cart/store';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { BackToTop } from '@/components/BackToTop';
 
 /**
  * RootLayout định hình khung trang toàn hệ thống.
@@ -30,6 +31,7 @@ export function RootLayout() {
       </main>
 
       <Footer />
+      <BackToTop />
 
       {/* Chuyển trang thì cuộn lên đầu, bấm Back thì về đúng vị trí cũ, link "/#id" cuộn tới mục */}
       <ScrollRestoration />

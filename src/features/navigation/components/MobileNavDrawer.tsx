@@ -34,7 +34,7 @@ export function MobileNavDrawer({
       id="mobile-navigation-disclosure"
       role="region"
       aria-label="Menu điều hướng di động"
-      className="xl:hidden border-b border-border bg-surface-card px-4 py-4 shadow-xl animate-in fade-in slide-in-from-top-2"
+      className="xl:hidden max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-b border-border bg-surface-card px-4 py-4 shadow-card-hover animate-fade-up"
     >
       <div className="flex flex-col gap-1 text-sm font-medium">
         {navItems.map((item) => {

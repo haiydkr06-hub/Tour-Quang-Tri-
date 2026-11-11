@@ -10,6 +10,7 @@ import { ItineraryBuilder } from '@/features/custom-tour/components/ItineraryBui
 import { GuideSelector } from '@/features/custom-tour/components/GuideSelector';
 import { VehicleSelector } from '@/features/custom-tour/components/VehicleSelector';
 import { TourSummaryBar } from '@/features/custom-tour/components/TourSummaryBar';
+import { PageHeader } from '@/components/PageHeader';
 
 export function CustomTourBuilderPage() {
   const navigate = useNavigate();
@@ -70,21 +71,26 @@ export function CustomTourBuilderPage() {
 
   if (isLoading) {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-16 text-center text-ink-muted">
-        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mb-4" />
-        <p className="text-sm">Đang tải danh sách di tích và nhân sự hỗ trợ...</p>
+      <div className="mx-auto max-w-6xl space-y-6 px-4 py-10 sm:px-6 lg:px-8" aria-busy="true">
+        <div className="h-10 w-2/3 animate-pulse rounded-2xl bg-surface-alt" />
+        <div className="h-36 animate-pulse rounded-3xl bg-surface-alt" />
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="h-32 animate-pulse rounded-3xl bg-surface-alt" />
+          ))}
+        </div>
+        <p className="text-center text-sm text-ink-muted">Đang tải danh sách di tích và nhân sự hỗ trợ...</p>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 space-y-10">
-      <div>
-        <h1 className="text-3xl font-extrabold text-ink sm:text-4xl">Trình Tạo Tour Cá Nhân Hóa Quảng Trị</h1>
-        <p className="mt-2 text-sm text-ink-muted sm:text-base">
-          Kéo thả các di tích lịch sử vào lịch trình, sắp xếp thứ tự tham quan, thuê hướng dẫn viên bản địa và phương tiện riêng.
-        </p>
-      </div>
+    <div className="mx-auto max-w-6xl space-y-10 px-4 py-10 sm:px-6 lg:px-8">
+      <PageHeader
+        eyebrow="Tour cá nhân hóa"
+        title="Trình Tạo Tour Cá Nhân Hóa Quảng Trị"
+        description="Kéo thả các di tích lịch sử vào lịch trình, sắp xếp thứ tự tham quan, thuê hướng dẫn viên bản địa và phương tiện riêng."
+      />
 
       <ItineraryBuilder
         stops={selectedDests}

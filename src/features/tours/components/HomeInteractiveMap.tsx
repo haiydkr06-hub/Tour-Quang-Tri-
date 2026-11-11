@@ -1,116 +1,94 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import type { MapPoint } from '../types';
+import { buttonClasses } from '@/components/ui/Button';
+import { SectionHeading } from '@/components/SectionHeading';
+import { HomeMapCanvas } from './HomeMapCanvas';
 
 export interface HomeInteractiveMapProps {
   points: MapPoint[];
 }
 
 export function HomeInteractiveMap({ points }: HomeInteractiveMapProps) {
-  const [selectedPoint, setSelectedPoint] = useState<MapPoint>(points[0] ?? null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  if (!points || points.length === 0) return null;
+  if (points.length === 0) return null;
+  // Dữ liệu tải bất đồng bộ: chưa chọn điểm nào thì mặc định điểm đầu tiên
+  const selected = points.find((p) => p.id === selectedId) ?? points[0];
 
   return (
-    <section id="ban-do" className="scroll-mt-20 space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 border-b border-border pb-4">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-primary">
-            Tọa Độ Di Tích
-          </span>
-          <h2 className="text-2xl font-black text-ink sm:text-3xl">
-            Bản Đồ Điểm Đến Quảng Trị
-          </h2>
-        </div>
-        <p className="text-xs text-ink-muted max-w-md">
-          Định vị các địa danh lịch sử, danh thắng tự nhiên và trung tâm hành hương trên mảnh đất Quảng Trị.
-        </p>
-      </div>
+    <section id="ban-do" aria-labelledby="ban-do-title" className="reveal scroll-mt-24">
+      <SectionHeading
+        id="ban-do-title"
+        eyebrow="Tọa Độ Di Tích"
+        title="Bản Đồ Điểm Đến Quảng Trị"
+        aside={
+          <p className="max-w-md text-sm leading-relaxed text-ink-muted">
+            Định vị các địa danh lịch sử, danh thắng tự nhiên và trung tâm hành hương trên mảnh đất Quảng Trị.
+          </p>
+        }
+      />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 rounded-3xl border border-border bg-surface-card p-4 sm:p-6 shadow-xl">
-        {/* Interactive Visual Map Card */}
-        <div className="relative h-[360px] sm:h-[420px] lg:col-span-2 overflow-hidden rounded-2xl border border-border bg-surface-alt flex flex-col justify-between p-6">
-          <div className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-multiply" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80')" }} />
-          <div className="absolute inset-0 bg-gradient-to-tr from-surface-card/90 via-surface-card/50 to-transparent" />
+      <div className="relative isolate overflow-hidden rounded-[28px] bg-navy p-4 shadow-pop sm:p-6 lg:p-8">
+        <div aria-hidden="true" className="absolute -left-24 -top-24 -z-10 h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
 
-          {/* Top header on map */}
-          <div className="relative z-10 flex items-center justify-between">
-            <span className="rounded-full bg-primary/20 backdrop-blur-md border border-primary/40 px-3 py-1 text-xs font-bold text-primary">
-              📍 Bản đồ vệ tinh số hóa
-            </span>
-            <span className="text-xs font-medium text-ink-muted">
-              {points.length} Điểm đến được định vị
-            </span>
-          </div>
-
-          {/* Interactive Marker Pins */}
-          <div className="relative z-10 my-auto grid grid-cols-3 sm:grid-cols-4 gap-3 py-6">
-            {points.map((pt) => {
-              const isSelected = selectedPoint?.id === pt.id;
-              return (
-                <button
-                  key={pt.id}
-                  type="button"
-                  onClick={() => setSelectedPoint(pt)}
-                  className={`group relative flex flex-col items-center gap-1.5 rounded-2xl p-2.5 text-center transition-all cursor-pointer ${
-                    isSelected
-                      ? 'bg-primary text-primary-foreground scale-105 shadow-lg shadow-primary/30'
-                      : 'bg-surface-card/90 backdrop-blur-md border border-border hover:border-primary text-ink'
-                  }`}
-                >
-                  <span className="text-lg">📍</span>
-                  <span className="text-[11px] font-bold line-clamp-1 leading-tight">
-                    {pt.name}
-                  </span>
-                  <span className={`text-[9px] ${isSelected ? 'text-primary-foreground/80' : 'text-ink-muted'}`}>
-                    {pt.latitude.toFixed(2)}°N
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Bottom coordinates bar */}
-          <div className="relative z-10 flex items-center justify-between text-[11px] text-ink-muted border-t border-border/50 pt-2">
-            <span>Khu vực: Quảng Trị (Vĩ tuyến 17)</span>
-            <span>Tọa độ trung tâm: 16.82°N, 107.10°E</span>
-          </div>
-        </div>
-
-        {/* Selected Marker Detail Card */}
-        {selectedPoint && (
-          <div className="flex flex-col justify-between rounded-2xl border border-border bg-surface p-5 space-y-4">
-            <div className="space-y-3">
-              <div className="relative h-44 w-full overflow-hidden rounded-xl bg-surface-alt">
-                <img
-                  src={selectedPoint.imageUrl}
-                  alt={selectedPoint.name}
-                  className="h-full w-full object-cover"
-                />
-                <span className="absolute bottom-2 left-2 rounded-full bg-scrim/75 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold text-on-media">
-                  {selectedPoint.latitude}° N, {selectedPoint.longitude}° E
-                </span>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-black text-ink">{selectedPoint.name}</h3>
-                <p className="text-xs font-semibold text-primary mt-0.5">
-                  📌 {selectedPoint.address}
-                </p>
-                <p className="mt-2 text-xs text-ink-muted leading-relaxed">
-                  {selectedPoint.description}
-                </p>
-              </div>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:gap-8">
+          {/* Bản đồ + danh sách điểm (danh sách giúp chọn dễ trên điện thoại) */}
+          <div className="space-y-4 lg:col-span-3">
+            <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+              <span className="whitespace-nowrap rounded-full border border-primary-light/30 bg-primary/20 px-3 py-1 font-bold text-primary-light">
+                📍 Bản đồ vệ tinh số hóa
+              </span>
+              <span className="whitespace-nowrap font-medium text-on-media/60">{points.length} Điểm đến được định vị</span>
             </div>
 
-            <Link
-              to={`/tours/${selectedPoint.tourId}`}
-              className="w-full rounded-xl bg-primary py-2.5 text-center text-xs font-bold text-primary-foreground shadow-sm hover:bg-primary-dark transition-colors"
-            >
-              Xem tour ghé thăm điểm này ➔
-            </Link>
+            <HomeMapCanvas points={points} selectedId={selected.id} onSelect={(pt) => setSelectedId(pt.id)} />
+
+            <div className="flex flex-wrap gap-2">
+              {points.map((pt) => {
+                const isActive = pt.id === selected.id;
+                return (
+                  <button
+                    key={pt.id}
+                    type="button"
+                    aria-pressed={isActive}
+                    onClick={() => setSelectedId(pt.id)}
+                    className={`cursor-pointer rounded-full border px-3 py-1.5 text-xs font-semibold transition-all ${
+                      isActive
+                        ? 'border-primary bg-primary text-primary-foreground'
+                        : 'border-on-media/15 bg-on-media/5 text-on-media/80 hover:border-primary-light hover:text-on-media'
+                    }`}
+                  >
+                    {pt.name}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="flex flex-wrap justify-between gap-2 border-t border-on-media/10 pt-3 text-[11px] text-on-media/50">
+              <span>Khu vực: Quảng Trị (Vĩ tuyến 17)</span>
+              <span>Tọa độ trung tâm: 16.82°N, 107.10°E</span>
+            </div>
           </div>
-        )}
+
+          {/* Thẻ chi tiết điểm đang chọn — key để chạy lại hiệu ứng khi đổi điểm */}
+          <article key={selected.id} className="flex flex-col overflow-hidden rounded-3xl bg-surface-card shadow-card dark:bg-surface-alt animate-fade-up lg:col-span-2">
+            <div className="relative aspect-[16/10] w-full overflow-hidden bg-surface-alt">
+              <img src={selected.imageUrl} alt={selected.name} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+              <span className="absolute bottom-3 left-3 rounded-full bg-scrim/75 px-2.5 py-1 text-[11px] font-semibold text-on-media backdrop-blur-md">
+                {selected.latitude}° N, {selected.longitude}° E
+              </span>
+            </div>
+            <div className="flex flex-1 flex-col p-5 sm:p-6">
+              <h3 className="text-xl font-extrabold text-ink">{selected.name}</h3>
+              <p className="mt-1 text-sm font-semibold text-primary">📌 {selected.address}</p>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-muted">{selected.description}</p>
+              <Link to={`/tours/${selected.tourId}`} className={buttonClasses('primary', 'md', 'mt-5 w-full')}>
+                Xem tour ghé thăm điểm này ➔
+              </Link>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
   );

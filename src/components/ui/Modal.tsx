@@ -36,7 +36,7 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-scrim/50 backdrop-blur-xs transition-opacity"
+        className="fixed inset-0 animate-fade-in bg-scrim/55 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -46,7 +46,7 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className="relative w-full max-w-lg rounded-2xl border border-border bg-surface-card p-6 shadow-xl"
+        className="relative max-h-[90vh] w-full max-w-lg animate-fade-up overflow-y-auto rounded-3xl border border-border bg-surface-card p-6 shadow-pop"
       >
         <div className="flex items-center justify-between border-b border-border pb-4">
           <h3 id="modal-title" className="text-lg font-bold text-ink">

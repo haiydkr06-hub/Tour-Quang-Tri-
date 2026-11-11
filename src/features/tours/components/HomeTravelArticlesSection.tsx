@@ -16,13 +16,13 @@ export function HomeTravelArticlesSection({ articles }: HomeTravelArticlesSectio
       : articles.filter((a) => a.category === selectedCat);
 
   return (
-    <section id="gioi-thieu" className="scroll-mt-20 space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-border pb-4">
+    <section id="gioi-thieu" className="reveal scroll-mt-24 space-y-6">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-primary">
+          <span className="mb-2 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-primary before:h-px before:w-6 before:bg-primary before:content-['']">
             Cẩm Nang & Trải Nghiệm
           </span>
-          <h2 className="text-2xl font-black text-ink sm:text-3xl">
+          <h2 className="text-2xl font-extrabold tracking-tight text-ink sm:text-[2rem] sm:leading-tight">
             Bí Quyết Du Lịch Quảng Trị
           </h2>
         </div>
@@ -50,14 +50,16 @@ export function HomeTravelArticlesSection({ articles }: HomeTravelArticlesSectio
         {filtered.map((art) => (
           <article
             key={art.id}
-            className="group flex flex-col justify-between overflow-hidden rounded-3xl border border-border bg-surface-card shadow-sm hover:shadow-xl transition-all duration-300"
+            className="group flex flex-col justify-between overflow-hidden rounded-3xl border border-border/80 bg-surface-card shadow-card hover:-translate-y-1 hover:shadow-card-hover transition-all duration-300"
           >
             <div>
               <div className="relative h-44 w-full overflow-hidden bg-surface-alt">
                 <img
                   src={art.imageUrl}
                   alt={art.title}
-                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 />
                 <span className="absolute top-3 left-3 rounded-full bg-surface-card/90 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-primary">
                   {art.category}
@@ -69,10 +71,10 @@ export function HomeTravelArticlesSection({ articles }: HomeTravelArticlesSectio
 
               <div className="p-5 space-y-2">
                 <span className="text-[11px] text-ink-muted">{art.date}</span>
-                <h3 className="text-sm font-bold text-ink leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+                <h3 className="text-base font-bold text-ink leading-snug line-clamp-2 group-hover:text-primary transition-colors">
                   {art.title}
                 </h3>
-                <p className="text-xs text-ink-muted line-clamp-3 leading-relaxed">
+                <p className="text-sm text-ink-muted line-clamp-3 leading-relaxed">
                   {art.summary}
                 </p>
               </div>

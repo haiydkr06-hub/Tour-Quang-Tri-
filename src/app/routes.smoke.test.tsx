@@ -29,6 +29,7 @@ async function renderAt(path: string) {
   return router;
 }
 
+// Trang được tải lười (lazy): lần biên dịch đầu khi chạy song song có thể quá 1 giây mặc định của waitFor
 const pageText = () => container.textContent ?? '';
 
 beforeEach(() => {
@@ -66,17 +67,17 @@ describe('Smoke test bộ tuyến', () => {
 
   it('"/admin" khi chưa đăng nhập → chuyển sang "/admin/login"', async () => {
     const router = await renderAt('/admin');
-    await vi.waitFor(() => expect(router.state.location.pathname).toBe('/admin/login'));
+    await vi.waitFor(() => expect(router.state.location.pathname).toBe('/admin/login'), { timeout: 5000 });
   });
 
   it('"/partner" khi chưa đăng nhập → chuyển sang "/login"', async () => {
     const router = await renderAt('/partner');
-    await vi.waitFor(() => expect(router.state.location.pathname).toBe('/login'));
+    await vi.waitFor(() => expect(router.state.location.pathname).toBe('/login'), { timeout: 5000 });
   });
 
   it('"/checkout" khi giỏ hàng rỗng → về "/"', async () => {
     const router = await renderAt('/checkout');
-    await vi.waitFor(() => expect(router.state.location.pathname).toBe('/'));
+    await vi.waitFor(() => expect(router.state.location.pathname).toBe('/'), { timeout: 5000 });
   });
 
   it('"/tours" lọc không ra kết quả → hiện trạng thái rỗng', async () => {

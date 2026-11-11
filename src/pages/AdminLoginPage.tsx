@@ -5,7 +5,8 @@ import { loginApi, DEMO_ACCOUNTS } from '@/features/auth/service';
 import type { UserRole } from '@/features/auth/types';
 import { Button } from '@/components/ui/Button';
 import { TextField } from '@/components/ui/TextField';
-import { Card } from '@/components/ui/Card';
+import { Alert } from '@/components/ui/Alert';
+import { AuthLayout } from '@/components/AuthLayout';
 
 /**
  * Màn hình Đăng nhập Quản trị viên & Đối tác (AdminLoginPage).
@@ -56,17 +57,10 @@ export function AdminLoginPage() {
   };
 
   return (
-    <div className="mx-auto flex min-h-[75vh] max-w-lg items-center justify-center px-4 py-8">
-      <Card className="w-full">
-        <h1 className="text-center text-2xl font-bold text-ink">
-          Xác Thực & Phân Quyền (5 Roles)
-        </h1>
-        <p className="mt-1 text-center text-xs text-ink-muted">
-          Hệ thống Quản lý và Đặt Tour Du lịch Quảng Trị
-        </p>
+    <AuthLayout title="Xác Thực & Phân Quyền (5 Roles)" subtitle="Hệ thống Quản lý và Đặt Tour Du lịch Quảng Trị">
 
         {user ? (
-          <div className="my-6 rounded-lg bg-surface p-4 border border-border text-center">
+          <div className="mb-6 rounded-2xl border border-border bg-surface-alt p-4 text-center">
             <p className="text-sm text-ink">
               Đang đăng nhập: <strong className="text-primary">{user.name}</strong>
             </p>
@@ -77,13 +71,9 @@ export function AdminLoginPage() {
           </div>
         ) : null}
 
-        {error ? (
-          <div className="my-4 rounded-lg bg-danger/10 p-3 text-xs text-danger border border-danger/20">
-            {error}
-          </div>
-        ) : null}
+        {error ? <Alert variant="error" className="mb-5">{error}</Alert> : null}
 
-        <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <TextField
             label="Email hoặc Tên đăng nhập"
             type="text"
@@ -128,7 +118,6 @@ export function AdminLoginPage() {
             ← Quay lại trang chủ
           </Link>
         </div>
-      </Card>
-    </div>
+    </AuthLayout>
   );
 }

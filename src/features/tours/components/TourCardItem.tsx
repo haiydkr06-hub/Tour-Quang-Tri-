@@ -1,121 +1,113 @@
 import { Link } from 'react-router';
 import type { Tour } from '../types';
-import { Button } from '@/components/ui/Button';
+import { Button, buttonClasses } from '@/components/ui/Button';
+import { discountPercent as getDiscount, formatTourDate, formatVND } from '../format';
+import { TourIcon } from './TourIcon';
 
 export interface TourCardItemProps {
   tour: Tour;
   onBookNow?: (tour: Tour) => void;
 }
 
+/**
+ * Thẻ tour dùng chung cho trang chủ và trang /tours — cùng một bố cục:
+ * ảnh, tên, địa điểm, thời gian, giá, khởi hành, nút Chi tiết + Đặt tour.
+ */
 export function TourCardItem({ tour, onBookNow }: TourCardItemProps) {
-  const discountPercent =
-    tour.originalPrice && tour.originalPrice > tour.price
-      ? Math.round(((tour.originalPrice - tour.price) / tour.originalPrice) * 100)
-      : null;
+  const discountPercent = getDiscount(tour.price, tour.originalPrice);
+  const hasDiscount = discountPercent !== null;
+  const shownLocations = tour.locations.slice(0, 2).join(' · ');
+  const moreLocations = tour.locations.length - 2;
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-3xl border border-border bg-surface-card shadow-sm hover:shadow-xl transition-all duration-300">
-      {/* Image & Badges */}
-      <div className="relative h-52 w-full overflow-hidden bg-surface-alt">
+    <article className="reveal group flex h-full flex-col overflow-hidden rounded-3xl border border-border/80 bg-surface-card shadow-card transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/30 hover:shadow-card-hover">
+      {/* Ảnh & nhãn */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-alt">
         <img
           src={tour.imageUrl}
           alt={tour.name}
-          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-scrim/60 via-transparent to-transparent opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-scrim/60 via-transparent to-transparent" />
 
-        {/* Category tag */}
-        <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
+        <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
           {tour.isFeatured && (
-            <span className="rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-black text-primary-foreground shadow-sm">
+            <span className="rounded-full bg-primary px-2.5 py-1 text-[10px] font-bold tracking-wide text-primary-foreground shadow-sm">
               ★ NỔI BẬT
             </span>
           )}
           {discountPercent && (
-            <span className="rounded-full bg-danger px-2 py-0.5 text-[10px] font-black text-danger-foreground shadow-sm">
+            <span className="rounded-full bg-danger px-2.5 py-1 text-[10px] font-bold text-danger-foreground shadow-sm">
               -{discountPercent}%
             </span>
           )}
         </div>
 
-        {/* Duration badge */}
-        <div className="absolute bottom-3 left-3">
-          <span className="rounded-full bg-surface-card/90 backdrop-blur-md px-2.5 py-1 text-[11px] font-bold text-ink shadow-sm">
+        <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2">
+          <span className="rounded-full bg-surface-card/95 px-2.5 py-1 text-[11px] font-bold text-ink shadow-sm backdrop-blur-md">
             ⏱ {tour.duration}
           </span>
-        </div>
-
-        {/* Available seats */}
-        {tour.availableSeats && (
-          <div className="absolute bottom-3 right-3">
-            <span className="rounded-full bg-scrim/75 backdrop-blur-md px-2.5 py-1 text-[11px] font-medium text-on-media shadow-sm">
+          {tour.availableSeats && (
+            <span className="rounded-full bg-scrim/70 px-2.5 py-1 text-[11px] font-semibold text-on-media backdrop-blur-md">
               Còn {tour.availableSeats} chỗ
             </span>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
-      {/* Body content */}
-      <div className="flex flex-1 flex-col justify-between p-5 space-y-4">
-        <div className="space-y-2">
-          {/* Rating & Departure */}
-          <div className="flex items-center justify-between text-xs text-ink-muted">
-            <div className="flex items-center gap-1 font-semibold text-warning">
-              <span>★</span>
-              <span>{tour.rating.toFixed(1)}</span>
-              <span className="text-ink-muted">({tour.reviewsCount})</span>
-            </div>
-            {tour.departureFrom && (
-              <span className="truncate max-w-[140px]">📍 {tour.departureFrom}</span>
-            )}
-          </div>
-
-          <Link to={`/tours/${tour.id}`}>
-            <h3 className="text-base font-bold text-ink leading-snug group-hover:text-primary transition-colors line-clamp-2">
-              {tour.name}
-            </h3>
-          </Link>
-
-          <p className="text-xs text-ink-muted line-clamp-2 leading-relaxed">
-            {tour.description}
-          </p>
+      {/* Nội dung */}
+      <div className="flex flex-1 flex-col p-5">
+        <div className="flex items-center justify-between gap-3 text-xs">
+          <span className="flex items-center gap-1 font-semibold text-warning">
+            ★ {tour.rating.toFixed(1)}
+            <span className="font-normal text-ink-muted">({tour.reviewsCount})</span>
+          </span>
+          {tour.departureFrom && <span className="truncate text-ink-muted">Xuất phát: {tour.departureFrom}</span>}
         </div>
 
-        {/* Pricing & CTA */}
-        <div className="border-t border-border pt-4">
-          <div className="flex items-baseline justify-between mb-3">
+        <h3 className="mt-2 text-[17px] font-bold leading-snug text-ink line-clamp-2">
+          <Link to={`/tours/${tour.id}`} className="transition-colors hover:text-primary">
+            {tour.name}
+          </Link>
+        </h3>
+
+        <p className="mt-1.5 text-sm leading-relaxed text-ink-muted line-clamp-2">{tour.description}</p>
+
+        <ul className="mt-3 space-y-1.5 text-xs text-ink-muted">
+          <li className="flex items-center gap-2">
+            <TourIcon name="pin" />
+            <span className="truncate">
+              {shownLocations}
+              {moreLocations > 0 ? ` +${moreLocations}` : ''}
+            </span>
+          </li>
+          {tour.departureDate && (
+            <li className="flex items-center gap-2">
+              <TourIcon name="calendar" />
+              <span>Khởi hành: {formatTourDate(tour.departureDate)}</span>
+            </li>
+          )}
+        </ul>
+
+        {/* Giá & hành động */}
+        <div className="mt-auto pt-5">
+          <div className="mb-4 flex items-end justify-between gap-2 border-t border-border pt-4">
             <div>
-              <p className="text-[10px] uppercase font-bold text-ink-muted">Giá trọn gói</p>
-              <div className="flex items-baseline gap-2">
-                <span className="text-lg font-black text-primary">
-                  {tour.price.toLocaleString('vi-VN')}₫
-                </span>
-                {tour.originalPrice && tour.originalPrice > tour.price && (
-                  <span className="text-xs text-ink-muted line-through">
-                    {tour.originalPrice.toLocaleString('vi-VN')}₫
-                  </span>
-                )}
-              </div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-ink-muted">Giá trọn gói</p>
+              <p className="text-xl font-extrabold text-primary">{formatVND(tour.price)}</p>
             </div>
-            {tour.departureDate && (
-              <span className="text-[11px] font-medium text-ink-muted">
-                Khởi hành: {tour.departureDate}
-              </span>
+            {hasDiscount && tour.originalPrice && (
+              <span className="pb-1 text-xs text-ink-subtle line-through">{formatVND(tour.originalPrice)}</span>
             )}
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            <Link to={`/tours/${tour.id}`}>
-              <Button variant="outline" size="sm" className="w-full text-xs">
-                Chi tiết
-              </Button>
+            <Link to={`/tours/${tour.id}`} className={buttonClasses('outline', 'sm', 'w-full')}>
+              Chi tiết
             </Link>
-            <Button
-              variant="primary"
-              size="sm"
-              className="w-full text-xs"
-              onClick={() => onBookNow?.(tour)}
-            >
+            <Button variant="primary" size="sm" className="w-full" onClick={() => onBookNow?.(tour)}>
               Đặt tour
             </Button>
           </div>
